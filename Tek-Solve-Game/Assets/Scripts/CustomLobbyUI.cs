@@ -32,7 +32,7 @@ public class CustomLobbyUI : MonoBehaviour
         networkManager.StartHost();
         OnConnected();
         startPanel.gameObject.SetActive(true);
-       // chatBtn.gameObject.SetActive(true);
+      
     }
 
     // Called when the player clicks the "Server" button - starts a dedicated server (no client)
@@ -42,8 +42,9 @@ public class CustomLobbyUI : MonoBehaviour
         SetUsername();
         networkManager.StartServer();
         OnConnected();
-        startPanel.gameObject.SetActive(true);
-       
+        startPanel.gameObject.SetActive(true);// nb: bc all players need to see this!!
+
+
     }
 
     // Called when the player clicks the "Client" button - connects to a server at the given IP and port
@@ -53,7 +54,7 @@ public class CustomLobbyUI : MonoBehaviour
         SetUsername();
         networkManager.StartClient(); // Start client only
         OnConnected();
-        startPanel.gameObject.SetActive(true);
+        startPanel.gameObject.SetActive(true);//nb: bc all players need to see this !!
         
     }
 
@@ -80,7 +81,7 @@ public class CustomLobbyUI : MonoBehaviour
     private void OnConnected()
     {
         Debug.Log("Connected — hide lobby UI");
-        lobbyPanel.SetActive(false); // when we are hidng the panel when both players are connected since they would be done using the panel
+        lobbyPanel.SetActive(false); // when we are hiding the panel when both players are connected since they would be done using the panel
     }
 
     public void OnEndGame()// Dumi : Here I'm making players disconnect from the networked game by resetting their connections and taking them back to the lobby scree to connect or restart the game.

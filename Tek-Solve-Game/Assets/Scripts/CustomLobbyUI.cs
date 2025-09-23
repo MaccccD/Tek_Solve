@@ -65,7 +65,7 @@ public class CustomLobbyUI : MonoBehaviour
             networkManager.networkAddress = ipInputField.text; //Dumi: so we get the string that the person has put into field as their ip address 
 
         // Try to convert the port input (string) into a number if successful, set it on the transport component
-        if (ushort.TryParse(portInputField.text, out ushort port)) // Dumi : ushort == a diff type of integer or whole number. it an be longer. signed(positive number) gives you 32 bits. can be super long. Unsigned (a positive and negative number )
+        if (ushort.TryParse(portInputField.text, out ushort port)) // Dumi : ushort == a diff type of integer or whole number. it can be longer. signed(positive number) gives you 32 bits. can be super long. Unsigned (a positive and negative number )
             transport.port = port; //  Dumi : ushort can never be a negative number
     }
     private void SetUsername()

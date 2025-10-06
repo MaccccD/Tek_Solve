@@ -8,8 +8,8 @@ public class MovementSystem : NetworkBehaviour
     [SyncVar] public Vector2Int player1Position = new Vector2Int(1, 1); 
     [SyncVar] public Vector2Int player2Position = new Vector2Int(1, 1);
     //player starting moves:
-    [SyncVar] public MoveType player1Move = MoveType.None; // player can make an startring move they want
-    [SyncVar] public MoveType player2Move = MoveType.None; // same as above.
+    [SyncVar] public MoveType player1LastMove = MoveType.None; // player can make an startring move they want
+    [SyncVar] public MoveType player2LastMove = MoveType.None; // same as above.
     //the refrence to the grid :
     private GridSystem gridSystem;
 
@@ -24,7 +24,28 @@ public class MovementSystem : NetworkBehaviour
         Vector2Int direction = NumpadKeyDirection(numpadKey); // mapping the direction the player goes according to the diagonal/adjacent move types
     }
 
+    public Vector2Int GetPlayerPosition(int playerID) // getting the current position of a player:
+    {
+        return playerID == 1 ? player1Position : player2Position;
+    }
 
+    public MoveType GetRequiredMoveType(int playerID)
+    {
+        MoveType lastMove = playerID == 1 ? player1LastMove : player2LastMove;
+
+        if(lastMove == MoveType.None)
+        {
+            return MoveType.None;
+        }
+        else if (lastMove == MoveType.Adjacent)
+        {
+            return MoveType.Diagonal; // make the move the opposite.
+        }
+        else
+        {
+            return MoveType.Adjacent; // make the move adjacent
+        }
+    }
 
     Vector2Int NumpadKeyDirection(int key)
     {
@@ -77,6 +98,25 @@ public class MovementSystem : NetworkBehaviour
             return true;
         }
 
+        void ExecuteMove(int playerID, Vector2Int newPos, MoveType moveType)
+        {
+            //keeping track of each player's move:
+            if(playerID == 1)
+            {
+                player1Position = newPos;
+                player1LastMove = moveType;
+            }
+            else
+            {
+                player2Position = newPos;
+                player2LastMove = moveType;
+            }
+
+            //getting the number at this grid pos:
+           // int gridNumber = gridSystem.GetNumberAt(newPos);
+        }
+       
+
 
         [ClientRpc]
         //return on the all the cleints:
@@ -85,6 +125,16 @@ public class MovementSystem : NetworkBehaviour
             Debug.LogWarning($"Player {playerID} move has been rejected because {reason}");
             //show error message here for UI purposes.
         }
+
+        [ClientRpc]
+
+        void RpcMoveExecuted(int playerID, Vector2Int newPos, int number ,MoveType moveType)
+        {
+            Debug.LogWarning($"Player {playerID} moved to {newPos} and chose the number : {number}");
+            //visual feedback of the move made with the player piece moving 
+        }
+
+       
     }
 
 }

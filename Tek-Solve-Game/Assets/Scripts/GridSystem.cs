@@ -1,16 +1,12 @@
 using UnityEngine;
+using System.Collections;
+using System;
+using Mirror;
 
-public class GridSystem : MonoBehaviour
+
+public class GridSystem : NetworkBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+   [SerializeField] [SyncVar] private int[][] griNumbers = new int[4][]; // dumi: using a jagged edge array here instead of the multimdimensional array 
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   // void GenerateGrid() { }
 }

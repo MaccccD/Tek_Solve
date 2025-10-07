@@ -2,34 +2,62 @@ using UnityEngine;
 using Mirror;
 using System;
 using System.Linq;
-using System.Collections;
+using System.Collections.Generic;
 
 public class CodeSystem : NetworkBehaviour
 {
-    [SyncVar]public int targetNumber; // the targe number that will be shown to both players 
+    [SerializeField] private GridSystem gridSystem;
+    [SerializeField] private RoundManagementSystem roundsSystem;
     public readonly SyncList<int> player1Code = new SyncList<int>(); // what the first player inputs
     public readonly SyncList<int> player2Code = new SyncList<int>();  // what the second player inputs
+    [SyncVar] public int player1Progress = 0;
+    [SyncVar] public int player2Progress = 0;
 
+
+
+    private void Start()
+    {
+        gridSystem = FindObjectOfType<GridSystem>();
+        roundsSystem = FindObjectOfType<RoundManagementSystem>():
+    }
     bool ValidateCode(SyncList<int> code)
     {
-        return code.Sum() == targetNumber && code.Count == 4; //here i'm basically checking if the 4-digit code users have inputted equals to the target numbers they were given.
+        return code.Sum() == gridSystem.targetNumber && code.Count == 4; //here i'm basically checking if the 4-digit code users have inputted equals to the target numbers they were given.
     }
 
+
+    [Server]
     public void AddToCode(int playerID, int number)
     {
         var code = playerID == 1 ? player1Code : player2Code;
         code.Add(number); // here i'm allowing each player on their turn to add a number or a single digit of the 4-digit code required.
 
+
+        //updating player progress:
+        if(playerID == 1)
+        {
+            player1Progress = code.Count;
+        }
+        else
+        {
+            player2Progress = code.Count;
+        }
+
+        // checkong if the 4 digit code is complete:
         if(code.Count == 4)
         {
             CheckCodeSubmission(playerID, code);
         }
+
+        RpcUpdatePlayerProgress(playerID, code.Count, CalculateCurrentSum(code));// the feedback on the prgress as player input their code(s) and how far they are from the target number
     }
 
     [Server]
     void CheckCodeSubmission(int playerID, SyncList<int> code)
     {
-        if(code.Sum() == targetNumber && code.Count == 4)
+        int sum = CalculateCurrentSum(code);
+        int target = gridSystem.targetNumber;
+        if(sum == target)
         {
             Console.WriteLine("Yayy, someone cracked the code!");
             
@@ -39,7 +67,64 @@ public class CodeSystem : NetworkBehaviour
         else
         {
             code.RemoveAt(3);// it's 3 bc a list starts from index 0 not 1 so then the 4th digit becomes index 3;
-            //RpcCodeRejected(playerID);
+            if(playerID == 1)
+            {
+                player1Progress = 3; // remove 4th digit if code doesn't equal to target
+            }
+            else
+            {
+                player2Progress = 3;
+
+                RpcCodeRejected(playerID, sum, target);
+            }
+            
         }
+    }
+
+
+    int CalculateCurrentSum(SyncList<int>code)
+    {
+        return code.Sum(); // so each time a player adds a new digits, it calculates the current sum of the numbers inputted via the keypad.
+        
+
+    }
+
+    //getting the current player's code as they type it in on their turn(s):
+
+    public List<int> GetPlayerCode(int playerID)
+    {
+        return playerID == 1 ? player1Code.ToList() : player2Code.ToList(); // herei'm basically returning the current player code as it is being stored in the list and retrieving it from there as it is typed.  
+    }
+    
+
+    // all the client feedback from interactions within the server:
+
+    [ClientRpc]
+
+    void RpcCodeAccepted(int playerID, List<int> winningCode)
+    {
+        Debug.Log($"Player : {playerID} WON the round with code : {string.Join("+", winningCode)}  =  {winningCode.Sum()}");
+        //trigger visual feedback :
+    }
+
+    [ClientRpc]
+    void RpcCodeRejected(int playerID, int attemptedSum, int targetSum)
+    {
+        Debug.Log($"Player: {playerID} code has been REJECTED!. Got {attemptedSum}, and the correct sum is : {targetSum}");
+        // trigger vsiaula feedback such as a screen shake or error message
+    }
+
+    [ClientRpc]
+    void RpcUpdatePlayerProgress(int playerID, int progress, int currentSum)
+    {
+        //  show progress bar ui feedback here :
+        Debug.Log($"Player {playerID}, Progress : {progress}, , Current Sum of numbers inputted: {currentSum}");
+    }
+
+    [ClientRpc]
+    void RpcResetUI()
+    {
+        //clearing UI displays
+        Debug.Log("all UI has been cleared !");
     }
 }

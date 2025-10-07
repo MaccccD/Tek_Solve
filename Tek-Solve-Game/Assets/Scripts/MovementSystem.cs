@@ -17,8 +17,8 @@ public class MovementSystem : NetworkBehaviour
     private void Start()
     {
         gridSystem = FindObjectOfType<GridSystem>(); // grabbing the grid system;
-       
-       
+        
+      
       
     }
 

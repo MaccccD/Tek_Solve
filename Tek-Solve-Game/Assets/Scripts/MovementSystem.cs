@@ -8,7 +8,7 @@ public class MovementSystem : NetworkBehaviour
     [SyncVar] public Vector2Int player1Position = new Vector2Int(1, 1); 
     [SyncVar] public Vector2Int player2Position = new Vector2Int(1, 1);
     //player starting moves:
-    [SyncVar] public MoveType player1LastMove = MoveType.None; // player can make an startring move they want
+    [SyncVar] public MoveType player1LastMove = MoveType.None; // player can make an starting move they want
     [SyncVar] public MoveType player2LastMove = MoveType.None; // same as above.
     //the refrence to the grid :
     private GridSystem gridSystem;
@@ -66,7 +66,7 @@ public class MovementSystem : NetworkBehaviour
     MoveType GetMoveType(Vector2Int direction)
     {
         //check if move made is adjacent. this is only horizontal and vertical
-        if(direction.x == 0 || direction.y == 0)
+        if (direction.x == 0 || direction.y == 0)
         {
             return MoveType.Adjacent;
         }
@@ -76,65 +76,59 @@ public class MovementSystem : NetworkBehaviour
             //when the move is diagonal, all the axes changes and thus by default:
             return MoveType.Diagonal;
         }
-
-        bool ValidateMove(int playerID, Vector2Int newPos,MoveType moveType, MoveType lastMove)
-        {
-            // checking the grid boundaries first:
-            if(newPos.x < 0 || newPos.x > 3 || newPos.y < 0 || newPos.y > 3)
-            {
-                RpcMoveRejected(playerID, $"Move Out of bounds!");
-                return false;
-            }
-
-
-            //checking if the person mkaes two moves that are the same and they don't alternate
-            if(lastMove != MoveType.None && moveType == lastMove)
-            {
-                string moveTypeName = moveType == MoveType.Adjacent ? "adjacent" : "diagonal"; // conditional rendering here where the move type is initially adjacent or else it becomes diagonal if its not the first.
-                RpcMoveRejected(playerID, $"You cannot make two {moveTypeName} in a row that are same! Must alternate.");
-                return false;
-            }
-
-            return true;
-        }
-
-        void ExecuteMove(int playerID, Vector2Int newPos, MoveType moveType)
-        {
-            //keeping track of each player's move:
-            if(playerID == 1)
-            {
-                player1Position = newPos;
-                player1LastMove = moveType;
-            }
-            else
-            {
-                player2Position = newPos;
-                player2LastMove = moveType;
-            }
-
-            //getting the number at this grid pos:
-           // int gridNumber = gridSystem.GetNumberAt(newPos);
-        }
-       
-
-
-        [ClientRpc]
-        //return on the all the cleints:
-        void RpcMoveRejected(int playerID, string reason)
-        {
-            Debug.LogWarning($"Player {playerID} move has been rejected because {reason}");
-            //show error message here for UI purposes.
-        }
-
-        [ClientRpc]
-
-        void RpcMoveExecuted(int playerID, Vector2Int newPos, int number ,MoveType moveType)
-        {
-            Debug.LogWarning($"Player {playerID} moved to {newPos} and chose the number : {number}");
-            //visual feedback of the move made with the player piece moving 
-        }
-
-       
     }
+    bool ValidateMove(int playerID, Vector2Int newPos,MoveType moveType, MoveType lastMove)
+    {
+      // checking the grid boundaries first:
+        if(newPos.x < 0 || newPos.x > 3 || newPos.y < 0 || newPos.y > 3)
+         {
+           RpcMoveRejected(playerID, $"Move Out of bounds!");
+           return false;
+         }
+
+
+       //checking if the person mkaes two moves that are the same and they don't alternate
+        if(lastMove != MoveType.None && moveType == lastMove)
+         {
+          string moveTypeName = moveType == MoveType.Adjacent ? "adjacent" : "diagonal"; // conditional rendering here where the move type is initially adjacent or else it becomes diagonal if its not the first.
+          RpcMoveRejected(playerID, $"You cannot make two {moveTypeName} in a row that are same! Must alternate.");
+          return false;
+          }
+
+          return true;
+        }
+
+    void ExecuteMove(int playerID, Vector2Int newPos, MoveType moveType)
+       {
+        //keeping track of each player's move:
+        if (playerID == 1)
+        {
+            player1Position = newPos;
+            player1LastMove = moveType;
+        }
+        else
+        {
+            player2Position = newPos;
+            player2LastMove = moveType;
+        }
+
+        //getting the number at this grid pos:
+        // int gridNumber = gridSystem.GetNumberAt(newPos);
+        }
+
+    [ClientRpc]
+     //return on the all the cleints:
+    void RpcMoveRejected(int playerID, string reason)
+      {
+        Debug.LogWarning($"Player {playerID} move has been rejected because {reason}");
+        //show error message here for UI purposes.
+      }
+
+    [ClientRpc]
+    void RpcMoveExecuted(int playerID, Vector2Int newPos, int number, MoveType moveType)
+     {
+       Debug.LogWarning($"Player {playerID} moved to {newPos} and chose the number : {number}");
+       //visual feedback of the move made with the player piece moving 
+     }
 
 }

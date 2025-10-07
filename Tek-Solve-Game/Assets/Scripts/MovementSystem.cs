@@ -119,9 +119,9 @@ public class MovementSystem : NetworkBehaviour
         }
 
         //getting the number at this grid pos:
-        // int gridNumber = gridSystem.GetNumberAt(newPos);
+         int gridNumber = gridSystem.GetNumberAt(newPos);
         // Notify all clients of successful move
-        //RpcMoveExecuted(playerID, newPos, gridNumber, moveType);
+        RpcMoveExecuted(playerID, newPos, gridNumber, moveType);
         // Informing the  CodeSystem to add this number to player's code
         // FindObjectOfType<CodeTrackingSystem>().AddToCode(playerID, gridNumber);
         }

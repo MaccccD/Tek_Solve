@@ -18,7 +18,7 @@ public class CodeSystem : NetworkBehaviour
     private void Start()
     {
         gridSystem = FindObjectOfType<GridSystem>();
-        roundsSystem = FindObjectOfType<RoundManagementSystem>():
+        roundsSystem = FindObjectOfType<RoundManagementSystem>();
     }
     bool ValidateCode(SyncList<int> code)
     {

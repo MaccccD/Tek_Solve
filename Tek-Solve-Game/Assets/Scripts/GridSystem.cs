@@ -86,7 +86,7 @@ public class GridSystem : NetworkBehaviour
     // this basically captures the numbers the player presses on the numpad :
     public int GetNumberAt(Vector2Int position)
     {
-        // so if the number the player pressed is within the bounds of the grid size
+        // so if the number the player pressed is within the bounds of the grid size:
         if (position.x >= 0 && position.x < 4 && position.y >= 0 && position.y < 4)
         {
             return gridNumbers[position.x, position.y]; // so return the number at that grid position that the player clicked on

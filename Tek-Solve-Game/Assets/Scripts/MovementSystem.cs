@@ -123,7 +123,7 @@ public class MovementSystem : NetworkBehaviour
         // Notify all clients of successful move
         RpcMoveExecuted(playerID, newPos, gridNumber, moveType);
         // Informing the  CodeSystem to add this number to player's code
-        // FindObjectOfType<CodeTrackingSystem>().AddToCode(playerID, gridNumber);
+         FindObjectOfType<CodeSystem>().AddToCode(playerID, gridNumber);
         }
 
     [ClientRpc]

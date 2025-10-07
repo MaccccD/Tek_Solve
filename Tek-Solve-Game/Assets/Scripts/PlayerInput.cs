@@ -1,0 +1,109 @@
+using UnityEngine;
+using Mirror;
+
+public class PlayerInput : NetworkBehaviour
+{
+    [SerializeField] private MovementSystem movementSystem; //refrence to the movment logic
+    [SerializeField] private TurnSystem turnSystem;
+    [SerializeField][SyncVar] private int myPlayerID; 
+    
+
+
+    public void Start()
+    {
+        movementSystem = FindObjectOfType<MovementSystem>();
+
+        if(isLocalPlayer && isServer)
+        {
+            myPlayerID = 1; // so the player that joins as host / server , automically becomes player 1 
+        }
+        else if (isLocalPlayer)
+        {
+            CmdRequestPlayerID();
+           // myPlayerID = 2; // the other then becomes player 2 if the first player that joined hasn't become automatically asigned as player 1 ID .
+        }
+
+    }
+
+    [Command]
+    void CmdRequestPlayerID()
+    {
+        myPlayerID = 2; // the second player's ID who joins as the client
+    }
+
+   
+
+    public void Update()
+    {
+        if (!isLocalPlayer)  //checking if the rest of the code here runs on the local plyer first or else exit.
+        {
+            return;
+            
+        } 
+       // if(turnSystem.currentPlayerTurn != playerID) // here i'm checking if it is the current player's turn 
+       // {
+       //     return;
+       // }
+        
+       //detecting numpad key presses:
+
+        if (Input.GetKeyDown(KeyCode.Keypad7))
+        {
+            movementSystem.AttemptMove(myPlayerID, 7); //so diagonal up-left;
+            //we can also validate the move before we execute it:
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad8))
+        {
+            movementSystem.AttemptMove(myPlayerID, 8); //so the up-move.
+            Debug.Log("yayy , move working !");
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad9))
+        {
+            movementSystem.AttemptMove(myPlayerID, 9); // so diagonal up-right.
+            Debug.Log("yayy, move  working");
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad4))
+        {
+            movementSystem.AttemptMove(myPlayerID, 4); // so left move (adjacent).
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad5))
+        {
+            movementSystem.AttemptMove(myPlayerID, 5); // (so center move, adjacent).
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad6))
+        {
+            movementSystem.AttemptMove(myPlayerID, 6); // so the right-move (adjacent).
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad1))
+        {
+            movementSystem.AttemptMove(myPlayerID, 1); // so diagonal down left.
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad2))
+        {
+            movementSystem.AttemptMove(myPlayerID, 2); // so the down move (adjacent).
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad3))
+        {
+            movementSystem.AttemptMove(myPlayerID, 3); //so the diagonal down-right.
+        }
+
+
+        // Alternative: Regular number keys for laptops without numpad
+        else if (Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Q)) // so diagonal up left will be the Q 
+            movementSystem.AttemptMove(myPlayerID, 7);
+        else if (Input.GetKeyDown(KeyCode.Alpha8) || Input.GetKeyDown(KeyCode.W)) // up
+            movementSystem.AttemptMove(myPlayerID, 8);
+        else if (Input.GetKeyDown(KeyCode.Alpha9) || Input.GetKeyDown(KeyCode.E))// diagonal up right.
+            movementSystem.AttemptMove(myPlayerID, 9);
+        else if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.A)) //left
+            movementSystem.AttemptMove(myPlayerID, 4);
+        else if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.D)) //right
+            movementSystem.AttemptMove(myPlayerID, 6);
+        else if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Z))//diagonal down left
+            movementSystem.AttemptMove(myPlayerID, 1);
+        else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.S)) // down
+            movementSystem.AttemptMove(myPlayerID, 2);
+        else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.C)) //diagonal down right
+            movementSystem.AttemptMove(myPlayerID, 3);
+    }
+}

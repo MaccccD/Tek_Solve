@@ -98,6 +98,18 @@ public class CodeSystem : NetworkBehaviour
     }
     
 
+    [Server]
+    //resetting all codes when a new round starts :
+    public void ResetCodes()
+    {
+        player1Code.Clear();
+        player2Code.Clear();
+        player1Progress = 0;
+        player2Progress = 0;
+
+        RpcResetUI();
+    }
+
     // all the client feedback from interactions within the server:
 
     [ClientRpc]

@@ -12,6 +12,7 @@ public class PlayerInput : NetworkBehaviour
     public void Start()
     {
         movementSystem = FindObjectOfType<MovementSystem>();
+        turnSystem = FindObjectOfType<TurnSystem>();
 
         if(isLocalPlayer && isServer)
         {
@@ -40,13 +41,14 @@ public class PlayerInput : NetworkBehaviour
             return;
             
         } 
-       // if(turnSystem.currentPlayerTurn != playerID) // here i'm checking if it is the current player's turn 
-       // {
-       //     return;
-       // }
+       if(turnSystem.CurrentPlayerTurn != myPlayerID) // here i'm checking if it is the current player's turn 
+        {
+            return;
+        }
         
-       //detecting numpad key presses:
 
+
+       //detecting numpad key presses:
         if (Input.GetKeyDown(KeyCode.Keypad7))
         {
             movementSystem.AttemptMove(myPlayerID, 7); //so diagonal up-left;
@@ -105,5 +107,26 @@ public class PlayerInput : NetworkBehaviour
             movementSystem.AttemptMove(myPlayerID, 2);
         else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.C)) //diagonal down right
             movementSystem.AttemptMove(myPlayerID, 3);
+    }
+
+     void OnGUI() // a method to help debug.
+    {
+        GUI.Label(new Rect(10, 10, 200, 30), $"You are player : {myPlayerID}");
+
+        if(turnSystem != null)
+        {
+            bool isMyTurn = turnSystem.CurrentPlayerTurn == myPlayerID; // checking which player'sturn it is :
+            string turnText = isMyTurn ? "Your Turn" : $"Player {myPlayerID}, {turnSystem.CurrentPlayerTurn}'s Turn";
+            GUI.Label(new Rect(10, 40, 200, 30), turnText);
+
+            if(movementSystem != null)
+            {
+                var requiredMove = movementSystem.GetRequiredMoveType(myPlayerID);
+                if(requiredMove!= MovementSystem.MoveType.None)
+                {
+                    GUI.Label(new Rect(10, 70, 300, 30), $"The required Move is: {requiredMove}");
+                }
+            }
+        }
     }
 }

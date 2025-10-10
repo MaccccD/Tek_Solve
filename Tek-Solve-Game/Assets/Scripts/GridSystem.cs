@@ -59,7 +59,7 @@ public class GridSystem : NetworkBehaviour
         }
     }
 
-    void DeserializeGrid(string data)
+    void DeserializeGrid(string data)// this method converts the seialized grod that has een synced across the network into a readable object.
     {
         string[] values = data.Split(",");
         int index = 0;

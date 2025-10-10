@@ -16,7 +16,7 @@ public class GridSystem : NetworkBehaviour
         {
             GenerateNewGrid();
             GenerateTargetNumber();
-            Debug.Log("Yayy, the grid numbers abd the target number are being generated!!");
+            Debug.Log("Yayy, the grid numbers and the target number are being generated!!");
         }
     }
 

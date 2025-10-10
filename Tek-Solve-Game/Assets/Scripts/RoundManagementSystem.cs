@@ -46,18 +46,32 @@ public class RoundManagementSystem : NetworkBehaviour
             EndMatch();
             Debug.Log("Yayy, match is over, we have a winner!");
         }
+        else
+        {
+            //begin the next round after the winner is announced:
+            Invoke(nameof(StartNextRound), 8f); // setting a delay so that it deson't immedtealey got the nest round when everything is resetted w a new grid!
+        }
     }
 
     [Server]
     void StartNextRound()
     {
-        currentRound++;
+        currentRound++; // the numbe rof rpunds will increment accordingly each time a new round starts
         //the grid change:
-        bool changeGrid = currentRound > 2 && Random.Range(0f, 1f) < 0.4f;
+        bool changeGrid = currentRound > 2 && Random.Range(0f, 1f) < 0.4f; // change the grid if the rounds reset , generating a new grid of numbers within the 4x4 grod size
         //reset all systems :
         gridSystem.ResetRound(changeGrid);
-        
+        codeSystem.ResetCodes();
+        player1Wins = 0;
+        player2Wins = 0;
+        movementSystem.player1Position = new Vector2Int(1, 1);//so make the start at the centre for both players.
+        movementSystem.player2Position = new Vector2Int(1, 1);
+        movementSystem.player1LastMove = MovementSystem.MoveType.None;// set the movement back to none bc they would need to make the first move, not have a predefined one already.
+        movementSystem.player2LastMove = MovementSystem.MoveType.None;
+        turnSystem.ResetTurn();
 
+
+        RpcStartNewRound(currentRound, changeGrid);
     }
 
 

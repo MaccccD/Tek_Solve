@@ -35,7 +35,7 @@ public class MovementSystem : NetworkBehaviour
         
     }
 
-    public MoveType GetRequiredMoveType(int playerID) // this method is the ine that conrtols the last move systems where it keeps track of the fact that each player is not kaing the same move twice on their turn
+    public MoveType GetRequiredMoveType(int playerID) // this method is the one that conrtols the last move systems where it keeps track of the fact that each player is not kaing the same move twice on their turn
     {
         MoveType lastMove = playerID == 1 ? player1LastMove : player2LastMove;
 

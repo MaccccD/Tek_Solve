@@ -8,26 +8,29 @@ public class RoundManagementSystem : NetworkBehaviour
     [SyncVar] public int player1Wins = 0;
     [SyncVar] public int player2Wins = 0;
 
-    //references to the other scripys:
+    //references to the other scripts:
     private GridSystem gridSystem;
     private CodeSystem codeSystem;
     private MovementSystem movementSystem;
     private TurnSystem turnSystem;
+    private UISystem visualSystem;
 
 
     private void Start()
     {
-        gridSystem = FindObjectOfType<GridSystem>();
-        codeSystem = FindObjectOfType<CodeSystem>();
-        movementSystem = FindObjectOfType<MovementSystem>();
-        turnSystem = FindObjectOfType<TurnSystem>();
+        gridSystem = FindFirstObjectByType<GridSystem>();
+        codeSystem = FindFirstObjectByType<CodeSystem>();
+        movementSystem = FindFirstObjectByType<MovementSystem>();
+        turnSystem = FindFirstObjectByType<TurnSystem>();
+        visualSystem = FindFirstObjectByType<UISystem>();
+        Debug.Log("Yay, scripts found!!");
     }
 
 
     [Server]
     public void PlayerWonRound(int playerID)
     {
-        if(playerID == 1) // if a player wins a round after cracking the code :
+        if(playerID == 1) // if a player wins a round after-cracking the code :
         {
             player1Wins++;
         }
@@ -54,7 +57,7 @@ public class RoundManagementSystem : NetworkBehaviour
     }
 
     [Server]
-    void StartNextRound()
+    public void StartNextRound()
     {
         currentRound++; // the numbe rof rpunds will increment accordingly each time a new round starts
         //the grid change:
@@ -64,7 +67,7 @@ public class RoundManagementSystem : NetworkBehaviour
         codeSystem.ResetCodes();
         player1Wins = 0;
         player2Wins = 0;
-        movementSystem.player1Position = new Vector2Int(1, 1);//so make the start at the centre for both players.
+        movementSystem.player1Position = new Vector2Int(1, 1);//so make the start at the centre for both players. (need to test out);
         movementSystem.player2Position = new Vector2Int(1, 1);
         movementSystem.player1LastMove = MovementSystem.MoveType.None;// set the movement back to none bc they would need to make the first move, not have a predefined one already.
         movementSystem.player2LastMove = MovementSystem.MoveType.None;
@@ -86,7 +89,8 @@ public class RoundManagementSystem : NetworkBehaviour
    [ClientRpc]
     void RpcAnnounceRoundWinner(int playerID, int p1Wins, int p2Wins)
     {
-        //Show visual winning screen 
+        visualSystem.roundWinPanel.gameObject.SetActive(true);
+        visualSystem.roundWinText.gameObject.SetActive(true);
         Debug.Log($"Player : {playerID} wins this round!! Score : P1= {p1Wins}, P2={p2Wins}");
     }
 

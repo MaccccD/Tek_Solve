@@ -25,7 +25,7 @@ public class TurnSystem : NetworkBehaviour
 
 
     [Server]
-    void SwitchTurn()
+   public  void SwitchTurn()
     {
         CurrentPlayerTurn = CurrentPlayerTurn == 1 ? 2 : 1; // if player turn is 1 , switch to player 2 after 1 is done and so on .
         RpcTurnChanged(CurrentPlayerTurn);

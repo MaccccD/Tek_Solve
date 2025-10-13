@@ -39,8 +39,7 @@ public class CodeSystem : NetworkBehaviour
         if(playerID == 1)
         {
             player1Progress = code.Count;
-           
-           .
+          
         }
         else
         {

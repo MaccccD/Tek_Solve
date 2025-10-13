@@ -30,16 +30,16 @@ public class UISystem : MonoBehaviour
      public Text matchWinText;
 
     [Header("Player Stats")]
-    [SerializeField] private GameObject statsPanel;
-    [SerializeField] private Text player1WinsText;
-    [SerializeField] private Text player2WinsText;
-    [SerializeField] private Button RestartGame;
-    [SerializeField] private Button ExitGame;
+     public GameObject statsPanel;
+     public Text player1WinsText;
+     public Text player2WinsText;
+     public Button RestartGame;
+     public Button ExitGame;
 
     [Header("Game Audios")]
-    [SerializeField] private AudioSource incorrectCodeSound;
-    [SerializeField] private AudioSource correctCodeSound;
-    [SerializeField] private AudioSource backgroundMusic;
+     public AudioSource incorrectCodeSound;
+     public AudioSource correctCodeSound;
+     public AudioSource backgroundMusic;
 
 
     [Header("Script References")]

@@ -7,39 +7,39 @@ using System;
 public class UISystem : MonoBehaviour
 {
     [Header("Game Screen UI")]
-    [SerializeField] public Text targetNumberTxt;
-    [SerializeField] public Text lastMoveTxt;
-    [SerializeField] public Text roundsNumberTxt;
-    [SerializeField] public Text turnSystemTxt;
-    [SerializeField] public Text incorrectCodeTxt;
+    [SerializeField] private Text targetNumberTxt;
+    [SerializeField] private Text lastMoveTxt;
+    [SerializeField] private Text roundsNumberTxt;
+    [SerializeField] private Text turnSystemTxt;
+    [SerializeField] private Text incorrectCodeTxt;
 
     [Header("Player 1 UI")]
-    [SerializeField] public List<int> p1digitcode = new List<int>(4);
-    [SerializeField] public Text P1CurrentSum;
-    [SerializeField] public Text p1NeedTxt;
+     public Text[] p1DigitsDisplay;
+     public  Text P1CurrentSum;
+     public Text p1NeedTxt;
 
     [Header("Player 2 UI")]
-    [SerializeField] public List<int> p2digitcode = new List<int>(4);
-    [SerializeField] public Text P2CurrentSum;
-    [SerializeField] public Text p2NeedTxt;
+     public Text[] p2DigitsDisplay;
+     public Text P2CurrentSum;
+     public Text p2NeedTxt;
 
     [Header("Player Victory UI")]
-    [SerializeField] public GameObject roundWinPanel;
-    [SerializeField] public Text roundWinText;
-    [SerializeField] public GameObject matchWinPanel;
-    [SerializeField] public Text matchWinText;
+     public GameObject roundWinPanel;
+     public Text roundWinText;
+     public GameObject matchWinPanel;
+     public Text matchWinText;
 
     [Header("Player Stats")]
-    [SerializeField] public GameObject statsPanel;
-    [SerializeField] public Text player1WinsText;
-    [SerializeField] public Text player2WinsText;
-    [SerializeField] public Button RestartGame;
-    [SerializeField] public Button ExitGame;
+    [SerializeField] private GameObject statsPanel;
+    [SerializeField] private Text player1WinsText;
+    [SerializeField] private Text player2WinsText;
+    [SerializeField] private Button RestartGame;
+    [SerializeField] private Button ExitGame;
 
     [Header("Game Audios")]
-    [SerializeField] public AudioSource incorrectCodeSound;
-    [SerializeField] public AudioSource correctCodeSound;
-    [SerializeField] public AudioSource backgroundMusic;
+    [SerializeField] private AudioSource incorrectCodeSound;
+    [SerializeField] private AudioSource correctCodeSound;
+    [SerializeField] private AudioSource backgroundMusic;
 
 
     [Header("Script References")]
@@ -75,6 +75,34 @@ public class UISystem : MonoBehaviour
         turnSystem.SwitchTurn();
         turnSystemTxt.text = turnSystem.CurrentPlayerTurn.ToString();
         return;
+    }
+
+    public void UpdateDigitsDisplay(int playerID, List<int> code)
+    {
+        Text[] displays = playerID == 1 ? p1DigitsDisplay : p2DigitsDisplay; // change between the digits display of both player 1 and 2 depending whose turn it is
+
+        // clear any existing :
+        for (int i = 0; i < displays.Length; i++)
+        {
+            if( i < code.Count)
+            {
+                displays[i].text = code[i].ToString(); // so here i'm showing the digit being pressed by the player whose turn is currently on
+            }
+            else
+            {
+                displays[i].text = "?"; // the placehlder Q for numbers not added yet
+            }
+        }
+    }
+
+    public void ClearDisplays(int playerID)
+    {
+        Text[] displays = playerID == 1 ? p1DigitsDisplay : p2DigitsDisplay;
+
+        for( int i = 0; i < displays.Length; i++)
+        {
+            displays[i].text = "?";  // so rest to the "?" placeholder when the round resets 
+        }
     }
 
 

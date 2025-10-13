@@ -8,6 +8,7 @@ public class CodeSystem : NetworkBehaviour
 {
     [SerializeField] private GridSystem gridSystem;
     [SerializeField] private RoundManagementSystem roundsSystem;
+    [SerializeField] private UISystem visualSytem;
     public readonly SyncList<int> player1Code = new SyncList<int>(); // what the first player inputs
     public readonly SyncList<int> player2Code = new SyncList<int>();  // what the second player inputs
     [SyncVar] public int player1Progress = 0;
@@ -17,8 +18,9 @@ public class CodeSystem : NetworkBehaviour
 
     private void Start()
     {
-        gridSystem = FindObjectOfType<GridSystem>();
-        roundsSystem = FindObjectOfType<RoundManagementSystem>();
+        gridSystem = FindFirstObjectByType<GridSystem>();
+        roundsSystem = FindFirstObjectByType<RoundManagementSystem>();
+        visualSytem = FindFirstObjectByType<UISystem>();
     }
     bool ValidateCode(SyncList<int> code)
     {
@@ -37,6 +39,8 @@ public class CodeSystem : NetworkBehaviour
         if(playerID == 1)
         {
             player1Progress = code.Count;
+           
+           .
         }
         else
         {
@@ -106,7 +110,7 @@ public class CodeSystem : NetworkBehaviour
         player2Code.Clear();
         player1Progress = 0;
         player2Progress = 0;
-        RpcResetUI();
+        RpcClearDigitsDisplay(1);
         Debug.Log("Codes resetted");
     }
 
@@ -130,14 +134,33 @@ public class CodeSystem : NetworkBehaviour
     [ClientRpc]
     void RpcUpdatePlayerProgress(int playerID, int progress, int currentSum)
     {
-        //  show progress bar ui feedback here :
+        if(playerID == 1)
+        {
+            visualSytem.P1CurrentSum.text = currentSum.ToString();
+            visualSytem.p1NeedTxt.text = progress.ToString();
+        }
         Debug.Log($"Player {playerID}, Progress : {progress}, , Current Sum of numbers inputted: {currentSum}");
     }
+    [ClientRpc]
 
+    void RpcUpdateDigitDisplay(int playerID, int[] codeArray)
+    {
+        List<int> codeList = new List<int>(codeArray); // here im converting the list from an array back to the list
+        visualSytem.UpdateDigitsDisplay(playerID, codeList);
+        return;
+
+    }
+    [ClientRpc]
+    void RpcClearDigitsDisplay(int playerID)
+    {
+        visualSytem.ClearDisplays(playerID);
+        Debug.Log("All player digits resetted back to ? bc the round restarted");
+    }
     [ClientRpc]
     void RpcResetUI()
     {
         //clearing UI displays
+
         Debug.Log("all UI has been cleared !");
     }
 }

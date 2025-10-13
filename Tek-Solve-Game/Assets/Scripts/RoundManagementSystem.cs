@@ -72,8 +72,6 @@ public class RoundManagementSystem : NetworkBehaviour
         movementSystem.player1LastMove = MovementSystem.MoveType.None;// set the movement back to none bc they would need to make the first move, not have a predefined one already.
         movementSystem.player2LastMove = MovementSystem.MoveType.None;
         turnSystem.ResetTurn();
-
-
         RpcStartNewRound(currentRound, changeGrid);
     }
 
@@ -91,20 +89,23 @@ public class RoundManagementSystem : NetworkBehaviour
     {
         visualSystem.roundWinPanel.gameObject.SetActive(true);
         visualSystem.roundWinText.gameObject.SetActive(true);
+        visualSystem.DeactivateRoundWin();
         Debug.Log($"Player : {playerID} wins this round!! Score : P1= {p1Wins}, P2={p2Wins}");
     }
 
     [ClientRpc]
     void RpcStartNewRound(int roundNum, bool gridChanged)
     {
-        //show feedback when a new  round starts as well as the number
+       //ui feedback already taken cared off
         Debug.Log($"A new round {roundNum}, has started. Grid has chenged :{gridChanged}");
     }
     
     [ClientRpc]
     void RpcAnnounceMatchWinner(int playerID, int p1Wins, int p2Wins)
     {
-        // match victory screen , stats and replay:
+        visualSystem.matchWinPanel.gameObject.SetActive(true);
+        visualSystem.matchWinText.gameObject.SetActive(true);
+        visualSystem.DeactivateMatchWin();
         Debug.Log($"Congratulations to {playerID}.!!! The scores are P1: {p1Wins} and P2: {p2Wins}");
     }
 

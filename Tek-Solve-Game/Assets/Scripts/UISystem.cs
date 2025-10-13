@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 
 public class UISystem : MonoBehaviour
@@ -29,6 +30,7 @@ public class UISystem : MonoBehaviour
     [SerializeField] public Text matchWinText;
 
     [Header("Player Stats")]
+    [SerializeField] public GameObject statsPanel;
     [SerializeField] public Text player1WinsText;
     [SerializeField] public Text player2WinsText;
     [SerializeField] public Button RestartGame;
@@ -79,6 +81,7 @@ public class UISystem : MonoBehaviour
     public void  DeactivateRoundWin()
     {
         StartCoroutine(RoundWinDelay(5f));
+        return;
     }
 
 
@@ -87,6 +90,20 @@ public class UISystem : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
         roundWinPanel.gameObject.SetActive(false);
         roundWinText.gameObject.SetActive(false);
+       
+    }
+
+    public void DeactivateMatchWin()
+    {
+        StartCoroutine(MatchWinDelay(5f));
+        return;
+    }
+
+    private IEnumerator MatchWinDelay(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        matchWinPanel.gameObject.SetActive(false);
+        matchWinText.gameObject.SetActive(false);
     }
 
 

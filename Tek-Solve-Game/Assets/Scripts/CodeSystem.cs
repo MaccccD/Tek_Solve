@@ -106,8 +106,8 @@ public class CodeSystem : NetworkBehaviour
         player2Code.Clear();
         player1Progress = 0;
         player2Progress = 0;
-
         RpcResetUI();
+        Debug.Log("Codes resetted");
     }
 
     // all the client feedback from interactions within the server:
@@ -124,7 +124,7 @@ public class CodeSystem : NetworkBehaviour
     void RpcCodeRejected(int playerID, int attemptedSum, int targetSum)
     {
         Debug.Log($"Player: {playerID} code has been REJECTED!. Got {attemptedSum}, and the correct sum is : {targetSum}");
-        // trigger vsiaula feedback such as a screen shake or error message
+        // trigger visual feedback such as a screen shake or error message
     }
 
     [ClientRpc]

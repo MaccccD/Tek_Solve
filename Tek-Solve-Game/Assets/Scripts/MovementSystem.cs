@@ -32,6 +32,7 @@ public class MovementSystem : NetworkBehaviour
     public Vector2Int GetPlayerPosition(int playerID) // getting the current position of a player:
     {
         return playerID == 1 ? player1Position : player2Position;
+        
     }
 
     public MoveType GetRequiredMoveType(int playerID) // this method is the ine that conrtols the last move systems where it keeps track of the fact that each player is not kaing the same move twice on their turn
@@ -88,6 +89,7 @@ public class MovementSystem : NetworkBehaviour
         if(newPos.x < 0 || newPos.x > 3 || newPos.y < 0 || newPos.y > 3)
          {
            RpcMoveRejected(playerID, $"Move Out of bounds!");
+          
            return false;
          }
 

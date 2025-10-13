@@ -106,6 +106,14 @@ public class RoundManagementSystem : NetworkBehaviour
         visualSystem.matchWinPanel.gameObject.SetActive(true);
         visualSystem.matchWinText.gameObject.SetActive(true);
         visualSystem.DeactivateMatchWin();
+
+        //show both players their player stats:
+        visualSystem.statsPanel.gameObject.SetActive(true);
+        visualSystem.player1WinsText.gameObject.SetActive(true);
+        visualSystem.player2WinsText.gameObject.SetActive(true);
+        visualSystem.RestartGame.gameObject.SetActive(true);
+        visualSystem.ExitGame.gameObject.SetActive(true);
+
         Debug.Log($"Congratulations to {playerID}.!!! The scores are P1: {p1Wins} and P2: {p2Wins}");
     }
 

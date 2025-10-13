@@ -46,6 +46,8 @@ public class CodeSystem : NetworkBehaviour
             player2Progress = code.Count;
         }
 
+        RpcUpdateDigitDisplay(playerID, code.ToArray()); //update te digits being typed in on each player's turn;
+
         // checkong if the 4 digit code is complete:
         if(code.Count == 4)
         {
@@ -63,7 +65,7 @@ public class CodeSystem : NetworkBehaviour
         if(sum == target)
         {
             Console.WriteLine("Yayy, someone cracked the code!");
-            // trigger winning anim/visual
+            RpcCodeAccepted(playerID, code.ToList()); 
             
             // player who got it wins the round and the board state changes for the next round.
         }
@@ -119,13 +121,14 @@ public class CodeSystem : NetworkBehaviour
 
     void RpcCodeAccepted(int playerID, List<int> winningCode)
     {
+        roundsSystem.PlayerWonRound(playerID);
         Debug.Log($"Player : {playerID} WON the round with code : {string.Join("+", winningCode)}  =  {winningCode.Sum()}");
-        //trigger visual feedback :
     }
 
     [ClientRpc]
     void RpcCodeRejected(int playerID, int attemptedSum, int targetSum)
     {
+        visualSytem.incorrectCodeTxt.text = attemptedSum.ToString();
         Debug.Log($"Player: {playerID} code has been REJECTED!. Got {attemptedSum}, and the correct sum is : {targetSum}");
         // trigger visual feedback such as a screen shake or error message
     }
@@ -137,6 +140,13 @@ public class CodeSystem : NetworkBehaviour
         {
             visualSytem.P1CurrentSum.text = currentSum.ToString();
             visualSytem.p1NeedTxt.text = progress.ToString();
+           
+        }
+        else if(playerID == 2)
+        {
+            visualSytem.P2CurrentSum.text = currentSum.ToString();
+            visualSytem.p2NeedTxt.text = progress.ToString();
+
         }
         Debug.Log($"Player {playerID}, Progress : {progress}, , Current Sum of numbers inputted: {currentSum}");
     }

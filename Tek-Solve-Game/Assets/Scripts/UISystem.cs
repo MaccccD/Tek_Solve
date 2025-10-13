@@ -7,15 +7,15 @@ using System;
 public class UISystem : MonoBehaviour
 {
     [Header("Game Screen UI")]
-    [SerializeField] private Text targetNumberTxt;
-    [SerializeField] private Text lastMoveTxt;
-    [SerializeField] private Text roundsNumberTxt;
-    [SerializeField] private Text turnSystemTxt;
-    [SerializeField] private Text incorrectCodeTxt;
+     public Text targetNumberTxt;
+     public Text lastMoveTxt;
+     public Text roundsNumberTxt;
+     public Text turnSystemTxt;
+     public Text incorrectCodeTxt;
 
     [Header("Player 1 UI")]
      public Text[] p1DigitsDisplay;
-     public  Text P1CurrentSum;
+     public Text P1CurrentSum;
      public Text p1NeedTxt;
 
     [Header("Player 2 UI")]
@@ -134,5 +134,31 @@ public class UISystem : MonoBehaviour
         matchWinText.gameObject.SetActive(false);
     }
 
+    public void DeactivateRejectedCodeSound()
+    {
+        StartCoroutine(RejectedSoundDelay(5f));
+        return;
+    }
+
+    private IEnumerator RejectedSoundDelay(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        incorrectCodeSound.Pause();
+        Debug.Log("Incorrect sound has stppped playing!");
+    }
+
+    public void DeactivateAccepetedSound ()
+    {
+        StartCoroutine(AcceptedSoundDelay(5f));
+        return;
+    }
+
+
+    private IEnumerator AcceptedSoundDelay( float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        correctCodeSound.Pause();
+        Debug.Log("correct sound has stopped playing !");
+    }
 
 }

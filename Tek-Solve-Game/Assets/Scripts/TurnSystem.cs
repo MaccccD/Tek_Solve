@@ -4,6 +4,7 @@ public class TurnSystem : NetworkBehaviour
 {
     [SyncVar] public int CurrentPlayerTurn = 1;
     [SyncVar] public bool turnComplete = false;
+   
 
 
     private float maxTurnTime = 30f;
@@ -35,6 +36,7 @@ public class TurnSystem : NetworkBehaviour
     [ClientRpc]
     void RpcTurnChanged(int newPlayer)
     {
+
         Debug.Log($"Turn has changed to player : {newPlayer}");
         turnComplete = true;
         //trigger blur effect for the other player's screen

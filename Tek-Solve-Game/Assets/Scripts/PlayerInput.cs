@@ -17,6 +17,8 @@ public class PlayerInput : NetworkBehaviour
         if(isLocalPlayer && isServer)
         {
             myPlayerID = 1; // so the player that joins as host / server , automically becomes player 1 
+            //console output:
+            Debug.Log("Player 1 assigned !");
         }
         else if (isLocalPlayer)
         {
@@ -30,6 +32,8 @@ public class PlayerInput : NetworkBehaviour
     void CmdRequestPlayerID()
     {
         myPlayerID = 2; // the second player's ID who joins as the client
+        //console output:
+        Debug.Log("Player 2 assigned");
     }
 
    

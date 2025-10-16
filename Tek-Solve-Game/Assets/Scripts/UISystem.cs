@@ -59,6 +59,8 @@ public class UISystem : MonoBehaviour
         turnSystem = FindFirstObjectByType<TurnSystem>();
         Debug.Log("yayy, scripts found");
         InitiateRound();
+        //console output for my own peace of mind:
+        Debug.Log("Initialization successful");
     }
     public void InitiateRound()
     {

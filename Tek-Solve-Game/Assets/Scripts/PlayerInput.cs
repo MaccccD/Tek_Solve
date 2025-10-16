@@ -3,8 +3,8 @@ using Mirror;
 
 public class PlayerInput : NetworkBehaviour
 {
-    [SerializeField] private MovementSystem movementSystem; //refrence to the movment logic
-    [SerializeField] private TurnSystem turnSystem;
+    private MovementSystem movementSystem; //refrence to the movment logic
+    private TurnSystem turnSystem;
     [SerializeField][SyncVar] private int myPlayerID; 
     
 

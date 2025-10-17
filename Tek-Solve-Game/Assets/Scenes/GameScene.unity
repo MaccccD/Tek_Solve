@@ -1490,10 +1490,6 @@ MonoBehaviour:
   player2WinsText: {fileID: 2010635509}
   RestartGame: {fileID: 604841987}
   ExitGame: {fileID: 496294014}
-  roundSystem: {fileID: 754311085}
-  gridSystem: {fileID: 754311086}
-  movementSystem: {fileID: 754311082}
-  turnSystem: {fileID: 754311084}
 --- !u!4 &335267659
 Transform:
   m_ObjectHideFlags: 0
@@ -4996,7 +4992,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  CurrentPlayerTurn: 1
+  currentPlayerTurn: 1
   turnComplete: 0
 --- !u!114 &754311085
 MonoBehaviour:

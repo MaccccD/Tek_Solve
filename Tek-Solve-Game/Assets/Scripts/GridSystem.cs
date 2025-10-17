@@ -5,11 +5,18 @@ using Mirror;
 
 public class GridSystem : NetworkBehaviour
 {
+    public static GridSystem Instance { get; private set; } // singleton pattern here.
     private int[,] gridNumbers = new int[4, 4]; // the actual 4 x 4 grid of numbers.
     [SyncVar] public int targetNumber;
     [SyncVar] private string gridData; // seriized grid for network sync so that when the size increases , it syncs between both players
 
-
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+    }
     void Start()
     {
         if (isServer)

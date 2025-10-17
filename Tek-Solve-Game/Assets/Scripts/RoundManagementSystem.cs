@@ -3,6 +3,7 @@ using Mirror;
 
 public class RoundManagementSystem : NetworkBehaviour
 {
+    public static RoundManagementSystem Instance { get; private set; }
     [SyncVar] public int currentRound = 1;
     [SyncVar] public int maxRounds = 5;  // max rounds in one level.
     [SyncVar] public int player1Wins = 0;
@@ -15,6 +16,14 @@ public class RoundManagementSystem : NetworkBehaviour
     private TurnSystem turnSystem;
     private UISystem visualSystem;
 
+
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+    }
 
     private void Start()
     {

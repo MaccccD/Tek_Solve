@@ -2,7 +2,17 @@ using UnityEngine;
 using Mirror;
 public class LevelSystem : NetworkBehaviour
 {
-   public struct LevelConfig 
+    public static LevelSystem Instance { get; private set; }
+
+
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+    }
+    public struct LevelConfig 
     {
         //this struct basically houses the different target number ranges and grid board size ranges as the levels of the game progresses
         public int gridSize;

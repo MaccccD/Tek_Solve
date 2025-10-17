@@ -10,16 +10,23 @@ public class MovementSystem : NetworkBehaviour
     //player starting moves:
     [SyncVar] public MoveType player1LastMove = MoveType.None; // player can make an starting move they want
     [SyncVar] public MoveType player2LastMove = MoveType.None; // same as above
+    public static MovementSystem Instance { get; private set; }
    
     //the reference to the grid :
     private GridSystem gridSystem;
 
+    void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+    }
+
     private void Start()
     {
         gridSystem = FindObjectOfType<GridSystem>(); // grabbing the grid system;
-        
-      
-      
+       
     }
 
 

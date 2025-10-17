@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -55,22 +55,43 @@ public class UISystem : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(WaitForSystems());
         //Key insight: using 'findfirstobjectbytype' in her overwrites what was asisgned in the inspector if it was declared as a public variable.
-        roundSystem = FindFirstObjectByType<RoundManagementSystem>();
-        gridSystem = FindFirstObjectByType<GridSystem>();
-        movementSystem = FindFirstObjectByType<MovementSystem>();
-        turnSystem = FindFirstObjectByType<TurnSystem>();
+       // roundSystem = FindObjectOfType<RoundManagementSystem>();
+      //  gridSystem = FindObjectOfType<GridSystem>();
+      //  movementSystem = FindObjectOfType<MovementSystem>();
+      //  turnSystem = FindObjectOfType<TurnSystem>();
 
         // Checking if they are found:
-        if (roundSystem == null) Debug.LogError("RoundManagementSystem not found!");
-        if (gridSystem == null) Debug.LogError("GridSystem not found!");
-        if (movementSystem == null) Debug.LogError("MovementSystem not found!");
-        if (turnSystem == null) Debug.LogError("TurnSystem not found!");
+     //   if (roundSystem == null) Debug.LogError("RoundManagementSystem not found!");
+     //   if (gridSystem == null) Debug.LogError("GridSystem not found!");
+     //   if (movementSystem == null) Debug.LogError("MovementSystem not found!");
+     //   if (turnSystem == null) Debug.LogError("TurnSystem not found!");
 
-        Debug.Log("yayy, scripts found");
+     //   Debug.Log("yayy, scripts found");
+     //   InitiateRound();
+    //    //console output for my own peace of mind:
+     //   Debug.Log("Initialization successful");
+    }
+
+    private IEnumerator WaitForSystems()
+    {
+        // Wait until systems are ready
+        while (GridSystem.Instance == null ||
+               MovementSystem.Instance == null ||
+               TurnSystem.Instance == null ||
+               RoundManagementSystem.Instance == null)
+        {
+            yield return null; // Wait one frame
+        }
+
+        gridSystem = GridSystem.Instance; // applying the singleton pattern here so that all systems accessible
+        movementSystem = MovementSystem.Instance;
+        turnSystem = TurnSystem.Instance;
+        roundSystem = RoundManagementSystem.Instance;
+
+        Debug.Log("✅ ALL SYSTEMS FOUND!");
         InitiateRound();
-        //console output for my own peace of mind:
-        Debug.Log("Initialization successful");
     }
     public void InitiateRound()
     {

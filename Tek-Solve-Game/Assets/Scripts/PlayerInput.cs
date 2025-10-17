@@ -3,10 +3,19 @@ using Mirror;
 
 public class PlayerInput : NetworkBehaviour
 {
+    public static PlayerInput Instance { get; private set; }
     private MovementSystem movementSystem; //refrence to the movment logic
     private TurnSystem turnSystem;
-    [SerializeField][SyncVar] private int myPlayerID; 
-    
+    [SerializeField][SyncVar] private int myPlayerID;
+
+
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+    }
 
 
     public void Start()

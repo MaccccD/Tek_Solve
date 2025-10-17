@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 public class CodeSystem : NetworkBehaviour
 {
+    public static CodeSystem Instance { get; private set; }
     [SerializeField] private GridSystem gridSystem;
     [SerializeField] private RoundManagementSystem roundsSystem;
     [SerializeField] private UISystem visualSytem;
@@ -14,6 +15,15 @@ public class CodeSystem : NetworkBehaviour
     [SyncVar] public int player1Progress = 0;
     [SyncVar] public int player2Progress = 0;
 
+
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        
+    }
 
 
     private void Start()

@@ -4,11 +4,19 @@ public class TurnSystem : NetworkBehaviour
 {
     [SyncVar] public int currentPlayerTurn = 1;
     [SyncVar] public bool turnComplete = false;
-   
 
-
+    public static TurnSystem Instance { get; private set; }
+  
     private float maxTurnTime = 30f;
 
+
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+    }
 
     private void Update()
     {

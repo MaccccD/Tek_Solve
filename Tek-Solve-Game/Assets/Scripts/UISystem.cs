@@ -25,9 +25,11 @@ public class UISystem : MonoBehaviour
 
     [Header("Player Victory UI")]
      public GameObject roundWinPanel;
+     public GameObject[] stars;
      public Text roundWinText;
      public GameObject matchWinPanel;
      public Text matchWinText;
+     public Image trophyImage;
 
     [Header("Player Stats")]
      public GameObject statsPanel;
@@ -96,7 +98,15 @@ public class UISystem : MonoBehaviour
             }
         }
     }
-
+    public void  StarsIncrementing()
+    {
+        for(int i = 0; i < stars.Length; i++)
+        {
+            stars[i].gameObject.SetActive(true);
+            Debug.Log("A starr has been activated!");
+            return;
+        }
+    }
     public void ClearDisplays(int playerID)
     {
         Text[] displays = playerID == 1 ? p1DigitsDisplay : p2DigitsDisplay;

@@ -1474,7 +1474,7 @@ MonoBehaviour:
   - {fileID: 604018874}
   P2CurrentSum: {fileID: 368525866}
   p2NeedTxt: {fileID: 1423984712}
-  roundWinPanel: {fileID: 0}
+  roundWinPanel: {fileID: 322907355}
   roundWinText: {fileID: 0}
   matchWinPanel: {fileID: 0}
   matchWinText: {fileID: 0}
@@ -1615,7 +1615,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 4.6433, y: -52.763}
+  m_AnchoredPosition: {x: 4.6432953, y: -52.763}
   m_SizeDelta: {x: -9.2865, y: -194.877}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &368525866
@@ -2899,7 +2899,7 @@ GameObject:
   - component: {fileID: 542452461}
   - component: {fileID: 542452460}
   m_Layer: 5
-  m_Name: Win Txt Holder
+  m_Name: Round Win Txt Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3488,7 +3488,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 4.6317, y: -52}
+  m_AnchoredPosition: {x: 4.6316986, y: -52}
   m_SizeDelta: {x: -13.283, y: -211.591}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &622081355
@@ -8551,18 +8551,18 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 45
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 40
+    m_MinSize: 4
+    m_MaxSize: 45
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: Yayyy! Congratulations, you win this round!
 --- !u!222 &1741655102
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9697,7 +9697,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 4.632, y: -99.85599}
+  m_AnchoredPosition: {x: 4.632004, y: -99.85599}
   m_SizeDelta: {x: -13.283, y: -226.223}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1993105761

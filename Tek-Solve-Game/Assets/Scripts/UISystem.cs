@@ -102,7 +102,7 @@ public class UISystem : MonoBehaviour
     {
         for(int i = 0; i < stars.Length; i++)
         {
-            stars[i].gameObject.SetActive(true);
+            stars[0].gameObject.SetActive(true);// try this first bc i think stars[i].gameObject.setActive(true) will set evry star active.
             Debug.Log("A starr has been activated!");
             return;
         }

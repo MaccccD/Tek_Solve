@@ -89,7 +89,7 @@ public class RoundManagementSystem : NetworkBehaviour
     {
         visualSystem.roundWinPanel.gameObject.SetActive(true);
         visualSystem.roundWinText.gameObject.SetActive(true);
-       
+        visualSystem.StarsIncrementing();
         visualSystem.DeactivateRoundWin();
         Debug.Log($"Player : {playerID} wins this round!! Score : P1= {p1Wins}, P2={p2Wins}");
     }

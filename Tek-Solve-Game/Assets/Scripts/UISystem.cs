@@ -39,26 +39,34 @@ public class UISystem : MonoBehaviour
      public Button ExitGame;
 
     [Header("Game Audios")]
-     public AudioSource incorrectCodeSound;
-     public AudioSource correctCodeSound;
-     public AudioSource backgroundMusic;
+     private AudioSource incorrectCodeSound;
+     private AudioSource correctCodeSound;
+     private AudioSource backgroundMusic;
 
 
     [Header("Script References")]
-    [SerializeField] private RoundManagementSystem roundSystem;
-    [SerializeField] private GridSystem gridSystem;
-    [SerializeField] private MovementSystem movementSystem;
-    [SerializeField] private TurnSystem turnSystem;
+     private RoundManagementSystem roundSystem;
+     private GridSystem gridSystem;
+     private MovementSystem movementSystem;
+     private TurnSystem turnSystem;
 
 
 
 
     private void Start()
     {
+        //Key insight: using 'findfirstobjectbytype' in her overwrites what was asisgned in the inspector if it was declared as a public variable.
         roundSystem = FindFirstObjectByType<RoundManagementSystem>();
         gridSystem = FindFirstObjectByType<GridSystem>();
         movementSystem = FindFirstObjectByType<MovementSystem>();
         turnSystem = FindFirstObjectByType<TurnSystem>();
+
+        // Checking if they are found:
+        if (roundSystem == null) Debug.LogError("RoundManagementSystem not found!");
+        if (gridSystem == null) Debug.LogError("GridSystem not found!");
+        if (movementSystem == null) Debug.LogError("MovementSystem not found!");
+        if (turnSystem == null) Debug.LogError("TurnSystem not found!");
+
         Debug.Log("yayy, scripts found");
         InitiateRound();
         //console output for my own peace of mind:
@@ -66,19 +74,21 @@ public class UISystem : MonoBehaviour
     }
     public void InitiateRound()
     {
-        roundSystem.StartNextRound();//refences to the grid and all the movement positions.
+       // roundSystem.StartNextRound();//refences to the grid and all the movement positions.(server only )
         roundsNumberTxt.text = roundSystem.currentRound.ToString();// show the number of rounds.
         targetNumberTxt.text = gridSystem.targetNumber.ToString();// show the target number.
-        turnSystemTxt.text = turnSystem.CurrentPlayerTurn.ToString(); // to show players whose turn it is.
+        turnSystemTxt.text = turnSystem.currentPlayerTurn.ToString(); // to show players whose turn it is.
         lastMoveTxt.text = movementSystem.GetRequiredMoveType(1).ToString(); // the last move ui 
         
     }
 
     private void Update()
     {
-        turnSystem.SwitchTurn();
-        turnSystemTxt.text = turnSystem.CurrentPlayerTurn.ToString();
-        return;
+        if (turnSystem != null) // update the text ui , npt siwtching turns:
+        {
+            turnSystemTxt.text = $"Player {turnSystem.currentPlayerTurn}'s Turn";
+            lastMoveTxt.text = movementSystem.GetRequiredMoveType(turnSystem.currentPlayerTurn).ToString();
+        }
     }
 
     public void UpdateDigitsDisplay(int playerID, List<int> code)

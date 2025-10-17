@@ -45,7 +45,7 @@ public class PlayerInput : NetworkBehaviour
             return;
             
         } 
-       if(turnSystem.CurrentPlayerTurn != myPlayerID) // here i'm checking if it is the current player's turn 
+       if(turnSystem.currentPlayerTurn != myPlayerID) // here i'm checking if it is the current player's turn 
         {
             return;
         }
@@ -119,8 +119,8 @@ public class PlayerInput : NetworkBehaviour
 
         if(turnSystem != null)
         {
-            bool isMyTurn = turnSystem.CurrentPlayerTurn == myPlayerID; // checking which player'sturn it is :
-            string turnText = isMyTurn ? "Your Turn" : $"Player {myPlayerID}, {turnSystem.CurrentPlayerTurn}'s Turn";
+            bool isMyTurn = turnSystem.currentPlayerTurn == myPlayerID; // checking which player'sturn it is :
+            string turnText = isMyTurn ? "Your Turn" : $"Player {myPlayerID}, {turnSystem.currentPlayerTurn}'s Turn";
             GUI.Label(new Rect(10, 40, 200, 30), turnText);
 
             if(movementSystem != null)

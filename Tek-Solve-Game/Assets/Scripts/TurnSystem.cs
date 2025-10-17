@@ -2,7 +2,7 @@ using UnityEngine;
 using Mirror;
 public class TurnSystem : NetworkBehaviour
 {
-    [SyncVar] public int CurrentPlayerTurn = 1;
+    [SyncVar] public int currentPlayerTurn = 1;
     [SyncVar] public bool turnComplete = false;
    
 
@@ -28,8 +28,8 @@ public class TurnSystem : NetworkBehaviour
     [Server]
    public  void SwitchTurn()
     {
-        CurrentPlayerTurn = CurrentPlayerTurn == 1 ? 2 : 1; // if player turn is 1 , switch to player 2 after 1 is done and so on .
-        RpcTurnChanged(CurrentPlayerTurn);
+        currentPlayerTurn = currentPlayerTurn == 1 ? 2 : 1; // if player turn is 1 , switch to player 2 after 1 is done and so on .
+        RpcTurnChanged(currentPlayerTurn);
         Debug.Log("the turn has changed!!!"); // for my own peace of mind!
     }
 
@@ -45,7 +45,7 @@ public class TurnSystem : NetworkBehaviour
     [Server]
     public void ResetTurn()
     {
-        CurrentPlayerTurn = 1;
+        currentPlayerTurn = 1;
         turnComplete = false;
         return;
     }

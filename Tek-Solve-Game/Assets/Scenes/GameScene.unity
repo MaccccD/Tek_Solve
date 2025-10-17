@@ -1490,9 +1490,6 @@ MonoBehaviour:
   player2WinsText: {fileID: 2010635509}
   RestartGame: {fileID: 604841987}
   ExitGame: {fileID: 496294014}
-  incorrectCodeSound: {fileID: 0}
-  correctCodeSound: {fileID: 0}
-  backgroundMusic: {fileID: 0}
   roundSystem: {fileID: 754311085}
   gridSystem: {fileID: 754311086}
   movementSystem: {fileID: 754311082}
@@ -4217,7 +4214,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &693355227
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5051,9 +5048,9 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  gridSystem: {fileID: 0}
-  roundsSystem: {fileID: 0}
-  visualSytem: {fileID: 0}
+  gridSystem: {fileID: 754311086}
+  roundsSystem: {fileID: 754311085}
+  visualSytem: {fileID: 335267658}
   player1Progress: 0
   player2Progress: 0
 --- !u!1 &771408371
@@ -9150,7 +9147,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1647683112
 RectTransform:
   m_ObjectHideFlags: 0

@@ -64,6 +64,7 @@ public class GridSystem : NetworkBehaviour
 
         UpdateGridUI();// so update the numbers for the host first
 
+        
         RpcSyncGrid(gridData); // to tell the client of the grid that has been created and and synced to them 
     }
 
@@ -121,8 +122,8 @@ public class GridSystem : NetworkBehaviour
     [ClientRpc]
     void RpcSyncGrid(string data)
     {
+        visualSystem.DisplayGridNumbers(gridNumbers);
         DeserializeGrid(data);
-
         Debug.LogWarning("grid has been synced to client!");
 
         UpdateGridUI(); // update the UI for clients

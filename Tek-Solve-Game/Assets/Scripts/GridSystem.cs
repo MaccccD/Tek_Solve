@@ -10,6 +10,8 @@ public class GridSystem : NetworkBehaviour
     [SyncVar] public int targetNumber;
     [SyncVar] private string gridData; // seriized grid for network sync so that when the size increases , it syncs between both players
 
+    private UISystem visualSystem;
+
     private void Awake()
     {
         if(Instance == null)
@@ -19,6 +21,10 @@ public class GridSystem : NetworkBehaviour
     }
     void Start()
     {
+        visualSystem = FindObjectOfType<UISystem>();
+        Debug.Log("UI system found by the grid system script!");
+
+
         if (isServer)
         {
             GenerateNewGrid();
@@ -28,7 +34,7 @@ public class GridSystem : NetworkBehaviour
     }
 
     [Server]
-    public void GenerateNewGrid() // so creating te grid with the numbers generated randomly between 1 - 9
+    public void GenerateNewGrid() // so creating the grid with the numbers generated randomly between 1 - 9
     {
         for (int x = 0; x < 4; x++)
         {

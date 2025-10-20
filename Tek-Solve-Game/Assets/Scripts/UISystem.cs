@@ -38,6 +38,10 @@ public class UISystem : MonoBehaviour
      public Button RestartGame;
      public Button ExitGame;
 
+    [Header("Grid System Info")]
+    public GameObject[] gridNumbers;
+
+
     [Header("Game Audios")]
      private AudioSource incorrectCodeSound;
      private AudioSource correctCodeSound;
@@ -102,10 +106,23 @@ public class UISystem : MonoBehaviour
         lastMoveTxt.text = movementSystem.GetRequiredMoveType(1).ToString(); // the last move ui 
         
     }
-
+    public void ShowGridNumbers(List<int> showNumbers)
+    {
+        Text[] showNumberTxt;
+        for(int i =0; i < gridNumbers.Length; i++)
+        {
+            if(i < showNumbers.Count)
+            {
+                showNumberTxt[i].text = showNumbers[i].ToString();
+            }
+            gridNumbers[i].gameObject.SetActive(true);
+            Debug.Log("Yayy, all the grid numbers are showing for both player bc they have been generated");
+            return; 
+        }
+    }
     private void Update()
     {
-        if (turnSystem != null) // update the text ui , npt siwtching turns:
+        if (turnSystem != null) // update the text ui , not switching turns:
         {
             turnSystemTxt.text = $"Player {turnSystem.currentPlayerTurn}'s Turn";
             lastMoveTxt.text = movementSystem.GetRequiredMoveType(turnSystem.currentPlayerTurn).ToString();
@@ -125,7 +142,7 @@ public class UISystem : MonoBehaviour
             }
             else
             {
-                displays[i].text = "?"; // the placehlder Q for numbers not added yet
+                displays[i].text = "?"; // the placeholder Q for numbers not added yet
             }
         }
     }
@@ -133,7 +150,7 @@ public class UISystem : MonoBehaviour
     {
         for(int i = 0; i < stars.Length; i++)
         {
-            stars[0].gameObject.SetActive(true);// try this first bc i think stars[i].gameObject.setActive(true) will set evry star active.
+            stars[0].gameObject.SetActive(true);// try this first bc i think stars[i].gameObject.setActive(true) will set every star active.
             Debug.Log("A starr has been activated!");
             return;
         }

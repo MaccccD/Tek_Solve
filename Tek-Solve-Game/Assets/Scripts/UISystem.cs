@@ -40,6 +40,8 @@ public class UISystem : MonoBehaviour
 
     [Header("Grid System Info")]
     public GameObject[] gridNumbers;
+    public GameObject GridPanel;
+
 
 
     [Header("Game Audios")]
@@ -108,7 +110,8 @@ public class UISystem : MonoBehaviour
     }
     public void ShowGridNumbers(List<int> showNumbers)
     {
-        Text[] showNumberTxt;
+      //  Text[] showNumberTxt = GridPanel.SetActive(true);
+
         for(int i =0; i < gridNumbers.Length; i++)
         {
             if(i < showNumbers.Count)

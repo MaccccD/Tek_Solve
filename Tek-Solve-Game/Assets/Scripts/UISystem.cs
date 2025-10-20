@@ -39,8 +39,8 @@ public class UISystem : MonoBehaviour
      public Button ExitGame;
 
     [Header("Grid System Info")]
-    public GameObject[] gridNumbers;
-    public GameObject GridPanel;
+    public Text[] gridNumberTxts;
+    public GameObject gridPanel;
 
 
 
@@ -96,7 +96,10 @@ public class UISystem : MonoBehaviour
         turnSystem = TurnSystem.Instance;
         roundSystem = RoundManagementSystem.Instance;
 
-        Debug.Log("Yall, All SYSTEMS FOUND!");
+        Debug.Log("Yayyy, All SYSTEMS FOUND!");
+
+        DisplayGridNumbers(gridSystem.GetGrid());// showing the grid numbers on grid
+
         InitiateRound();
     }
     public void InitiateRound()
@@ -108,19 +111,28 @@ public class UISystem : MonoBehaviour
         lastMoveTxt.text = movementSystem.GetRequiredMoveType(1).ToString(); // the last move ui 
         
     }
-    public void ShowGridNumbers(List<int> showNumbers)
+    public void DisplayGridNumbers(int[,] grid)
     {
-      //  Text[] showNumberTxt = GridPanel.SetActive(true);
+        int index = 0;
 
-        for(int i =0; i < gridNumbers.Length; i++)
+        //converting the grid numbers to text:
+        for(int x =0; x < 4; x++)
         {
-            if(i < showNumbers.Count)
+            for(int y = 0; y < 4; y++)
             {
-                showNumberTxt[i].text = showNumbers[i].ToString();
+               if(index < gridNumberTxts.Length)
+                {
+                    gridNumberTxts[index].text = grid[x,y].ToString(); // so here i'm making the grid numbers into strings that can be displayed as texts
+                    index++;
+
+                }
             }
-            gridNumbers[i].gameObject.SetActive(true);
-            Debug.Log("Yayy, all the grid numbers are showing for both player bc they have been generated");
-            return; 
+            
+        }
+
+        if(gridPanel == null)
+        {
+            gridPanel.gameObject.SetActive(true); // making the pannels that holds all the numbers accessible
         }
     }
     private void Update()

@@ -41,6 +41,7 @@ public class GridSystem : NetworkBehaviour
             for (int y = 0; y < 4; y++)
             {
                 gridNumbers[x, y] = Random.Range(1, 10); // numbers from 1 - 9.
+               // visualSystem.ShowGridNumbers();
 
             }
         }

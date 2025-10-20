@@ -3,8 +3,8 @@ using Mirror;
 
 public class PlayerInput : NetworkBehaviour
 {
-    public static PlayerInput Instance { get; private set; }
-    private MovementSystem movementSystem; //refrence to the movment logic
+    public static PlayerInput Instance { get; private set; } // the singleton pattern
+    private MovementSystem movementSystem; //refrence to the movement logic
     private TurnSystem turnSystem;
     [SerializeField][SyncVar] private int myPlayerID;
 

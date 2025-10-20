@@ -76,13 +76,13 @@ public class UISystem : MonoBehaviour
 
     private IEnumerator WaitForSystems()
     {
-        // Wait until systems are ready
+        // Wait until systems are ready. Using "Instance" bc of the single-ton pattern that makes the script awake immediately when the game runs and makes the accessible globally.
         while (GridSystem.Instance == null ||
                MovementSystem.Instance == null ||
                TurnSystem.Instance == null ||
                RoundManagementSystem.Instance == null)
         {
-            yield return null; // Wait one frame
+            yield return new  WaitForSeconds(2);
         }
 
         gridSystem = GridSystem.Instance; // applying the singleton pattern here so that all systems accessible
@@ -90,7 +90,7 @@ public class UISystem : MonoBehaviour
         turnSystem = TurnSystem.Instance;
         roundSystem = RoundManagementSystem.Instance;
 
-        Debug.Log("✅ ALL SYSTEMS FOUND!");
+        Debug.Log("Yall, All SYSTEMS FOUND!");
         InitiateRound();
     }
     public void InitiateRound()

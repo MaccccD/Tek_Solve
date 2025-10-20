@@ -2,7 +2,7 @@ using UnityEngine;
 using Mirror;
 public class LevelSystem : NetworkBehaviour
 {
-    public static LevelSystem Instance { get; private set; }
+    public static LevelSystem Instance { get; private set; } // the single-ton pattern 
 
 
     private void Awake()

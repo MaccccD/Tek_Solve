@@ -3,7 +3,7 @@ using Mirror;
 
 public class MovementSystem : NetworkBehaviour
 {
-    public enum MoveType { None, Adjacent, Diagonal }
+    public enum MoveType { None, Adjacent, Diagonal } // the singleton pattern
     //player starting positions
     [SyncVar] public Vector2Int player1Position = new Vector2Int(1,1); 
     [SyncVar] public Vector2Int player2Position = new Vector2Int(1,1);

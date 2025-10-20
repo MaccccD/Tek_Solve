@@ -55,14 +55,17 @@ public class CodeSystem : NetworkBehaviour
         {
             player2Progress = code.Count;
         }
-
-        RpcUpdateDigitDisplay(playerID, code.ToArray()); //update te digits being typed in on each player's turn;
+        //right after 
+       RpcUpdateDigitDisplay(playerID, code.ToArray()); //update the digits being typed in on each player's turn;
 
         // checkong if the 4 digit code is complete:
         if(code.Count == 4)
         {
             CheckCodeSubmission(playerID, code);
         }
+
+        //when the 4 digits are in as well:
+        RpcUpdateDigitDisplay(playerID, code.ToArray()); //update the digits being typed in on each player's turn
 
         RpcUpdatePlayerProgress(playerID, code.Count, CalculateCurrentSum(code));// the feedback on the prgress as player input their code(s) and how far they are from the target number
     }
@@ -93,7 +96,10 @@ public class CodeSystem : NetworkBehaviour
 
                 RpcCodeRejected(playerID, sum, target);
             }
-            
+
+
+            RpcUpdateDigitDisplay(playerID, code.ToArray()); //update the digits being typed in on each player'
+
         }
     }
 
@@ -166,7 +172,7 @@ public class CodeSystem : NetworkBehaviour
     {
         List<int> codeList = new List<int>(codeArray); // here im converting the list from an array back to the list
         visualSytem.UpdateDigitsDisplay(playerID, codeList);
-        return;
+        
 
     }
     [ClientRpc]

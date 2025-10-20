@@ -48,6 +48,8 @@ public class GridSystem : NetworkBehaviour
 
         SerializeGrid(); // to sync across the network.
 
+        UpdateGridUI();// so updae the numbers for the host first
+
         RpcSyncGrid(gridData); // to tell the client of the grid that has been created and and synced to them 
     }
 
@@ -88,12 +90,22 @@ public class GridSystem : NetworkBehaviour
         }
     }
 
+    void UpdateGridUI()
+    {
+        if(visualSystem != null)
+        {
+            visualSystem.DisplayGridNumbers(gridNumbers);
+        }
+    }
 
     [ClientRpc]
     void RpcSyncGrid(string data)
     {
         DeserializeGrid(data);
+
         Debug.LogWarning("grid has been synced to client!");
+
+        UpdateGridUI(); // update the UI for clients
     }
 
 

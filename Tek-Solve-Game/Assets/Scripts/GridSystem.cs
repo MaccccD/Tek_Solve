@@ -22,6 +22,18 @@ public class GridSystem : NetworkBehaviour
             Instance = this;
         }
     }
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+
+        // For late joiners - sync the current grid
+        if (gridData != null && gridData.Length > 0)
+        {
+            DeserializeGrid(gridData);
+           // Debug.Log('okay grid has been synced to the client as well!');
+            UpdateGridUI();
+        }
+    }
     void Start()
     {
         visualSystem = FindObjectOfType<UISystem>();
@@ -35,6 +47,7 @@ public class GridSystem : NetworkBehaviour
             Debug.Log("Yayy, the grid numbers and the target number are being generated!!");
         }
     }
+
 
     void OnTargetNumberChanged(int oldValue, int newValue)
     {
@@ -64,8 +77,8 @@ public class GridSystem : NetworkBehaviour
 
         UpdateGridUI();// so update the numbers for the host first
 
-        
-        RpcSyncGrid(gridData); // to tell the client of the grid that has been created and and synced to them 
+        DeserializeGrid(gridData);
+        //RpcSyncGrid(); // to tell the client of the grid that has been created and and synced to them 
     }
 
     [Server]
@@ -120,10 +133,10 @@ public class GridSystem : NetworkBehaviour
     }
 
     [ClientRpc]
-    void RpcSyncGrid(string data)
+    void RpcSyncGrid()
     {
         visualSystem.DisplayGridNumbers(gridNumbers);
-        DeserializeGrid(data);
+       
         Debug.LogWarning("grid has been synced to client!");
 
         UpdateGridUI(); // update the UI for clients

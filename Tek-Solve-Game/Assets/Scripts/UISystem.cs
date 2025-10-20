@@ -98,7 +98,10 @@ public class UISystem : MonoBehaviour
 
         Debug.Log("Yayyy, All SYSTEMS FOUND!");
 
+        yield return new WaitForSeconds(3f); // this is to allow the sync to occur and complete between the client and host
+
         DisplayGridNumbers(gridSystem.GetGrid());// showing the grid numbers on grid
+        targetNumberTxt.text = gridSystem.targetNumber.ToString();
 
         InitiateRound();
     }
@@ -115,7 +118,7 @@ public class UISystem : MonoBehaviour
     {
         int index = 0;
 
-        //converting the grid numbers to text:
+        //converting the gid numbers to text:
         for(int x =0; x < 4; x++)
         {
             for(int y = 0; y < 4; y++)

@@ -7,9 +7,12 @@ public class GridSystem : NetworkBehaviour
 {
     public static GridSystem Instance { get; private set; } // singleton pattern here.
     private int[,] gridNumbers = new int[4, 4]; // the actual 4 x 4 grid of numbers.
-    [SyncVar] public int targetNumber;
-    [SyncVar] private string gridData; // seriized grid for network sync so that when the size increases , it syncs between both players
 
+    [SyncVar(hook =nameof(OnTargetNumberChanged))]
+    public int targetNumber;
+
+
+    [SyncVar] private string gridData; // seriized grid for network sync so that when the size increases , it syncs between both players
     private UISystem visualSystem;
 
     private void Awake()
@@ -33,6 +36,15 @@ public class GridSystem : NetworkBehaviour
         }
     }
 
+    void OnTargetNumberChanged(int oldValue, int newValue)
+    {
+        if(visualSystem != null)
+        {
+            visualSystem.targetNumberTxt.text = newValue.ToString();
+        }
+        
+    }
+
     [Server]
     public void GenerateNewGrid() // so creating the grid with the numbers generated randomly between 1 - 9
     {
@@ -48,7 +60,9 @@ public class GridSystem : NetworkBehaviour
 
         SerializeGrid(); // to sync across the network.
 
-        UpdateGridUI();// so updae the numbers for the host first
+        GenerateTargetNumber();
+
+        UpdateGridUI();// so update the numbers for the host first
 
         RpcSyncGrid(gridData); // to tell the client of the grid that has been created and and synced to them 
     }
@@ -56,7 +70,12 @@ public class GridSystem : NetworkBehaviour
     [Server]
     void GenerateTargetNumber()
     {
-        targetNumber = Random.Range(15, 36);// the target number wil be randomly genreated for each round but is between this range for the firt 5 rounds of the game.
+        targetNumber = Random.Range(15, 36);// the target number wil be randomly generated for each round but is between this range for the firt 5 rounds of the game.
+
+        if(Random.Range(0f,1f) < 0.3f)
+        {
+            targetNumber += Random.Range(5, 10);
+        }
 
     }
     void SerializeGrid() // this is for the sync of the grid generated so that both host and client get the generation of the same grid 
@@ -95,6 +114,7 @@ public class GridSystem : NetworkBehaviour
         if(visualSystem != null)
         {
             visualSystem.DisplayGridNumbers(gridNumbers);
+            visualSystem.targetNumberTxt.text = targetNumber.ToString();
         }
     }
 

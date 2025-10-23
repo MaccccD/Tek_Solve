@@ -7,7 +7,7 @@ public class TurnSystem : NetworkBehaviour
 
     public static TurnSystem Instance { get; private set; }
   
-    private float maxTurnTime = 30f;
+  //  private float maxTurnTime = 30f;
 
 
     private void Awake()
@@ -38,6 +38,7 @@ public class TurnSystem : NetworkBehaviour
     {
         currentPlayerTurn = currentPlayerTurn == 1 ? 2 : 1; // if player turn is 1 , switch to player 2 after 1 is done and so on .
         RpcTurnChanged(currentPlayerTurn);
+        // implement blur mechanic
         Debug.Log("the turn has changed!!!"); // for my own peace of mind!
     }
 

@@ -136,6 +136,7 @@ public class UISystem : MonoBehaviour
         if(gridPanel == null)
         {
             gridPanel.gameObject.SetActive(true); // making the pannels that holds all the numbers accessible
+            Debug.Log("Panel is accessible");
         }
     }
     private void Update()
@@ -170,7 +171,7 @@ public class UISystem : MonoBehaviour
         {
             stars[0].gameObject.SetActive(true);// try this first bc i think stars[i].gameObject.setActive(true) will set every star active.
             Debug.Log("A starr has been activated!");
-            return;
+            
         }
     }
     public void ClearDisplays(int playerID)

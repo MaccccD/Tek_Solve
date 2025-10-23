@@ -43,7 +43,7 @@ public class CodeSystem : NetworkBehaviour
     {
         var code = playerID == 1 ? player1Code : player2Code;
         code.Add(number); // here i'm allowing each player on their turn to add a number or a single digit of the 4-digit code required.
-
+        Debug.Log("Add to code is working");
 
         //updating player progress:
         if(playerID == 1)

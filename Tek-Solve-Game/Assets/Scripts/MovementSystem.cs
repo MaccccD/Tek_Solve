@@ -7,6 +7,9 @@ public class MovementSystem : NetworkBehaviour
     //player starting positions
     [SyncVar] public Vector2Int player1Position = new Vector2Int(1,1); 
     [SyncVar] public Vector2Int player2Position = new Vector2Int(1,1);
+    // player pieces 
+    [SyncVar] public GameObject player1Piece;
+    [SyncVar] public GameObject player2Piece;
     //player starting moves:
     [SyncVar] public MoveType player1LastMove = MoveType.None; // player can make an starting move they want
     [SyncVar] public MoveType player2LastMove = MoveType.None; // same as above

@@ -58,7 +58,7 @@ public class CodeSystem : NetworkBehaviour
         //right after 
        RpcUpdateDigitDisplay(playerID, code.ToArray()); //update the digits being typed in on each player's turn;
 
-        // checkong if the 4 digit code is complete:
+        // checking if the 4 digit code is complete:
         if(code.Count == 4)
         {
             CheckCodeSubmission(playerID, code);
@@ -172,6 +172,7 @@ public class CodeSystem : NetworkBehaviour
     {
         List<int> codeList = new List<int>(codeArray); // here im converting the list from an array back to the list
         visualSytem.UpdateDigitsDisplay(playerID, codeList);
+        Debug.Log($"it works{codeArray}");
         
 
     }

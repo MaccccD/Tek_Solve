@@ -98,7 +98,7 @@ public class CodeSystem : NetworkBehaviour
             }
 
 
-            RpcUpdateDigitDisplay(playerID, code.ToArray()); //update the digits being typed in on each player'
+            RpcUpdateDigitDisplay(playerID, code.ToArray()); //update the digits being typed in on each player.
 
         }
     }

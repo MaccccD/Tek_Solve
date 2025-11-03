@@ -84,7 +84,7 @@ public class MovementSystem : NetworkBehaviour
     public MoveType GetRequiredMoveType(int playerID) // this method is the one that conrtols the last move systems where it keeps track of the fact that each player is not kaing the same move twice on their turn
     {
         MoveType lastMove = playerID == 1 ? player1LastMove : player2LastMove;
-        Debug.Log($"The last mve is being tracked on which player made the last move: {lastMove}");
+        Debug.Log($"The last move is being tracked on which player made the last move: {lastMove}");
 
         if(lastMove == MoveType.None)
         {
@@ -97,7 +97,7 @@ public class MovementSystem : NetworkBehaviour
         }
         else
         {
-            return MoveType.Adjacent; // make the move adjacent
+            return MoveType.Adjacent; // make the move adjacent if i made a diagonal move initially
         }
     }
 
@@ -134,7 +134,7 @@ public class MovementSystem : NetworkBehaviour
     public bool ValidateMove(int playerID, Vector2Int newPos,MoveType moveType, MoveType lastMove)
     {
       // checking the grid boundaries first:( the 4 x 4 grid);
-        if(newPos.x < 0 || newPos.x > 3 || newPos.y < 0 || newPos.y > 3)
+        if(newPos.x < 0 || newPos.x > 4 || newPos.y < 0 || newPos.y > 4)
          {
            RpcMoveRejected(playerID, $"Move Out of bounds!");
           

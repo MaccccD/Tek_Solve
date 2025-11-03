@@ -39,13 +39,13 @@ public class UISystem : MonoBehaviour
      public Button ExitGame;
 
     [Header("Grid System Info")]
-    public Text[] gridNumberTxts;
-    public GameObject gridPanel;
+     public Text[] gridNumberTxts;
+     public GameObject gridPanel;
 
     [Header("Player Pieces")]
-    public GameObject player1Piece;
-    public GameObject player2Piece;
-    public RectTransform gridPanell;
+     public GameObject player1Piece;
+     public GameObject player2Piece;
+     public RectTransform gridPanell;
 
 
     [Header("Game Audios")]
@@ -117,7 +117,7 @@ public class UISystem : MonoBehaviour
         roundsNumberTxt.text = "Round Number: " +  roundSystem.currentRound.ToString();// show the number of rounds.
         targetNumberTxt.text = "Target Number: " + gridSystem.targetNumber.ToString();// show the target number.
         turnSystemTxt.text = turnSystem.currentPlayerTurn.ToString(); // to show players whose turn it is.
-        lastMoveTxt.text = movementSystem.GetRequiredMoveType(1).ToString(); // the last move ui 
+        lastMoveTxt.text = movementSystem.GetRequiredMoveType(1).ToString(); // the last move ui to return the opposite next move
         
     }
 
@@ -188,28 +188,35 @@ public class UISystem : MonoBehaviour
             return;
         }
 
-        RectTransform peiceRect = playerPiece.GetComponent<RectTransform>();
-        RectTransform cellRect = targetCell.GetComponent<RectTransform>();
-
-        //okay using the corner placement so that the grid number is not hidden:
-        Vector3 cellPosition = targetCell.transform.position;
-
-        float offsetX = cellRect.rect.width * 0.3f; //30% to the right
-        float offsetY = cellRect.rect.height * 0.3f; //30% up
-
-        //player 1 will be top right and then player 2 will be bottom right:
-        if(playerId == 1)
-        {
-            playerPiece.transform.position = cellPosition + new Vector3(offsetX, offsetY, 0);
-        }
-        else // for player 2
-        {
-            playerPiece.transform.position = cellPosition + new Vector3(offsetX, -offsetY, 0);
-        }
-
+        playerPiece.transform.position = targetCell.transform.position;// placing the piece at the centre of the grid cell:
         playerPiece.SetActive(true);
 
         Debug.Log($"Player {playerId} piece moved to grid position {gridPosition} (cell index {cellIndex}");
+
+        //   RectTransform peiceRect = playerPiece.GetComponent<RectTransform>();
+        //  RectTransform cellRect = targetCell.GetComponent<RectTransform>();
+
+        //okay using the corner placement so that the grid number is not hidden:
+        //   Vector3 cellPosition = targetCell.transform.position;
+
+        //  float offsetX = cellRect.rect.width * 0.3f; //30% to the right
+        //   float offsetY = cellRect.rect.height * 0.3f; //30% up
+
+        //player 1 will be top right and then player 2 will be bottom right:
+        //   if(playerId == 1)
+        //   {
+        //       playerPiece.transform.position = cellPosition + new Vector3(offsetX, offsetY, 0);
+        //  }
+        //   else // for player 2
+        //  {
+        //       playerPiece.transform.position = cellPosition + new Vector3(offsetX, -offsetY, 0);
+        //   }
+
+        //  playerPiece.SetActive(true);
+
+
+
+
 
     }
 

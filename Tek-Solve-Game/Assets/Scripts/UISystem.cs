@@ -102,15 +102,15 @@ public class UISystem : MonoBehaviour
 
         DisplayGridNumbers(gridSystem.GetGrid());// showing the grid numbers on grid
         targetNumberTxt.text = gridSystem.targetNumber.ToString();
-        Debug.Log($"Target number is showing on both the cleint and the host{targetNumberTxt}");
+        Debug.Log($"Target number is showing on both the client and the host{targetNumberTxt}");
         
         InitiateRound();
     }
     public void InitiateRound()
     {
        // roundSystem.StartNextRound();//refences to the grid and all the movement positions.(server only )
-        roundsNumberTxt.text = roundSystem.currentRound.ToString();// show the number of rounds.
-        targetNumberTxt.text = gridSystem.targetNumber.ToString();// show the target number.
+        roundsNumberTxt.text = "Round Number: " +  roundSystem.currentRound.ToString();// show the number of rounds.
+        targetNumberTxt.text = "Target Number: " + gridSystem.targetNumber.ToString();// show the target number.
         turnSystemTxt.text = turnSystem.currentPlayerTurn.ToString(); // to show players whose turn it is.
         lastMoveTxt.text = movementSystem.GetRequiredMoveType(1).ToString(); // the last move ui 
         

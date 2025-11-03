@@ -53,7 +53,7 @@ public class GridSystem : NetworkBehaviour
     {
         if(visualSystem != null)
         {
-            visualSystem.targetNumberTxt.text = newValue.ToString();
+            visualSystem.targetNumberTxt.text ="Target Number:" +  newValue.ToString();
         }
         
     }
@@ -128,7 +128,7 @@ public class GridSystem : NetworkBehaviour
         if(visualSystem != null)
         {
             visualSystem.DisplayGridNumbers(gridNumbers);
-            visualSystem.targetNumberTxt.text = targetNumber.ToString();
+            visualSystem.targetNumberTxt.text = "Target Number: " + targetNumber.ToString();
         }
     }
 

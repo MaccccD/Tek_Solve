@@ -4,7 +4,7 @@ public class TurnSystem : NetworkBehaviour
 {
     [SyncVar] public int currentPlayerTurn = 1;
     [SyncVar] public bool turnComplete = false;
-
+    private UISystem visualSystem;
     public static TurnSystem Instance { get; private set; }
   
   //  private float maxTurnTime = 30f;
@@ -31,13 +31,18 @@ public class TurnSystem : NetworkBehaviour
 
         
     }
-
+    private void Start()
+    {
+        visualSystem = FindObjectOfType<UISystem>();
+    }
 
     [Server]
    public  void SwitchTurn()
     {
         currentPlayerTurn = currentPlayerTurn == 1 ? 2 : 1; // if player turn is 1 , switch to player 2 after 1 is done and so on .
         RpcTurnChanged(currentPlayerTurn);
+        visualSystem.turnSystemTxt.text = $"Current Player's Turn: {currentPlayerTurn}'s Turn" + currentPlayerTurn.ToString();
+       
         // implement blur mechanic
         Debug.Log("the turn has changed!!!"); // for my own peace of mind!
     }
@@ -45,7 +50,6 @@ public class TurnSystem : NetworkBehaviour
     [ClientRpc]
     void RpcTurnChanged(int newPlayer)
     {
-
         Debug.Log($"Turn has changed to player : {newPlayer}");
         turnComplete = true;
         //trigger blur effect for the other player's screen

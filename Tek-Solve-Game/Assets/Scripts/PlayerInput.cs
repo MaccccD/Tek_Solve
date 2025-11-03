@@ -66,20 +66,20 @@ public class PlayerInput : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.Keypad7))
         {
             movementSystem.AttemptMove(myPlayerID, 7); //so diagonal up-left;
-            Debug.Log("yayy , move number 7 working !");
+            //Debug.Log("yayy , move number 7 working !");
            
         }
         if (Input.GetKeyDown(KeyCode.Keypad8))
         {
             movementSystem.AttemptMove(myPlayerID, 8); //so the up-move.
            
-            Debug.Log("yayy , move number 8 working !");
+          //  Debug.Log("yayy , move number 8 working !");
         }
         if (Input.GetKeyDown(KeyCode.Keypad9))
         {
             movementSystem.AttemptMove(myPlayerID, 9); // so diagonal up-right.
             
-            Debug.Log("yayy, move number 9  working");
+           // Debug.Log("yayy, move number 9  working");
         }
         if (Input.GetKeyDown(KeyCode.Keypad4))
         {

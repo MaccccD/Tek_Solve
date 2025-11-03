@@ -57,13 +57,11 @@ public class PlayerInput : NetworkBehaviour
             return;
             
         } 
-       if(turnSystem.currentPlayerTurn != myPlayerID) // here i'm checking if it is the current player's turn 
+        if(turnSystem.currentPlayerTurn != myPlayerID) // here i'm checking if it is the current player's turn 
         {
             return;
         }
         
-
-
        //detecting numpad key presses:
         if (Input.GetKeyDown(KeyCode.Keypad7))
         {

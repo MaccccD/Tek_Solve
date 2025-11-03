@@ -38,13 +38,14 @@ public class MovementSystem : NetworkBehaviour
         if (!isLocalPlayer) return;
 
         CmdMove(playerId, numpadKey);
+        Debug.Log($"A key has been pressed: {playerId}, {numpadKey}");
 
         // Vector2Int direction = NumpadKeyDirection(numpadKey); // mapping the direction the player goes according to the diagonal / adjacent move types
 
     }
 
     [Command]
-    public void CmdMove(int playerID, int numpadKey)
+    void CmdMove(int playerID, int numpadKey)
     {
         Vector2Int direction = NumpadKeyDirection(numpadKey); // mapping the direction the player goes according to the diagonal / adjacent move types
         if (direction == Vector2Int.zero)

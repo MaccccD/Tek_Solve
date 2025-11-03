@@ -49,29 +49,21 @@ public class CodeSystem : NetworkBehaviour
         if(playerID == 1)
         {
             player1Progress = code.Count;
-            RpcUpdateDigitDisplay(playerID, code.ToArray());
-            Debug.Log($"The code is now showing: {code}");
-
-
         }
         else
         {
             player2Progress = code.Count;
         }
-        //right after : might not be working!
-       RpcUpdateDigitDisplay(playerID, code.ToArray()); //update the digits being typed in on each player's turn;
+        //right after :
+        RpcUpdateDigitDisplay(playerID, code.ToArray()); //update the digits being typed in on each player's turn;
+        RpcUpdatePlayerProgress(playerID, code.Count, CalculateCurrentSum(code));
 
         // checking if the 4 digit code is complete:
-        if(code.Count == 4)
+        if (code.Count == 4)
         {
             CheckCodeSubmission(playerID, code);
             Debug.Log("The 4 digit code is being checked!");
         }
-
-        //when the 4 digits are in as well:
-        RpcUpdateDigitDisplay(playerID, code.ToArray()); //update the digits being typed in on each player's turn
-
-        RpcUpdatePlayerProgress(playerID, code.Count, CalculateCurrentSum(code));// the feedback on the prgress as player input their code(s) and how far they are from the target number
     }
 
     [Server]

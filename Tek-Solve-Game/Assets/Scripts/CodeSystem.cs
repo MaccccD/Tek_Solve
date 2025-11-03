@@ -158,14 +158,14 @@ public class CodeSystem : NetworkBehaviour
     {
         if(playerID == 1)
         {
-            visualSytem.P1CurrentSum.text = currentSum.ToString($"Current Sum: {currentSum}");
-            visualSytem.p1NeedTxt.text = progress.ToString($"Needs: {progress}");
+            visualSytem.P1CurrentSum.text = "Current Sum: " + currentSum.ToString();
+            visualSytem.p1NeedTxt.text = "Needs: " + progress.ToString();
            
         }
         else if(playerID == 2)
         {
-            visualSytem.P2CurrentSum.text = currentSum.ToString($"Current Sum: {currentSum}");
-            visualSytem.p2NeedTxt.text = progress.ToString($"Needs: {progress}");
+            visualSytem.P2CurrentSum.text ="Current Sum: " + currentSum.ToString();
+            visualSytem.p2NeedTxt.text = "Needs: " + progress.ToString();
 
         }
         Debug.Log($"Player {playerID}, Progress : {progress}, , Current Sum of numbers inputted: {currentSum}");

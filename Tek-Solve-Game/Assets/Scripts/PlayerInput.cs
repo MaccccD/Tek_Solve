@@ -70,6 +70,7 @@ public class PlayerInput : NetworkBehaviour
             movementSystem.AttemptMove(myPlayerID, 7); //so diagonal up-left;
             movementSystem.GetRequiredMoveType(myPlayerID);
             codeSystem.AddToCode(myPlayerID, digitNumber);
+            Debug.Log($"the digit typed: {digitNumber}");
             Debug.Log("yayy , move number 8 working !");
             //we can also validate the move before we execute it:
         }

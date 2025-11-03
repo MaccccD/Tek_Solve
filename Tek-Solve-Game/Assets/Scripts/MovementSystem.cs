@@ -48,10 +48,12 @@ public class MovementSystem : NetworkBehaviour
     public MoveType GetRequiredMoveType(int playerID) // this method is the one that conrtols the last move systems where it keeps track of the fact that each player is not kaing the same move twice on their turn
     {
         MoveType lastMove = playerID == 1 ? player1LastMove : player2LastMove;
+        Debug.Log($"The last mve is being tracked on which player made the last move: {lastMove}");
 
         if(lastMove == MoveType.None)
         {
             return MoveType.None;
+           
         }
         else if (lastMove == MoveType.Adjacent)
         {

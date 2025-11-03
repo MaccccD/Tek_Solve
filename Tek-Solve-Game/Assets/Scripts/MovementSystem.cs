@@ -35,10 +35,46 @@ public class MovementSystem : NetworkBehaviour
 
     public void AttemptMove(int playerId, int numpadKey)
     {
-        Vector2Int direction = NumpadKeyDirection(numpadKey); // mapping the direction the player goes according to the diagonal / adjacent move types
-     
+        if (!isLocalPlayer) return;
+
+        CmdMove(playerId, numpadKey);
+
+        // Vector2Int direction = NumpadKeyDirection(numpadKey); // mapping the direction the player goes according to the diagonal / adjacent move types
+
     }
 
+    [Command]
+    public void CmdMove(int playerID, int numpadKey)
+    {
+        Vector2Int direction = NumpadKeyDirection(numpadKey); // mapping the direction the player goes according to the diagonal / adjacent move types
+        if (direction == Vector2Int.zero)
+        {
+            RpcMoveRejected(playerID, "Invalid Numpad Key!!");
+            return;
+        }
+
+        //grabbing the next required move:
+        MoveType moveType = GetMoveType(direction);
+
+        //current player's turn info:
+        Vector2Int currentPos = playerID == 1 ? player1Position : player2Position;
+        MoveType lastMove = playerID == 1 ? player1LastMove : player2LastMove;
+
+        //the new position's move:
+        Vector2Int newPos = currentPos + direction;
+
+        //check if the move made by player is valid:
+        if (!ValidateMove(playerID, newPos, moveType, lastMove))
+        {
+            return;
+            
+        }
+
+        //then you make the move(where it will show now):
+        ExecuteMove(playerID, newPos, moveType);
+        Debug.Log("Yayy, the numpad key pressed on grid is the one being returned");
+
+    }
     public Vector2Int GetPlayerPosition(int playerID) // getting the current position of a player:
     {
         return playerID == 1 ? player1Position : player2Position;

@@ -8,7 +8,7 @@ public class PlayerInput : NetworkBehaviour
     private CodeSystem codeSystem;
     private TurnSystem turnSystem;
     [SerializeField][SyncVar] private int myPlayerID;
-    [SerializeField][SyncVar] private int digitNumber;
+    
 
 
     private void Awake()
@@ -68,23 +68,19 @@ public class PlayerInput : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.Keypad7))
         {
             movementSystem.AttemptMove(myPlayerID, 7); //so diagonal up-left;
-            movementSystem.GetRequiredMoveType(myPlayerID);
-            codeSystem.AddToCode(myPlayerID, digitNumber);
-            Debug.Log($"the digit typed: {digitNumber}");
-            Debug.Log("yayy , move number 8 working !");
-            //we can also validate the move before we execute it:
+            Debug.Log("yayy , move number 7 working !");
+           
         }
         if (Input.GetKeyDown(KeyCode.Keypad8))
         {
             movementSystem.AttemptMove(myPlayerID, 8); //so the up-move.
-            movementSystem.GetRequiredMoveType(myPlayerID);
-            codeSystem.AddToCode(myPlayerID, digitNumber);
+           
             Debug.Log("yayy , move number 8 working !");
         }
         if (Input.GetKeyDown(KeyCode.Keypad9))
         {
             movementSystem.AttemptMove(myPlayerID, 9); // so diagonal up-right.
-            movementSystem.GetRequiredMoveType(myPlayerID);
+            
             Debug.Log("yayy, move number 9  working");
         }
         if (Input.GetKeyDown(KeyCode.Keypad4))

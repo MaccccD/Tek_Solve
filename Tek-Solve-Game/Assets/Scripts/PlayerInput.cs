@@ -5,8 +5,10 @@ public class PlayerInput : NetworkBehaviour
 {
     public static PlayerInput Instance { get; private set; } // the singleton pattern
     private MovementSystem movementSystem; //refrence to the movement logic
+    private CodeSystem codeSystem;
     private TurnSystem turnSystem;
     [SerializeField][SyncVar] private int myPlayerID;
+    [SerializeField][SyncVar] private int digitNumber;
 
 
     private void Awake()
@@ -22,6 +24,7 @@ public class PlayerInput : NetworkBehaviour
     {
         movementSystem = FindObjectOfType<MovementSystem>();
         turnSystem = FindObjectOfType<TurnSystem>();
+        codeSystem = FindObjectOfType<CodeSystem>();
 
         if(isLocalPlayer && isServer)
         {
@@ -65,17 +68,23 @@ public class PlayerInput : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.Keypad7))
         {
             movementSystem.AttemptMove(myPlayerID, 7); //so diagonal up-left;
+            movementSystem.GetRequiredMoveType(myPlayerID);
+            codeSystem.AddToCode(myPlayerID, digitNumber);
+            Debug.Log("yayy , move number 8 working !");
             //we can also validate the move before we execute it:
         }
         if (Input.GetKeyDown(KeyCode.Keypad8))
         {
             movementSystem.AttemptMove(myPlayerID, 8); //so the up-move.
-            Debug.Log("yayy , move working !");
+            movementSystem.GetRequiredMoveType(myPlayerID);
+            codeSystem.AddToCode(myPlayerID, digitNumber);
+            Debug.Log("yayy , move number 8 working !");
         }
         if (Input.GetKeyDown(KeyCode.Keypad9))
         {
             movementSystem.AttemptMove(myPlayerID, 9); // so diagonal up-right.
-            Debug.Log("yayy, move  working");
+            movementSystem.GetRequiredMoveType(myPlayerID);
+            Debug.Log("yayy, move number 9  working");
         }
         if (Input.GetKeyDown(KeyCode.Keypad4))
         {

@@ -123,6 +123,7 @@ public class MovementSystem : NetworkBehaviour
             player1Position = newPos;
             player1LastMove = moveType;
 
+
         }
         else
         {

@@ -62,6 +62,7 @@ public class CodeSystem : NetworkBehaviour
         if(code.Count == 4)
         {
             CheckCodeSubmission(playerID, code);
+            Debug.Log("The 4 digit code is being checked!");
         }
 
         //when the 4 digits are in as well:

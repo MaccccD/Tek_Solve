@@ -103,7 +103,7 @@ public class UISystem : MonoBehaviour
         DisplayGridNumbers(gridSystem.GetGrid());// showing the grid numbers on grid
         targetNumberTxt.text = gridSystem.targetNumber.ToString();
         Debug.Log($"Target number is showing on both the cleint and the host{targetNumberTxt}");
-
+        
         InitiateRound();
     }
     public void InitiateRound()

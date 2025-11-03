@@ -88,7 +88,7 @@ public class UISystem : MonoBehaviour
                TurnSystem.Instance == null ||
                RoundManagementSystem.Instance == null)
         {
-            yield return new  WaitForSeconds(2f);
+            yield return new  WaitForSeconds(3f);
         }
 
         gridSystem = GridSystem.Instance; // applying the singleton pattern here so that all systems accessible

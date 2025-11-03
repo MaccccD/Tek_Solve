@@ -155,14 +155,14 @@ public class CodeSystem : NetworkBehaviour
     {
         if(playerID == 1)
         {
-            visualSytem.P1CurrentSum.text = currentSum.ToString();
-            visualSytem.p1NeedTxt.text = progress.ToString();
+            visualSytem.P1CurrentSum.text = currentSum.ToString($"Current Sum:{currentSum}");
+            visualSytem.p1NeedTxt.text = progress.ToString($"Needs:{progress}");
            
         }
         else if(playerID == 2)
         {
-            visualSytem.P2CurrentSum.text = currentSum.ToString();
-            visualSytem.p2NeedTxt.text = progress.ToString();
+            visualSytem.P2CurrentSum.text = currentSum.ToString($"Current Sum:{currentSum}");
+            visualSytem.p2NeedTxt.text = progress.ToString($"Needs:{progress}");
 
         }
         Debug.Log($"Player {playerID}, Progress : {progress}, , Current Sum of numbers inputted: {currentSum}");
@@ -173,7 +173,7 @@ public class CodeSystem : NetworkBehaviour
     {
         List<int> codeList = new List<int>(codeArray); // here im converting the list from an array back to the list
         visualSytem.UpdateDigitsDisplay(playerID, codeList);
-        Debug.Log($"it works{codeArray}");
+        Debug.Log($"it work, look : {codeList}");
         
 
     }

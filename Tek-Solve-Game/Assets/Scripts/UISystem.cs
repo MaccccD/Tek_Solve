@@ -123,11 +123,15 @@ public class UISystem : MonoBehaviour
 
     public void InitializePieces()
     {
-        //so both players start at the centre:
-        Vector2Int startingPostion = new Vector2Int(1,1);
+        player1Piece.SetActive(true);
+        player2Piece.SetActive(true);
 
-        UpdatePlayerPiecePositions(1, startingPostion);
-        UpdatePlayerPiecePositions(2, startingPostion);
+        //so both players start at the centre:
+        Vector2Int startingPosition = new Vector2Int(1,1);
+       
+
+        UpdatePlayerPiecePositions(1, startingPosition);
+        UpdatePlayerPiecePositions(2, startingPosition);
 
         Debug.Log("Player pieces intialized!");
     }
@@ -184,7 +188,25 @@ public class UISystem : MonoBehaviour
             return;
         }
 
-        playerPiece.transform.position = targetCell.transform.position;// placing the piece at the centre of the grid cell:
+        RectTransform peiceRect = playerPiece.GetComponent<RectTransform>();
+        RectTransform cellRect = targetCell.GetComponent<RectTransform>();
+
+        //okay using the corner placement so that the grid number is not hidden:
+        Vector3 cellPosition = targetCell.transform.position;
+
+        float offsetX = cellRect.rect.width * 0.3f; //30% to the right
+        float offsetY = cellRect.rect.height * 0.3f; //30% up
+
+        //player 1 will be top right and then player 2 will be bottom right:
+        if(playerId == 1)
+        {
+            playerPiece.transform.position = cellPosition + new Vector3(offsetX, offsetY, 0);
+        }
+        else // for player 2
+        {
+            playerPiece.transform.position = cellPosition + new Vector3(offsetX, -offsetY, 0);
+        }
+
         playerPiece.SetActive(true);
 
         Debug.Log($"Player {playerId} piece moved to grid position {gridPosition} (cell index {cellIndex}");

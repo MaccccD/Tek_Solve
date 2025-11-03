@@ -88,7 +88,7 @@ public class UISystem : MonoBehaviour
                TurnSystem.Instance == null ||
                RoundManagementSystem.Instance == null)
         {
-            yield return new  WaitForSeconds(2);
+            yield return new  WaitForSeconds(2f);
         }
 
         gridSystem = GridSystem.Instance; // applying the singleton pattern here so that all systems accessible
@@ -96,12 +96,13 @@ public class UISystem : MonoBehaviour
         turnSystem = TurnSystem.Instance;
         roundSystem = RoundManagementSystem.Instance;
 
-        Debug.Log("Yayyy, All SYSTEMS FOUND!");
+        Debug.Log("Yayyy, All Systems have been found!");
 
         yield return new WaitForSeconds(3f); // this is to allow the sync to occur and complete between the client and host
 
         DisplayGridNumbers(gridSystem.GetGrid());// showing the grid numbers on grid
         targetNumberTxt.text = gridSystem.targetNumber.ToString();
+        Debug.Log($"Target number is showing on both the cleint and the host{targetNumberTxt}");
 
         InitiateRound();
     }

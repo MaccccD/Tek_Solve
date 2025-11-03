@@ -55,7 +55,7 @@ public class CodeSystem : NetworkBehaviour
         {
             player2Progress = code.Count;
         }
-        //right after 
+        //right after : might not be working!
        RpcUpdateDigitDisplay(playerID, code.ToArray()); //update the digits being typed in on each player's turn;
 
         // checking if the 4 digit code is complete:

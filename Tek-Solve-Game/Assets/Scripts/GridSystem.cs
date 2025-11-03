@@ -12,14 +12,14 @@ public class GridSystem : NetworkBehaviour
     public int targetNumber;
 
 
-    [SyncVar] private string gridData; // seriized grid for network sync so that when the size increases , it syncs between both players
+    [SyncVar] private string gridData; // serialized grid for network sync so that when the size increases , it syncs between both players
     private UISystem visualSystem;
 
     private void Awake()
     {
         if(Instance == null)
         {
-            Instance = this;
+            Instance = this; // Singleton Pattern to ensure that the script ies evoked when the game runs
         }
     }
     public override void OnStartClient()

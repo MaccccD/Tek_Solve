@@ -13,7 +13,7 @@ public class PlayerInput : NetworkBehaviour
     {
         if(Instance == null)
         {
-            Instance = this;
+            Instance = this; // this singleton patterns calls this or evokes this script immediately when the agme runs before the methods can be called in the start.
         }
     }
 

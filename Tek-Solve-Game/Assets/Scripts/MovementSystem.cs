@@ -18,6 +18,8 @@ public class MovementSystem : NetworkBehaviour
     //the reference to the grid :
     private GridSystem gridSystem;
 
+    private UISystem visualSystem;
+
     void Awake()
     {
         if(Instance == null)
@@ -29,6 +31,7 @@ public class MovementSystem : NetworkBehaviour
     private void Start()
     {
         gridSystem = FindObjectOfType<GridSystem>(); // grabbing the grid system;
+        visualSystem = FindObjectOfType<UISystem>();
        
     }
 
@@ -93,11 +96,15 @@ public class MovementSystem : NetworkBehaviour
         }
         else if (lastMove == MoveType.Adjacent)
         {
+            visualSystem.lastMoveTxt.text = "Next Move: " + MoveType.Diagonal.ToString();
             return MoveType.Diagonal; // make the move the opposite.
+            
         }
         else
         {
+            visualSystem.lastMoveTxt.text = "Next Move: " + MoveType.Adjacent.ToString();
             return MoveType.Adjacent; // make the move adjacent if i made a diagonal move initially
+            
         }
     }
 

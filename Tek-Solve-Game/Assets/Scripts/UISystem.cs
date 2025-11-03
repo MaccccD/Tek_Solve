@@ -117,7 +117,7 @@ public class UISystem : MonoBehaviour
         roundsNumberTxt.text = "Round Number: " +  roundSystem.currentRound.ToString();// show the number of rounds.
         targetNumberTxt.text = "Target Number: " + gridSystem.targetNumber.ToString();// show the target number.
         turnSystemTxt.text = turnSystem.currentPlayerTurn.ToString(); // to show players whose turn it is.
-        lastMoveTxt.text = movementSystem.GetRequiredMoveType(1).ToString(); // the last move ui to return the opposite next move
+        lastMoveTxt.text = "Current Move: " + movementSystem.GetRequiredMoveType(1).ToString(); // the last move ui to return the opposite next move
         
     }
 
@@ -163,6 +163,7 @@ public class UISystem : MonoBehaviour
 
     public void UpdatePlayerPiecePositions(int playerId, Vector2Int gridPosition)
     {
+        
         GameObject playerPiece = playerId == 1 ? player1Piece : player2Piece;
 
         if(playerPiece == null)

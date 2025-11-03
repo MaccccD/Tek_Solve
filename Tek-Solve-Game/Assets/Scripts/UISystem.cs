@@ -42,6 +42,10 @@ public class UISystem : MonoBehaviour
     public Text[] gridNumberTxts;
     public GameObject gridPanel;
 
+    [Header("Player Pieces")]
+    public GameObject player1Piece;
+    public GameObject player2Piece;
+    public RectTransform gridPanell;
 
 
     [Header("Game Audios")]
@@ -105,15 +109,27 @@ public class UISystem : MonoBehaviour
         Debug.Log($"Target number is showing on both the client and the host{targetNumberTxt}");
         
         InitiateRound();
+        InitializePieces();
     }
     public void InitiateRound()
     {
-       // roundSystem.StartNextRound();//refences to the grid and all the movement positions.(server only )
+       // roundSystem.StartNextRound();//references to the grid and all the movement positions.(server only )
         roundsNumberTxt.text = "Round Number: " +  roundSystem.currentRound.ToString();// show the number of rounds.
         targetNumberTxt.text = "Target Number: " + gridSystem.targetNumber.ToString();// show the target number.
         turnSystemTxt.text = turnSystem.currentPlayerTurn.ToString(); // to show players whose turn it is.
         lastMoveTxt.text = movementSystem.GetRequiredMoveType(1).ToString(); // the last move ui 
         
+    }
+
+    public void InitializePieces()
+    {
+        //so both players start at the centre:
+        Vector2Int startingPostion = new Vector2Int(1,1);
+
+        UpdatePlayerPiecePositions(1, startingPostion);
+        UpdatePlayerPiecePositions(2, startingPostion);
+
+        Debug.Log("Player pieces intialized!");
     }
     public void DisplayGridNumbers(int[,] grid)
     {
@@ -138,6 +154,51 @@ public class UISystem : MonoBehaviour
         {
             gridPanel.gameObject.SetActive(true); // making the pannels that holds all the numbers accessible
             Debug.Log("Panel is accessible");
+        }
+    }
+
+    public void UpdatePlayerPiecePositions(int playerId, Vector2Int gridPosition)
+    {
+        GameObject playerPiece = playerId == 1 ? player1Piece : player2Piece;
+
+        if(playerPiece == null)
+        {
+            Debug.LogError("Player pieves have not been assigned in the inspector!");
+            return;
+        }
+
+        //here i'm calculating the grid cell based on the 4 x 4 grid i have layout:
+        int cellIndex = (gridPosition.y * 4) + gridPosition.x;
+
+        if(cellIndex < 0 || cellIndex >= gridNumberTxts.Length)
+        {
+            Debug.LogError($"Invalid grid postion!{gridPosition}");
+        }
+
+        //the text comp at that grid position:
+        Text targetCell = gridNumberTxts[cellIndex];
+
+        if(targetCell == null)
+        {
+            Debug.LogError($"Grid cell {cellIndex} not found");
+            return;
+        }
+
+        playerPiece.transform.position = targetCell.transform.position;// placing the piece at the centre of the grid cell:
+        playerPiece.SetActive(true);
+
+        Debug.Log($"Player {playerId} piece moved to grid position {gridPosition} (cell index {cellIndex}");
+
+    }
+
+    public void HideOpponentPiece(int localPlayerID)
+    {
+        int opponentID = localPlayerID == 1 ? 2 : 1;
+        GameObject opponentpiece = opponentID == 1 ? player1Piece : player2Piece; ;
+
+        if(opponentpiece != null)
+        {
+            opponentpiece.SetActive(false);
         }
     }
     private void Update()

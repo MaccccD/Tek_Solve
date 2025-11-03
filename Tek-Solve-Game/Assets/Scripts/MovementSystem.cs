@@ -71,7 +71,7 @@ public class MovementSystem : NetworkBehaviour
         }
 
         //then you make the move(where it will show now):
-        ExecuteMove(playerID, newPos, moveType);
+        ExecuteMove(playerID, newPos, moveType, numpadKey);
         Debug.Log("Yayy, the numpad key pressed on grid is the one being returned");
 
     }
@@ -153,7 +153,7 @@ public class MovementSystem : NetworkBehaviour
           return true;
         }
 
-    public void ExecuteMove(int playerID, Vector2Int newPos, MoveType moveType)
+    public void ExecuteMove(int playerID, Vector2Int newPos, MoveType moveType, int numpadKey)
     {
         //keeping track of each player's move:
         if (playerID == 1)
@@ -171,15 +171,16 @@ public class MovementSystem : NetworkBehaviour
 
         //getting the number at this grid pos:
          int gridNumber = gridSystem.GetNumberAt(newPos);
-        // Notify all clients of successful move
-        RpcMoveExecuted(playerID, newPos, gridNumber, moveType);
         // Informing the  CodeSystem to add this number to player's code
         FindObjectOfType<CodeSystem>().AddToCode(playerID, gridNumber);
 
-        //the switch player turn :
-        FindObjectOfType<TurnSystem>().SwitchTurn();
+        // Notify all clients of successful move
+        RpcMoveExecuted(playerID, newPos, gridNumber, moveType);
 
-        }
+        //the switch player turn :
+        // FindObjectOfType<TurnSystem>().SwitchTurn();
+
+    }
 
     [ClientRpc]
      //return on the all the cleints:
@@ -190,10 +191,17 @@ public class MovementSystem : NetworkBehaviour
       }
 
     [ClientRpc]
-    void RpcMoveExecuted(int playerID, Vector2Int newPos, int number, MoveType moveType)
+    void RpcMoveExecuted(int playerID, Vector2Int newPos, int gridNumber, MoveType moveType)
     {
-        Debug.LogWarning($"Player {playerID} moved to {newPos} and chose the number : {number}");
+        Debug.Log($"Player {playerID} moved to {newPos} and collected number: {gridNumber}({moveType} move");
         //visual feedback of the move made with the player piece moving 
+        UISystem visualSystem = FindObjectOfType<UISystem>();
+
+       if(visualSystem != null)
+        {
+            visualSystem.UpdatePlayerPiecePositions(playerID, newPos);
+            Debug.Log($"Player piece has moved accordingly. {playerID}, and the position {newPos}");
+        }
     }
 
 }

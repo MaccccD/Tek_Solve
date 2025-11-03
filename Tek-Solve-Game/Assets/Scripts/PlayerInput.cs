@@ -67,7 +67,7 @@ public class PlayerInput : NetworkBehaviour
         {
             movementSystem.AttemptMove(myPlayerID, 7); //so diagonal up-left;
             //Debug.Log("yayy , move number 7 working !");
-           
+     
         }
         if (Input.GetKeyDown(KeyCode.Keypad8))
         {

@@ -39,12 +39,13 @@ public class TurnSystem : NetworkBehaviour
     [Server]
    public  void SwitchTurn()
     {
+
         currentPlayerTurn = currentPlayerTurn == 1 ? 2 : 1; // if player turn is 1 , switch to player 2 after 1 is done and so on .
         RpcTurnChanged(currentPlayerTurn);
-        visualSystem.turnSystemTxt.text = $"Current Player's Turn: {currentPlayerTurn}'s Turn" + currentPlayerTurn.ToString();
+        visualSystem.turnSystemTxt.text = $"Player {currentPlayerTurn}'s Turn" + currentPlayerTurn.ToString();
        
         // implement blur mechanic
-        Debug.Log("the turn has changed!!!"); // for my own peace of mind!
+        Debug.Log("the turn has changed!!!"); // for my own peace of mind
     }
 
     [ClientRpc]

@@ -49,7 +49,10 @@ public class CodeSystem : NetworkBehaviour
         if(playerID == 1)
         {
             player1Progress = code.Count;
-          
+            RpcUpdateDigitDisplay(playerID, code.ToArray());
+            Debug.Log($"The code is now showing: {code}");
+
+
         }
         else
         {
@@ -155,14 +158,14 @@ public class CodeSystem : NetworkBehaviour
     {
         if(playerID == 1)
         {
-            visualSytem.P1CurrentSum.text = currentSum.ToString($"Current Sum:{currentSum}");
-            visualSytem.p1NeedTxt.text = progress.ToString($"Needs:{progress}");
+            visualSytem.P1CurrentSum.text = currentSum.ToString($"Current Sum: {currentSum}");
+            visualSytem.p1NeedTxt.text = progress.ToString($"Needs: {progress}");
            
         }
         else if(playerID == 2)
         {
-            visualSytem.P2CurrentSum.text = currentSum.ToString($"Current Sum:{currentSum}");
-            visualSytem.p2NeedTxt.text = progress.ToString($"Needs:{progress}");
+            visualSytem.P2CurrentSum.text = currentSum.ToString($"Current Sum: {currentSum}");
+            visualSytem.p2NeedTxt.text = progress.ToString($"Needs: {progress}");
 
         }
         Debug.Log($"Player {playerID}, Progress : {progress}, , Current Sum of numbers inputted: {currentSum}");

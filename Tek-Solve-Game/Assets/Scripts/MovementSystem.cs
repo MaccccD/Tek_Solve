@@ -35,8 +35,7 @@ public class MovementSystem : NetworkBehaviour
 
     public void AttemptMove(int playerId, int numpadKey)
     {
-        if (!isLocalPlayer) return;
-
+       // if (!isLocalPlayer) return;
         CmdMove(playerId, numpadKey);
         Debug.Log($"A key has been pressed: {playerId}, {numpadKey}");
 
@@ -44,7 +43,7 @@ public class MovementSystem : NetworkBehaviour
 
     }
 
-    [Command]
+    [Command(requiresAuthority = false)]
     void CmdMove(int playerID, int numpadKey)
     {
         Vector2Int direction = NumpadKeyDirection(numpadKey); // mapping the direction the player goes according to the diagonal / adjacent move types

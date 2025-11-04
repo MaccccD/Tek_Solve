@@ -129,7 +129,7 @@ public class UISystem : MonoBehaviour
 
 
          Vector2Int p1Starts = new Vector2Int(2,1);
-         Vector2Int p2Starts = new Vector2Int(2, 2);
+         Vector2Int p2Starts = new Vector2Int(2,2);
        
 
 
@@ -143,9 +143,9 @@ public class UISystem : MonoBehaviour
         int index = 0;
 
         //converting the gid numbers to text:
-        for(int x =0; x < 4; x++)
+        for(int y = 0; y < 4; y++)
         {
-            for(int y = 0; y < 4; y++)
+            for(int x = 0; x < 4; x++)
             {
                if(index < gridNumberTxts.Length)
                 {

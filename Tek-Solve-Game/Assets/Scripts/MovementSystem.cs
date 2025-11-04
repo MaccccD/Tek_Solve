@@ -112,15 +112,15 @@ public class MovementSystem : NetworkBehaviour
     {
         return key switch // in here i'm using Vector2 Int to map out  the numpad keys.
         {
-            7 => new Vector2Int(-1,1),  // Diagonal-Up-Left
-            8 => new Vector2Int(0,1),   // Up
-            9 => new Vector2Int(1,1),   // Diagonal-Up-Right
-            4 => new Vector2Int(-1,0),  // Left
-            6 => new Vector2Int(1, 0),   // Right
-            1 => new Vector2Int(-1,-1), // Diagonal-Down-Left
-            2 => new Vector2Int(0,-1),  // Down
-            3 => new Vector2Int(1,-1),  // Diagonal-Down-Right
-            _ => Vector2Int.zero // any invalid key press.
+           7 => new Vector2Int(-1, -1),  // Diagonal-Up-Left (grid: left + up)
+           8 => new Vector2Int(0, -1),   // Up (grid: up)
+           9 => new Vector2Int(1, -1),   // Diagonal-Up-Right (grid: right + up)
+           4 => new Vector2Int(-1, 0),   // Left (grid: left)
+           6 => new Vector2Int(1, 0),    // Right (grid: right)
+           1 => new Vector2Int(-1, 1),   // Diagonal-Down-Left (grid: left + down)
+           2 => new Vector2Int(0, 1),    // Down (grid: down)
+           3 => new Vector2Int(1, 1),    // Diagonal-Down-Right (grid: right + down)
+            _ => Vector2Int.zero
         };
     }
 
@@ -140,11 +140,10 @@ public class MovementSystem : NetworkBehaviour
     }
     public bool ValidateMove(int playerID, Vector2Int newPos,MoveType moveType, MoveType lastMove)
     {
-      // checking the grid boundaries first:( the 4 x 4 grid);
-        if(newPos.x < 0 || newPos.x > 4 || newPos.y < 0 || newPos.y > 4)
-         {
+        // checking the grid boundaries first:( the 4 x 4 grid);
+        if (newPos.x < 0 || newPos.x > 3 || newPos.y < 0 || newPos.y > 3)
+        {
            RpcMoveRejected(playerID, $"Move Out of bounds!");
-          
            return false;
          }
 

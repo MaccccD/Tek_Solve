@@ -17,7 +17,7 @@ public class MovementSystem : NetworkBehaviour
    
     //the reference to the grid :
     private GridSystem gridSystem;
-
+    private CodeSystem codeSystem;
     private UISystem visualSystem;
 
     void Awake()
@@ -32,7 +32,7 @@ public class MovementSystem : NetworkBehaviour
     {
         gridSystem = FindObjectOfType<GridSystem>(); // grabbing the grid system;
         visualSystem = FindObjectOfType<UISystem>();
-       
+        codeSystem = FindFirstObjectByType<CodeSystem>();
     }
 
 
@@ -74,7 +74,7 @@ public class MovementSystem : NetworkBehaviour
         }
 
         //then you make the move(where it will show now):
-        ExecuteMove(playerID, newPos, moveType, numpadKey);
+        ExecuteMove(playerID, newPos, moveType);
         Debug.Log("Yayy, the numpad key pressed on grid is the one being returned");
 
     }
@@ -152,23 +152,21 @@ public class MovementSystem : NetworkBehaviour
        //checking if the person makes two moves that are the same and they don't alternate
         if(lastMove != MoveType.None && moveType == lastMove)
          {
-          string moveTypeName = moveType == MoveType.Adjacent ? "adjacent" : "diagonal"; // conditional rendering here where the move type is initially adjacent or else it becomes diagonal if its not the first.
-          RpcMoveRejected(playerID, $"You cannot make two {moveTypeName} in a row that are same! Must alternate.");
-          return false;
-          }
+           string moveTypeName = moveType == MoveType.Adjacent ? "adjacent" : "diagonal"; // conditional rendering here where the move type is initially adjacent or else it becomes diagonal if its not the first.
+           RpcMoveRejected(playerID, $"You cannot make two {moveTypeName} in a row that are same! Must alternate.");
+           return false;
+           }
 
-          return true;
-        }
+           return true;
+         }
 
-    public void ExecuteMove(int playerID, Vector2Int newPos, MoveType moveType, int numpadKey)
+    public void ExecuteMove(int playerID, Vector2Int newPos, MoveType moveType)
     {
         //keeping track of each player's move:
         if (playerID == 1)
         {
             player1Position = newPos;
             player1LastMove = moveType;
-
-
         }
         else
         {
@@ -178,23 +176,28 @@ public class MovementSystem : NetworkBehaviour
 
         //getting the number at this grid pos:
          int gridNumber = gridSystem.GetNumberAt(newPos);
-        // Informing the  CodeSystem to add this number to player's code
-        FindObjectOfType<CodeSystem>().AddToCode(playerID, gridNumber);
 
-        // Notify all clients of successful move
+        codeSystem.AddToCode(playerID, gridNumber);
+        Debug.Log($"The grid number should be the one registered now {gridNumber}");
+ 
+        // Visual feedback
         RpcMoveExecuted(playerID, newPos, gridNumber, moveType);
 
+        //the place peice moves where the grid number is:
+        visualSystem.UpdatePlayerPiecePositions(playerID, newPos);
+
         //the switch player turn :
-        // FindObjectOfType<TurnSystem>().SwitchTurn();
+        // FindObjectOfType<TurnSystem>().SwitchTurn();// Visual feedback
+
 
     }
 
     [ClientRpc]
-     //return on the all the cleints:
+     //return on the all the clients:
     void RpcMoveRejected(int playerID, string reason)
       {
         Debug.LogWarning($"Player {playerID} move has been rejected because {reason}");
-        //show error message here for UI purposes.
+     
       }
 
     [ClientRpc]
@@ -202,13 +205,7 @@ public class MovementSystem : NetworkBehaviour
     {
         Debug.Log($"Player {playerID} moved to {newPos} and collected number: {gridNumber}({moveType} move");
         //visual feedback of the move made with the player piece moving 
-        UISystem visualSystem = FindObjectOfType<UISystem>();
-
-       if(visualSystem != null)
-        {
-            visualSystem.UpdatePlayerPiecePositions(playerID, newPos);
-            Debug.Log($"Player piece has moved accordingly. {playerID}, and the position {newPos}");
-        }
+       
     }
 
 }

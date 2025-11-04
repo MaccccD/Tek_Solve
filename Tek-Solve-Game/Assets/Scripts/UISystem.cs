@@ -168,7 +168,7 @@ public class UISystem : MonoBehaviour
 
         if(playerPiece == null)
         {
-            Debug.LogError("Player pieves have not been assigned in the inspector!");
+            Debug.LogError("Player pieces have not been assigned in the inspector!");
             return;
         }
 

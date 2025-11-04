@@ -175,7 +175,7 @@ public class MovementSystem : NetworkBehaviour
         }
 
         //getting the number at this grid pos:
-         int gridNumber = gridSystem.GetNumberAt(newPos);
+        int gridNumber = gridSystem.GetNumberAt(newPos);
 
         codeSystem.AddToCode(playerID, gridNumber);
         Debug.Log($"The grid number should be the one registered now {gridNumber}");
@@ -183,8 +183,9 @@ public class MovementSystem : NetworkBehaviour
         // Visual feedback
         RpcMoveExecuted(playerID, newPos, gridNumber, moveType);
 
-        //the place peice moves where the grid number is:
+        //the place piece moves where the grid number is:
         visualSystem.UpdatePlayerPiecePositions(playerID, newPos);
+        
 
         //the switch player turn :
         // FindObjectOfType<TurnSystem>().SwitchTurn();// Visual feedback

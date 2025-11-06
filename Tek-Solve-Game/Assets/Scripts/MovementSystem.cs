@@ -40,11 +40,10 @@ public class MovementSystem : NetworkBehaviour
             player1Piece.SetActive(true);
             player2Piece.SetActive(true);
 
+            player1Position = new Vector2Int(2, 1);
+            player2Position = new Vector2Int(2, 2);
 
-            Vector2Int p1Starts = new Vector2Int(2, 1);
-            Vector2Int p2Starts = new Vector2Int(2, 2);
-
-            RpcInitializePlayerPieces(p1Starts, p2Starts);
+            RpcInitializePlayerPieces(player1Position, player2Position);
 
             Debug.Log("Player pieces have been initialized in Movement Systems!");
         }

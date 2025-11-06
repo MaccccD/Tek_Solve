@@ -182,8 +182,7 @@ public class MovementSystem : NetworkBehaviour
         // Visual feedback
         RpcMoveExecuted(playerID, newPos, gridNumber, moveType);
 
-        //the place piece moves where the grid number is:
-        visualSystem.UpdatePlayerPiecePositions(playerID, newPos);
+        
         
 
         //the switch player turn :
@@ -204,8 +203,9 @@ public class MovementSystem : NetworkBehaviour
     void RpcMoveExecuted(int playerID, Vector2Int newPos, int gridNumber, MoveType moveType)
     {
         Debug.Log($"Player {playerID} moved to {newPos} and collected number: {gridNumber}({moveType} move");
-        //visual feedback of the move made with the player piece moving 
-        
+        //the place piece moves where the grid number is:
+        visualSystem.UpdatePlayerPiecePositions(playerID, newPos);
+
     }
 
 }

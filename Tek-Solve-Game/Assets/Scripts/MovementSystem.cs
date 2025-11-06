@@ -8,8 +8,8 @@ public class MovementSystem : NetworkBehaviour
     [SyncVar] public Vector2Int player1Position = new Vector2Int(2,1); 
     [SyncVar] public Vector2Int player2Position = new Vector2Int(2,2);
     // player pieces 
-    [SyncVar] public GameObject player1Piece;
-    [SyncVar] public GameObject player2Piece;
+    public GameObject player1Piece;
+    public GameObject player2Piece;
     //player starting moves:
     [SyncVar] public MoveType player1LastMove = MoveType.None; // player can make an starting move they want
     [SyncVar] public MoveType player2LastMove = MoveType.None; // same as above
@@ -216,6 +216,9 @@ public class MovementSystem : NetworkBehaviour
     [ClientRpc]
     void RpcInitializePlayerPieces(Vector2Int p1Start, Vector2Int p2Start)
     {
+        player1Piece.SetActive(true);
+        player2Piece.SetActive(true);
+
         visualSystem.UpdatePlayerPiecePositions(1, p1Start);
         visualSystem.UpdatePlayerPiecePositions(2, p2Start);
     }

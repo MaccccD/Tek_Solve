@@ -201,6 +201,8 @@ public class MovementSystem : NetworkBehaviour
 
         //the switch player turn :
         turnSystem.SwitchTurn();
+
+        
       
 
     }
@@ -229,6 +231,7 @@ public class MovementSystem : NetworkBehaviour
         Debug.Log($"Player {playerID} moved to {newPos} and collected number: {gridNumber}({moveType} move");
         //the place piece moves where the grid number is:
         visualSystem.UpdatePlayerPiecePositions(playerID, newPos);
+       
 
     }
 

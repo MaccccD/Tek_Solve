@@ -5,6 +5,7 @@ public class TurnSystem : NetworkBehaviour
     [SyncVar] public int currentPlayerTurn = 1;
     [SyncVar] public bool turnComplete = false;
     private UISystem visualSystem;
+    private MovementSystem moveSystem;
     public static TurnSystem Instance { get; private set; }
   
   //  private float maxTurnTime = 30f;
@@ -30,6 +31,7 @@ public class TurnSystem : NetworkBehaviour
     private void Start()
     {
         visualSystem = FindObjectOfType<UISystem>();
+        moveSystem = FindObjectOfType<MovementSystem>();
     }
 
     [Server]
@@ -39,9 +41,9 @@ public class TurnSystem : NetworkBehaviour
         currentPlayerTurn = currentPlayerTurn == 1 ? 2 : 1; // if player turn is 1 , switch to player 2 after 1 is done and so on .
         RpcTurnChanged(currentPlayerTurn);
         visualSystem.turnSystemTxt.text = $"Player {currentPlayerTurn}'s Turn" + currentPlayerTurn.ToString();
-       
+        moveSystem.GetRequiredMoveType(currentPlayerTurn);//testing the required move thingy
         // implement blur mechanic
-        Debug.Log("the turn has changed!!!"); // for my own peace of mind
+        Debug.Log("the turn has changed!!!");  // for my own peace of mind
     }
 
     [ClientRpc]

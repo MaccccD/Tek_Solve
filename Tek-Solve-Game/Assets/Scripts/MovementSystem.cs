@@ -234,6 +234,7 @@ public class MovementSystem : NetworkBehaviour
 
         //here i'm just updating the next move based on the current player's turn
         int currentPlayer = turnSystem.currentPlayerTurn;
+
         MoveType requiredMove = GetRequiredMoveType(currentPlayer);
 
         if(requiredMove != MoveType.None)
@@ -244,6 +245,8 @@ public class MovementSystem : NetworkBehaviour
         {
             visualSystem.lastMoveTxt.text = "Next Move: Any";
         }
+
+        Debug.Log("Okay so the move type should work now bc you're seeing this!");
        
 
     }

@@ -44,7 +44,6 @@ public class TurnSystem : NetworkBehaviour
 
         visualSystem.turnSystemTxt.text = $"Player {currentPlayerTurn}'s Turn" + currentPlayerTurn.ToString();
 
-        moveSystem.GetRequiredMoveType(1);//testing the required move thingy
         
         // implement blur mechanic
         Debug.Log("the turn has changed!!!");  // for my own peace of mind

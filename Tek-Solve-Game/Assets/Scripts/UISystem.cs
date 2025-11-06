@@ -107,7 +107,7 @@ public class UISystem : MonoBehaviour
         DisplayGridNumbers(gridSystem.GetGrid());// showing the grid numbers on grid
         targetNumberTxt.text = gridSystem.targetNumber.ToString();
         Debug.Log($"Target number is showing on both the client and the host{targetNumberTxt}");
-        
+        turnSystemTxt.text = $"Player {turnSystem.currentPlayerTurn}'s Turn" + turnSystem.currentPlayerTurn.ToString();
         InitiateRound();
        
     }

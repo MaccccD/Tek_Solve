@@ -42,7 +42,7 @@ public class TurnSystem : NetworkBehaviour
 
         RpcTurnChanged(currentPlayerTurn);
 
-        visualSystem.turnSystemTxt.text = $"Player {currentPlayerTurn}'s Turn" + ToString();
+        visualSystem.turnSystemTxt.text = $"Player {currentPlayerTurn}'s Turn";
 
         
         // implement blur mechanic

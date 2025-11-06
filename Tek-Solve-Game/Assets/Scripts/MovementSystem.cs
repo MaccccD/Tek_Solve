@@ -108,19 +108,14 @@ public class MovementSystem : NetworkBehaviour
         if(lastMove == MoveType.None)
         {
             return MoveType.None;
-           
         }
         else if (lastMove == MoveType.Adjacent)
         {
-            
             return MoveType.Diagonal; // make the move the opposite.
-            
         }
         else
         {
-            
-            return MoveType.Adjacent; // make the move adjacent if i made a diagonal move initially
-            
+            return MoveType.Adjacent; // make the move adjacent if i made a diagonal move initially  
         }
     }
 

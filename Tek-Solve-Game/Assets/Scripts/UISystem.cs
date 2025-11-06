@@ -116,7 +116,7 @@ public class UISystem : MonoBehaviour
        // roundSystem.StartNextRound();//references to the grid and all the movement positions.(server only )
         roundsNumberTxt.text = "Round Number: " +  roundSystem.currentRound.ToString();// show the number of rounds.
         targetNumberTxt.text = "Target Number: " + gridSystem.targetNumber.ToString();// show the target number.
-        turnSystemTxt.text = $"Player {turnSystem.currentPlayerTurn}'s " + ToString();
+        turnSystemTxt.text = $"Player {turnSystem.currentPlayerTurn}'s Turn";
 
     }
 

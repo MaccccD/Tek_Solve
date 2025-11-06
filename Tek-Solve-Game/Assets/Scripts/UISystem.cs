@@ -92,8 +92,8 @@ public class UISystem : MonoBehaviour
                TurnSystem.Instance == null ||
                RoundManagementSystem.Instance == null)
         {
-            yield return new  WaitForSeconds(3f);
-        }
+            yield return null; //don't wait 3 secs, instread one frame
+        } 
 
         gridSystem = GridSystem.Instance; // applying the singleton pattern here so that all systems accessible
         movementSystem = MovementSystem.Instance;
@@ -102,14 +102,14 @@ public class UISystem : MonoBehaviour
 
         Debug.Log("Yayyy, All Systems have been found!");
 
-        yield return new WaitForSeconds(3f); // this is to allow the sync to occur and complete between the client and host
+        yield return new WaitForSeconds(1f); // this is to allow the sync to occur and complete between the client and host
 
         DisplayGridNumbers(gridSystem.GetGrid());// showing the grid numbers on grid
         targetNumberTxt.text = gridSystem.targetNumber.ToString();
         Debug.Log($"Target number is showing on both the client and the host{targetNumberTxt}");
         
         InitiateRound();
-        InitializePieces();
+       
     }
     public void InitiateRound()
     {
@@ -121,21 +121,6 @@ public class UISystem : MonoBehaviour
         
     }
 
-    public void InitializePieces()
-    {
-         player1Piece.SetActive(true);
-         player2Piece.SetActive(true);
-
-
-         Vector2Int p1Starts = new Vector2Int(2,1);
-         Vector2Int p2Starts = new Vector2Int(2,2);
-       
-
-         UpdatePlayerPiecePositions(1, p1Starts);
-         UpdatePlayerPiecePositions(2, p2Starts);
-
-         Debug.Log("Player pieces intialized!");
-    }
     public void DisplayGridNumbers(int[,] grid)
     {
         int index = 0;

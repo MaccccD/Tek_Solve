@@ -33,6 +33,21 @@ public class MovementSystem : NetworkBehaviour
         gridSystem = FindObjectOfType<GridSystem>(); // grabbing the grid system;
         visualSystem = FindObjectOfType<UISystem>();
         codeSystem = FindFirstObjectByType<CodeSystem>();
+
+        //setting the player piece postions:
+        if (isServer)
+        {
+            player1Piece.SetActive(true);
+            player2Piece.SetActive(true);
+
+
+            Vector2Int p1Starts = new Vector2Int(2, 1);
+            Vector2Int p2Starts = new Vector2Int(2, 2);
+
+            RpcInitializePlayerPieces(p1Starts, p2Starts);
+
+            Debug.Log("Player pieces have been initialized in Movement Systems!");
+        }
     }
 
 
@@ -198,6 +213,13 @@ public class MovementSystem : NetworkBehaviour
         Debug.LogWarning($"Player {playerID} move has been rejected because {reason}");
      
       }
+
+    [ClientRpc]
+    void RpcInitializePlayerPieces(Vector2Int p1Start, Vector2Int p2Start)
+    {
+        visualSystem.UpdatePlayerPiecePositions(1, p1Start);
+        visualSystem.UpdatePlayerPiecePositions(2, p2Start);
+    }
 
     [ClientRpc]
     void RpcMoveExecuted(int playerID, Vector2Int newPos, int gridNumber, MoveType moveType)

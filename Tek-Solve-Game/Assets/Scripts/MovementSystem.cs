@@ -5,8 +5,8 @@ public class MovementSystem : NetworkBehaviour
 {
     public enum MoveType { None, Adjacent, Diagonal } // the singleton pattern
     //player starting positions
-    [SyncVar] public Vector2Int player1Position = new Vector2Int(1,1); 
-    [SyncVar] public Vector2Int player2Position = new Vector2Int(1,1);
+    [SyncVar] public Vector2Int player1Position = new Vector2Int(2,1); 
+    [SyncVar] public Vector2Int player2Position = new Vector2Int(2,2);
     // player pieces 
     [SyncVar] public GameObject player1Piece;
     [SyncVar] public GameObject player2Piece;
@@ -205,7 +205,7 @@ public class MovementSystem : NetworkBehaviour
     {
         Debug.Log($"Player {playerID} moved to {newPos} and collected number: {gridNumber}({moveType} move");
         //visual feedback of the move made with the player piece moving 
-       
+        
     }
 
 }

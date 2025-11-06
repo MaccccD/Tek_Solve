@@ -127,11 +127,9 @@ public class UISystem : MonoBehaviour
          player2Piece.SetActive(true);
 
 
-
          Vector2Int p1Starts = new Vector2Int(2,1);
          Vector2Int p2Starts = new Vector2Int(2,2);
        
-
 
          UpdatePlayerPiecePositions(1, p1Starts);
          UpdatePlayerPiecePositions(2, p2Starts);
@@ -142,7 +140,7 @@ public class UISystem : MonoBehaviour
     {
         int index = 0;
 
-        //converting the gid numbers to text:
+        //converting the grid numbers to text:
         for(int y = 0; y < 4; y++)
         {
             for(int x = 0; x < 4; x++)
@@ -151,6 +149,7 @@ public class UISystem : MonoBehaviour
                 {
                     gridNumberTxts[index].text = grid[x,y].ToString(); // so here i'm making the grid numbers into strings that can be displayed as texts
                     index++;
+
 
                 }
             }
@@ -193,7 +192,10 @@ public class UISystem : MonoBehaviour
         }
 
         playerPiece.transform.position = targetCell.transform.position;// placing the piece at the centre of the grid cell:
+        
         playerPiece.SetActive(true);
+
+
 
         Debug.Log($"Player {playerId} piece moved to grid position {gridPosition} (cell index {cellIndex}");
 
@@ -248,9 +250,9 @@ public class UISystem : MonoBehaviour
     {
         Text[] displays = playerID == 1 ? p1DigitsDisplay : p2DigitsDisplay;
 
-        for( int i = 0; i < displays.Length; i++)
+        for (int i = 0; i < displays.Length; i++)
         {
-            displays[i].text = "?";  // so rest to the "?" placeholder when the round resets 
+            displays[i].text = "?";  // so rest to the "?" placeholder when the round resets
         }
     }
 
@@ -267,7 +269,7 @@ public class UISystem : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
         roundWinPanel.gameObject.SetActive(false);
         roundWinText.gameObject.SetActive(false);
-       
+        
     }
 
     public void DeactivateMatchWin()
@@ -281,6 +283,7 @@ public class UISystem : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
         matchWinPanel.gameObject.SetActive(false);
         matchWinText.gameObject.SetActive(false);
+
     }
 
     public void DeactivateRejectedCodeSound()

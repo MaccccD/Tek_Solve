@@ -19,6 +19,7 @@ public class MovementSystem : NetworkBehaviour
     private GridSystem gridSystem;
     private CodeSystem codeSystem;
     private UISystem visualSystem;
+    private TurnSystem turnSystem;
 
     void Awake()
     {
@@ -32,7 +33,8 @@ public class MovementSystem : NetworkBehaviour
     {
         gridSystem = FindObjectOfType<GridSystem>(); // grabbing the grid system;
         visualSystem = FindObjectOfType<UISystem>();
-        codeSystem = FindFirstObjectByType<CodeSystem>();
+        codeSystem = FindObjectOfType<CodeSystem>();
+        turnSystem = FindObjectOfType<TurnSystem>();
 
         //setting the player piece postions:
         if (isServer)
@@ -196,10 +198,10 @@ public class MovementSystem : NetworkBehaviour
         // Visual feedback
         RpcMoveExecuted(playerID, newPos, gridNumber, moveType);
 
-       
-        //the switch player turn :
-        FindObjectOfType<TurnSystem>().SwitchTurn();// Visual feedback
 
+        //the switch player turn :
+        turnSystem.SwitchTurn();
+      
 
     }
 

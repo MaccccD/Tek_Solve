@@ -24,11 +24,7 @@ public class TurnSystem : NetworkBehaviour
         {
             return;
         }
-        if (turnComplete)
-        {
-            SwitchTurn();
-        }
-
+       
         
     }
     private void Start()

@@ -107,7 +107,7 @@ public class UISystem : MonoBehaviour
         DisplayGridNumbers(gridSystem.GetGrid());// showing the grid numbers on grid
         targetNumberTxt.text = gridSystem.targetNumber.ToString();
         Debug.Log($"Target number is showing on both the client and the host{targetNumberTxt}");
-        turnSystemTxt.text = $"Player {turnSystem.currentPlayerTurn}'s Turn" + turnSystem.currentPlayerTurn.ToString();
+       
         InitiateRound();
        
     }
@@ -116,9 +116,8 @@ public class UISystem : MonoBehaviour
        // roundSystem.StartNextRound();//references to the grid and all the movement positions.(server only )
         roundsNumberTxt.text = "Round Number: " +  roundSystem.currentRound.ToString();// show the number of rounds.
         targetNumberTxt.text = "Target Number: " + gridSystem.targetNumber.ToString();// show the target number.
-        turnSystemTxt.text = turnSystem.currentPlayerTurn.ToString(); // to show players whose turn it is.
-       
-        
+        turnSystemTxt.text = $"Player {turnSystem.currentPlayerTurn}'s Turn" + turnSystem.currentPlayerTurn.ToString();
+
     }
 
     public void DisplayGridNumbers(int[,] grid)

@@ -196,11 +196,9 @@ public class MovementSystem : NetworkBehaviour
         // Visual feedback
         RpcMoveExecuted(playerID, newPos, gridNumber, moveType);
 
-        
-        
-
+       
         //the switch player turn :
-        // FindObjectOfType<TurnSystem>().SwitchTurn();// Visual feedback
+        FindObjectOfType<TurnSystem>().SwitchTurn();// Visual feedback
 
 
     }

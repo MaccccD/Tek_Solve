@@ -100,7 +100,7 @@ public class MovementSystem : NetworkBehaviour
         
     }
 
-    public MoveType GetRequiredMoveType(int playerID) // this method is the one that conrtols the last move systems where it keeps track of the fact that each player is not kaing the same move twice on their turn
+    public MoveType GetRequiredMoveType(int playerID) // this method is the one that controls the last move systems where it keeps track of the fact that each player is not kaing the same move twice on their turn
     {
         MoveType lastMove = playerID == 1 ? player1LastMove : player2LastMove;
         Debug.Log($"The last move is being tracked on which player made the last move: {lastMove}");
@@ -112,13 +112,13 @@ public class MovementSystem : NetworkBehaviour
         }
         else if (lastMove == MoveType.Adjacent)
         {
-            visualSystem.lastMoveTxt.text = "Next Move: " + MoveType.Diagonal.ToString();
+            
             return MoveType.Diagonal; // make the move the opposite.
             
         }
         else
         {
-            visualSystem.lastMoveTxt.text = "Next Move: " + MoveType.Adjacent.ToString();
+            
             return MoveType.Adjacent; // make the move adjacent if i made a diagonal move initially
             
         }
@@ -231,6 +231,19 @@ public class MovementSystem : NetworkBehaviour
         Debug.Log($"Player {playerID} moved to {newPos} and collected number: {gridNumber}({moveType} move");
         //the place piece moves where the grid number is:
         visualSystem.UpdatePlayerPiecePositions(playerID, newPos);
+
+        //here i'm just updating the next move based on the current player's turn
+        int currentPlayer = turnSystem.currentPlayerTurn;
+        MoveType requiredMove = GetRequiredMoveType(currentPlayer);
+
+        if(requiredMove != MoveType.None)
+        {
+            visualSystem.lastMoveTxt.text = "Next Move: " + requiredMove.ToString(); ;
+        }
+        else
+        {
+            visualSystem.lastMoveTxt.text = "Next Move: Any";
+        }
        
 
     }

@@ -192,7 +192,9 @@ public class MovementSystem : NetworkBehaviour
         // Calculate NEXT player before switching
         int nextPlayer = playerID == 1 ? 2 : 1;
         MoveType nextRequiredMove = GetRequiredMoveType(nextPlayer);
-        // codeSystem.AddToCode(playerID, gridNumber);
+        
+        //add to code:
+        codeSystem.AddToCode(playerID, gridNumber);
         //  Debug.Log($"The grid number should be the one registered now {gridNumber}");
 
         // Visual feedback

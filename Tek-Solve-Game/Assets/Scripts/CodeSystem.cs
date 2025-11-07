@@ -140,7 +140,8 @@ public class CodeSystem : NetworkBehaviour
     [ClientRpc]
     void RpcCodeRejected(int playerID, int attemptedSum, int targetSum)
     {
-        visualSytem.incorrectCodeTxt.text = attemptedSum.ToString();
+        visualSytem.incorrectCodeTxt.gameObject.SetActive(true);
+        visualSytem.DisableWarningText();
         Debug.Log($"Player: {playerID} code has been REJECTED!. Got {attemptedSum}, and the correct sum is : {targetSum}");
         // trigger visual feedback such as a screen shake or error message
     }

@@ -302,6 +302,7 @@ public class UISystem : MonoBehaviour
     private IEnumerator OutOfBoundsTxt(float delayTime)
     {
         yield return new WaitForSeconds(delayTime);
+        incorrectCodeTxt.gameObject.SetActive(false);
         outofBoundsTxt.gameObject.SetActive(false);
     }
 

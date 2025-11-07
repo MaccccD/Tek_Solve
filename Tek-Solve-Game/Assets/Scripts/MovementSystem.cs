@@ -246,7 +246,7 @@ public class MovementSystem : NetworkBehaviour
         }
         else
         {
-            visualSystem.lastMoveTxt.text = "";
+            visualSystem.lastMoveTxt.text = "Adjacent";
         }
 
         Debug.Log("Okay so the move type should work now bc you're seeing this!");

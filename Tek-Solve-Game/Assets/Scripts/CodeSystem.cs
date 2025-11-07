@@ -76,6 +76,7 @@ public class CodeSystem : NetworkBehaviour
             Console.WriteLine("Yayy, someone cracked the code!");
             RpcCodeAccepted(playerID, code.ToList()); 
             
+
             // player who got it wins the round and the board state changes for the next round.
         }
 
@@ -126,6 +127,7 @@ public class CodeSystem : NetworkBehaviour
         RpcClearDigitsDisplay(1);
         RpcClearDigitsDisplay(2);
         RpcResetUI();
+        visualSytem.InitiateRound();
         Debug.Log("Codes resetted");
     }
 
@@ -144,7 +146,7 @@ public class CodeSystem : NetworkBehaviour
     {
         visualSytem.incorrectCodePanel.gameObject.SetActive(true);
         visualSytem.gameScreenPanel.gameObject.SetActive(false);
-        Time.timeScale = 0f; // paause the game!
+        //Time.timeScale = 0f; // paause the game!
         Debug.Log($"Player: {playerID} code has been REJECTED!. Got {attemptedSum}, and the correct sum is : {targetSum}");
         // trigger visual feedback such as a screen shake or error message
     }
@@ -155,16 +157,16 @@ public class CodeSystem : NetworkBehaviour
         if(playerID == 1)
         {
             visualSytem.P1CurrentSum.text = "Current Sum: " + currentSum.ToString();
-            visualSytem.p1NeedTxt.text = "Needs: " + progress.ToString();
+          //  visualSytem.p1NeedTxt.text = "Needs: " + progress.ToString();
            
         }
         else if(playerID == 2)
         {
             visualSytem.P2CurrentSum.text ="Current Sum: " + currentSum.ToString();
-            visualSytem.p2NeedTxt.text = "Needs: " + progress.ToString();
+           // visualSytem.p2NeedTxt.text = "Needs: " + progress.ToString();
 
         }
-        Debug.Log($"Player {playerID}, Progress : {progress}, , Current Sum of numbers inputted: {currentSum}");
+        Debug.Log($"Player {playerID}, Progress : {progress}, Current Sum of numbers inputted: {currentSum}");
     }
     [ClientRpc]
 
@@ -190,8 +192,9 @@ public class CodeSystem : NetworkBehaviour
         player2Code.Clear();
         player1Progress = 0;
         player2Progress = 0;
-        RpcClearDigitsDisplay(1);
+        RpcClearDigitsDisplay(1); 
         RpcClearDigitsDisplay(2);
+        visualSytem.InitiateRound();
         Debug.Log("all UI has been cleared !");
     }
 }

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using Mirror;
 
 public class MovementSystem : NetworkBehaviour
@@ -72,6 +72,7 @@ public class MovementSystem : NetworkBehaviour
             return;
         }
 
+        
         //grabbing the next required move:
         MoveType moveType = GetMoveType(direction);
 
@@ -92,6 +93,10 @@ public class MovementSystem : NetworkBehaviour
         //then you make the move(where it will show now):
         ExecuteMove(playerID, newPos, moveType);
         Debug.Log("Yayy, the numpad key pressed on grid is the one being returned");
+
+        Debug.Log($"Numpad {numpadKey} pressed");
+        Debug.Log($"Direction: {direction}");
+        Debug.Log($"Current pos: {currentPos} → New pos: {newPos}");
 
     }
     public Vector2Int GetPlayerPosition(int playerID) // getting the current position of a player:
@@ -236,11 +241,13 @@ public class MovementSystem : NetworkBehaviour
         Debug.Log($"Player {playerID} moved to {newPos} and collected number: {gridNumber}({moveType} move");
         //the place piece moves where the grid number is:
         visualSystem.UpdatePlayerPiecePositions(playerID, newPos);
+        Debug.Log($"Player {playerID} NEW position: {newPos} (X={newPos.x}, Y={newPos.y})");
+        Debug.Log($" Grid number at this position: {gridNumber}");
 
         //here i'm just updating the next move based on the current player's turn
-       
 
-        if(nextRequiredMove != MoveType.None)
+
+        if (nextRequiredMove != MoveType.None)
         {
             visualSystem.lastMoveTxt.text = nextRequiredMove.ToString(); ;
         }

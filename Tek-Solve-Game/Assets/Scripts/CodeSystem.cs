@@ -142,6 +142,7 @@ public class CodeSystem : NetworkBehaviour
     {
         visualSytem.incorrectCodeTxt.gameObject.SetActive(true);
         visualSytem.DisableWarningText();
+        Time.timeScale = 0f; // paause the game!
         Debug.Log($"Player: {playerID} code has been REJECTED!. Got {attemptedSum}, and the correct sum is : {targetSum}");
         // trigger visual feedback such as a screen shake or error message
     }

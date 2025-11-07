@@ -105,7 +105,7 @@ public class MovementSystem : NetworkBehaviour
         MoveType lastMove = playerID == 1 ? player1LastMove : player2LastMove;
         Debug.Log($"The last move is being tracked on which player made the last move: {lastMove}");
 
-        visualSystem.lastMoveTxt.text = lastMove.ToString();
+      //  visualSystem.lastMoveTxt.text = lastMove.ToString();
 
         if(lastMove == MoveType.None)
         {
@@ -189,12 +189,16 @@ public class MovementSystem : NetworkBehaviour
         //getting the number at this grid pos:
         int gridNumber = gridSystem.GetNumberAt(newPos);
 
-        codeSystem.AddToCode(playerID, gridNumber);
-        Debug.Log($"The grid number should be the one registered now {gridNumber}");
- 
-        // Visual feedback
-        RpcMoveExecuted(playerID, newPos, gridNumber, moveType);
+        // Calculate NEXT player before switching
+        int nextPlayer = playerID == 1 ? 2 : 1;
+        MoveType nextRequiredMove = GetRequiredMoveType(nextPlayer);
+        // codeSystem.AddToCode(playerID, gridNumber);
+        //  Debug.Log($"The grid number should be the one registered now {gridNumber}");
 
+        // Visual feedback
+        RpcMoveExecuted(playerID, newPos, gridNumber, moveType,nextPlayer,nextRequiredMove);
+
+        Debug.Log("okay this works!");
 
         //the switch player turn :
         turnSystem.SwitchTurn();
@@ -223,20 +227,18 @@ public class MovementSystem : NetworkBehaviour
     }
 
     [ClientRpc]
-    void RpcMoveExecuted(int playerID, Vector2Int newPos, int gridNumber, MoveType moveType)
+    void RpcMoveExecuted(int playerID, Vector2Int newPos, int gridNumber, MoveType moveType, int nextPlayer, MoveType nextRequiredMove)
     {
         Debug.Log($"Player {playerID} moved to {newPos} and collected number: {gridNumber}({moveType} move");
         //the place piece moves where the grid number is:
         visualSystem.UpdatePlayerPiecePositions(playerID, newPos);
 
         //here i'm just updating the next move based on the current player's turn
-        int currentPlayer = turnSystem.currentPlayerTurn;
+       
 
-        MoveType requiredMove = GetRequiredMoveType(currentPlayer);
-
-        if(requiredMove != MoveType.None)
+        if(nextRequiredMove != MoveType.None)
         {
-            visualSystem.lastMoveTxt.text = requiredMove.ToString(); ;
+            visualSystem.lastMoveTxt.text = nextRequiredMove.ToString(); ;
         }
         else
         {

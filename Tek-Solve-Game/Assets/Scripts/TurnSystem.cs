@@ -2,13 +2,15 @@ using UnityEngine;
 using Mirror;
 public class TurnSystem : NetworkBehaviour
 {
-    [SyncVar] public int currentPlayerTurn = 1;
+    [SyncVar(hook = nameof(OnTurnChanged))] // using the hook here allows us to immeditately sink the value istead of passing it under RPC. to the client
+    public int currentPlayerTurn = 1;
     [SyncVar] public bool turnComplete = false;
     private UISystem visualSystem;
     private MovementSystem moveSystem;
     public static TurnSystem Instance { get; private set; }
   
   //  private float maxTurnTime = 30f;
+
 
 
     private void Awake()
@@ -19,15 +21,14 @@ public class TurnSystem : NetworkBehaviour
         }
     }
 
-    private void Update()
+    void OnTurnChanged(int oldTurn, int newTurn)
     {
-        if (!isServer)
-        {
-            return;
-        }
-       
-        
+        //when turn changes :
+        visualSystem.turnSystemTxt.text = $"Player{currentPlayerTurn}'s Turn";
+        Debug.Log($"turn changed from {oldTurn} to {newTurn}");
     }
+
+    
     private void Start()
     {
         visualSystem = FindObjectOfType<UISystem>();
@@ -40,14 +41,15 @@ public class TurnSystem : NetworkBehaviour
 
         currentPlayerTurn = currentPlayerTurn == 1 ? 2 : 1; // if player turn is 1 , switch to player 2 after 1 is done and so on .
 
-        RpcTurnChanged(currentPlayerTurn);
+        //Key Takeaway: Never read Sync Vars immediately after changing them in RPCs. Rather pass the values itslef as a paramater
+       // RpcTurnChanged(currentPlayerTurn);
 
         //updating for the server 
-        visualSystem.turnSystemTxt.text = $"Player {currentPlayerTurn}'s Turn";
+       // visualSystem.turnSystemTxt.text = $"Player {currentPlayerTurn}'s Turn";
 
         
         // implement blur mechanic
-        Debug.Log("the turn has changed!!!");  // for my own peace of mind
+       // Debug.Log("the turn has changed!!!");  // for my own peace of mind
     }
 
     [ClientRpc]

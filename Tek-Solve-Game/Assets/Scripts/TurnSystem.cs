@@ -58,6 +58,7 @@ public class TurnSystem : NetworkBehaviour
         Debug.Log($"Turn has changed to player : {newPlayer}");
         //updating for the client
         visualSystem.turnSystemTxt.text = $"Player  {currentPlayerTurn}'s Turn";
+        
         turnComplete = true;
         //trigger blur effect for the other player's screen
     }

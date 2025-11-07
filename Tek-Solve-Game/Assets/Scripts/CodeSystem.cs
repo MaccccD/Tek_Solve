@@ -168,7 +168,7 @@ public class CodeSystem : NetworkBehaviour
     {
         List<int> codeList = new List<int>(codeArray); // here im converting the list from an array back to the list
         visualSytem.UpdateDigitsDisplay(playerID, codeList);
-        Debug.Log($"it work, look : {codeList}");
+        Debug.Log($"it works, look : {codeList}");
         
 
     }

@@ -42,6 +42,7 @@ public class TurnSystem : NetworkBehaviour
 
         RpcTurnChanged(currentPlayerTurn);
 
+        //updating for the server 
         visualSystem.turnSystemTxt.text = $"Player {currentPlayerTurn}'s Turn";
 
         
@@ -53,6 +54,8 @@ public class TurnSystem : NetworkBehaviour
     void RpcTurnChanged(int newPlayer)
     {
         Debug.Log($"Turn has changed to player : {newPlayer}");
+        //updating for the client
+        visualSystem.turnSystemTxt.text = $"Player {currentPlayerTurn}'s Turn";
         turnComplete = true;
         //trigger blur effect for the other player's screen
     }

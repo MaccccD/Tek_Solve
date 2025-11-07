@@ -50,7 +50,7 @@ public class CodeSystem : NetworkBehaviour
         {
             player1Progress = code.Count;
         }
-        else
+        else if(playerID == 2)
         {
             player2Progress = code.Count;
         }

@@ -105,6 +105,8 @@ public class MovementSystem : NetworkBehaviour
         MoveType lastMove = playerID == 1 ? player1LastMove : player2LastMove;
         Debug.Log($"The last move is being tracked on which player made the last move: {lastMove}");
 
+        visualSystem.lastMoveTxt.text = lastMove.ToString();
+
         if(lastMove == MoveType.None)
         {
             return MoveType.None;
@@ -234,11 +236,11 @@ public class MovementSystem : NetworkBehaviour
 
         if(requiredMove != MoveType.None)
         {
-            visualSystem.lastMoveTxt.text = "Next Move: " + requiredMove.ToString(); ;
+            visualSystem.lastMoveTxt.text = requiredMove.ToString(); ;
         }
         else
         {
-            visualSystem.lastMoveTxt.text = "Next Move: Any";
+            visualSystem.lastMoveTxt.text = "Any";
         }
 
         Debug.Log("Okay so the move type should work now bc you're seeing this!");

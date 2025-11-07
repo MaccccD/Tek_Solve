@@ -214,6 +214,8 @@ public class MovementSystem : NetworkBehaviour
      //return on the all the clients:
     void RpcMoveRejected(int playerID, string reason)
       {
+        visualSystem.outofBoundsTxt.gameObject.SetActive(true);
+        visualSystem.DisableWarningText();
         Debug.LogWarning($"Player {playerID} move has been rejected because {reason}");
      
       }

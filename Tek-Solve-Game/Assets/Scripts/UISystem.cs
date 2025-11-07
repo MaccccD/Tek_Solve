@@ -47,6 +47,9 @@ public class UISystem : MonoBehaviour
      public GameObject player2Piece;
      public RectTransform gridPanell;
 
+    [Header("Warning Msgs")]
+    public Text outofBoundsTxt;
+
 
     [Header("Game Audios")]
      private AudioSource incorrectCodeSound;
@@ -288,6 +291,18 @@ public class UISystem : MonoBehaviour
         yield return new WaitForSeconds(delayTime);
         correctCodeSound.Pause();
         Debug.Log("correct sound has stopped playing !");
+    }
+
+    public void DisableWarningText()
+    {
+        StartCoroutine(OutOfBoundsTxt(5f));
+        return;
+    }
+
+    private IEnumerator OutOfBoundsTxt(float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        outofBoundsTxt.gameObject.SetActive(false);
     }
 
 }

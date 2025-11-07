@@ -11,7 +11,8 @@ public class UISystem : MonoBehaviour
      public Text lastMoveTxt;
      public Text roundsNumberTxt;
      public Text turnSystemTxt;
-     public Text incorrectCodeTxt;
+     public GameObject incorrectCodePanel;
+     public GameObject gameScreenPanel;
 
     [Header("Player 1 UI")]
      public Text[] p1DigitsDisplay;
@@ -60,6 +61,7 @@ public class UISystem : MonoBehaviour
     [Header("Script References")]
      private RoundManagementSystem roundSystem;
      private GridSystem gridSystem;
+    private CodeSystem codeSystem;
      private MovementSystem movementSystem;
      private TurnSystem turnSystem;
 
@@ -93,6 +95,7 @@ public class UISystem : MonoBehaviour
         while (GridSystem.Instance == null ||
                MovementSystem.Instance == null ||
                TurnSystem.Instance == null ||
+               CodeSystem.Instance == null ||
                RoundManagementSystem.Instance == null)
         {
             yield return null; //don't wait 3 secs, instread one frame
@@ -101,6 +104,7 @@ public class UISystem : MonoBehaviour
         gridSystem = GridSystem.Instance; // applying the singleton pattern here so that all systems accessible
         movementSystem = MovementSystem.Instance;
         turnSystem = TurnSystem.Instance;
+        codeSystem = CodeSystem.Instance;
         roundSystem = RoundManagementSystem.Instance;
 
         Debug.Log("Yayyy, All Systems have been found!");
@@ -302,8 +306,12 @@ public class UISystem : MonoBehaviour
     private IEnumerator OutOfBoundsTxt(float delayTime)
     {
         yield return new WaitForSeconds(delayTime);
-        incorrectCodeTxt.gameObject.SetActive(false);
+     
         outofBoundsTxt.gameObject.SetActive(false);
+    }
+    public void Restart()
+    {
+        codeSystem.ResetCodes();
     }
 
 }

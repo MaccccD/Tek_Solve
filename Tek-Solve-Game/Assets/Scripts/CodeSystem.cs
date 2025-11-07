@@ -124,6 +124,8 @@ public class CodeSystem : NetworkBehaviour
         player1Progress = 0;
         player2Progress = 0;
         RpcClearDigitsDisplay(1);
+        RpcClearDigitsDisplay(2);
+        RpcResetUI();
         Debug.Log("Codes resetted");
     }
 
@@ -140,8 +142,8 @@ public class CodeSystem : NetworkBehaviour
     [ClientRpc]
     void RpcCodeRejected(int playerID, int attemptedSum, int targetSum)
     {
-        visualSytem.incorrectCodeTxt.gameObject.SetActive(true);
-        visualSytem.DisableWarningText();
+        visualSytem.incorrectCodePanel.gameObject.SetActive(true);
+        visualSytem.gameScreenPanel.gameObject.SetActive(false);
         Time.timeScale = 0f; // paause the game!
         Debug.Log($"Player: {playerID} code has been REJECTED!. Got {attemptedSum}, and the correct sum is : {targetSum}");
         // trigger visual feedback such as a screen shake or error message
@@ -184,7 +186,12 @@ public class CodeSystem : NetworkBehaviour
     void RpcResetUI()
     {
         //clearing UI displays
-
+        player1Code.Clear();
+        player2Code.Clear();
+        player1Progress = 0;
+        player2Progress = 0;
+        RpcClearDigitsDisplay(1);
+        RpcClearDigitsDisplay(2);
         Debug.Log("all UI has been cleared !");
     }
 }

@@ -11,6 +11,7 @@ public class CustomLobbyUI : MonoBehaviour
     public GameObject lobbyPanel;
     public GameObject endgamePanel;
     public GameObject startPanel;
+    public GameObject tutorialPanel;
   
 
     //references to Mirror's NetworkManager and Transport 
@@ -31,7 +32,7 @@ public class CustomLobbyUI : MonoBehaviour
         SetUsername();
         networkManager.StartHost();
         OnConnected();
-        startPanel.gameObject.SetActive(true);
+        tutorialPanel.gameObject.SetActive(true);
       
     }
 
@@ -42,7 +43,8 @@ public class CustomLobbyUI : MonoBehaviour
         SetUsername();
         networkManager.StartServer();
         OnConnected();
-        startPanel.gameObject.SetActive(true);// nb: bc all players need to see this!!
+        tutorialPanel.gameObject.SetActive(true);
+       // startPanel.gameObject.SetActive(true);// nb: bc all players need to see this!!
 
 
     }
@@ -54,7 +56,8 @@ public class CustomLobbyUI : MonoBehaviour
         SetUsername();
         networkManager.StartClient(); // Start client only
         OnConnected();
-        startPanel.gameObject.SetActive(true);//nb: bc all players need to see this !!
+        tutorialPanel.gameObject.SetActive(true);
+       // startPanel.gameObject.SetActive(true);//nb: bc all players need to see this !!
         
     }
 

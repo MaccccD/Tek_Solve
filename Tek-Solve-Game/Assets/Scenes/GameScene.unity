@@ -5104,7 +5104,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &693355227
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9900,7 +9900,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1387329262
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11048,6 +11048,7 @@ MonoBehaviour:
   lobbyPanel: {fileID: 693355226}
   endgamePanel: {fileID: 1981964489}
   startPanel: {fileID: 834730675}
+  tutorialPanel: {fileID: 1387329261}
   networkManager: {fileID: 624695373}
   transport: {fileID: 624695371}
 --- !u!1 &1640001371
@@ -11836,7 +11837,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1647683111}
+      - m_Target: {fileID: 834730675}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6

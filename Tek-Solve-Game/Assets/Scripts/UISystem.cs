@@ -71,9 +71,13 @@ public class UISystem : MonoBehaviour
     private void Start()
     {
         StartCoroutine(WaitForSystems());
-        // Test if positioning works - manually set positions
-        UpdatePlayerPiecePositions(1, new Vector2Int(2, 1));
-        UpdatePlayerPiecePositions(2, new Vector2Int(2, 2));
+        Debug.Log($"UISystem Start - gridNumberTxts length: {gridNumberTxts?.Length}");
+        Debug.Log($"Player1 piece: {player1Piece != null}, Player2 piece: {player2Piece != null}");
+
+        if (gridNumberTxts == null || gridNumberTxts.Length == 0)
+        {
+            Debug.LogError("gridNumberTxts array is not assigned in inspector!");
+        }
         //Key insight: using 'findfirstobjectbytype' in her overwrites what was asisgned in the inspector if it was declared as a public variable.
         // roundSystem = FindObjectOfType<RoundManagementSystem>();
         //  gridSystem = FindObjectOfType<GridSystem>();
@@ -167,6 +171,8 @@ public class UISystem : MonoBehaviour
             Debug.LogError("Player pieces have not been assigned in the inspector!");
             return;
         }
+        
+        Debug.Log($"Player piece found: {playerPiece.name}");
 
         //here i'm calculating the grid cell based on the 4 x 4 grid i have layout:
         //  int cellIndex = (gridPosition.y * 4) + gridPosition.x; (assumes y = 0 is at the bottom and not at the top)
@@ -194,7 +200,7 @@ public class UISystem : MonoBehaviour
         playerPiece.SetActive(true);
 
 
-
+        Debug.Log($"Player {playerId} piece moved to: {playerPiece.transform.position}");
         Debug.Log($"GridPos: {gridPosition} → InvertedY: {invertedY} → CellIndex: {cellIndex} → Number: {targetCell.text}");
 
     }

@@ -34,18 +34,22 @@ public class MovementSystem : NetworkBehaviour
         codeSystem = FindObjectOfType<CodeSystem>();
         turnSystem = FindObjectOfType<TurnSystem>();
 
-        //setting the player piece postions:
         if (isServer)
         {
-            player1Position = new Vector2Int(2, 1);
-            player2Position = new Vector2Int(2, 2);
-
-            RpcInitializePlayerPieces(player1Position, player2Position);
-
-            Debug.Log("Player pieces have been initialized in Movement Systems!");
+            StartCoroutine(InitializeAfterDelay());
         }
     }
+    private System.Collections.IEnumerator InitializeAfterDelay()
+    {
+        // Wait a frame to ensure clients are connected
+        yield return new WaitForSeconds(1f);
 
+        player1Position = new Vector2Int(2, 1);
+        player2Position = new Vector2Int(2, 2);
+
+        Debug.Log("SERVER: Calling RpcInitializePlayerPieces after delay");
+        RpcInitializePlayerPieces(player1Position, player2Position);
+    }
 
     public void AttemptMove(int playerId, int numpadKey)
     {

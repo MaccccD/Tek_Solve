@@ -71,22 +71,25 @@ public class UISystem : MonoBehaviour
     private void Start()
     {
         StartCoroutine(WaitForSystems());
+        // Test if positioning works - manually set positions
+        UpdatePlayerPiecePositions(1, new Vector2Int(2, 1));
+        UpdatePlayerPiecePositions(2, new Vector2Int(2, 2));
         //Key insight: using 'findfirstobjectbytype' in her overwrites what was asisgned in the inspector if it was declared as a public variable.
-       // roundSystem = FindObjectOfType<RoundManagementSystem>();
-      //  gridSystem = FindObjectOfType<GridSystem>();
-      //  movementSystem = FindObjectOfType<MovementSystem>();
-      //  turnSystem = FindObjectOfType<TurnSystem>();
+        // roundSystem = FindObjectOfType<RoundManagementSystem>();
+        //  gridSystem = FindObjectOfType<GridSystem>();
+        //  movementSystem = FindObjectOfType<MovementSystem>();
+        //  turnSystem = FindObjectOfType<TurnSystem>();
 
         // Checking if they are found:
-     //   if (roundSystem == null) Debug.LogError("RoundManagementSystem not found!");
-     //   if (gridSystem == null) Debug.LogError("GridSystem not found!");
-     //   if (movementSystem == null) Debug.LogError("MovementSystem not found!");
-     //   if (turnSystem == null) Debug.LogError("TurnSystem not found!");
+        //   if (roundSystem == null) Debug.LogError("RoundManagementSystem not found!");
+        //   if (gridSystem == null) Debug.LogError("GridSystem not found!");
+        //   if (movementSystem == null) Debug.LogError("MovementSystem not found!");
+        //   if (turnSystem == null) Debug.LogError("TurnSystem not found!");
 
-     //   Debug.Log("yayy, scripts found");
-     //   InitiateRound();
-    //    //console output for my own peace of mind:
-     //   Debug.Log("Initialization successful");
+        //   Debug.Log("yayy, scripts found");
+        //   InitiateRound();
+        //    //console output for my own peace of mind:
+        //   Debug.Log("Initialization successful");
     }
 
     private IEnumerator WaitForSystems()

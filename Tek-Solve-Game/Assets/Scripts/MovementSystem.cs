@@ -5,8 +5,10 @@ public class MovementSystem : NetworkBehaviour
 {
     public enum MoveType { None, Adjacent, Diagonal } // the singleton pattern
     //player starting positions
-    [SyncVar] public Vector2Int player1Position = new Vector2Int(2,1); 
-    [SyncVar] public Vector2Int player2Position = new Vector2Int(2,2);
+    [SyncVar(hook =nameof(OnPlayer1PositionChanged))]
+    public Vector2Int player1Position = new Vector2Int(2,1); 
+    [SyncVar(hook =(nameof(OnPlayer2PositionChanged)))]
+    public Vector2Int player2Position = new Vector2Int(2,2);
  
     //player starting moves:
     [SyncVar] public MoveType player1LastMove = MoveType.None; // player can make an starting move they want
@@ -47,8 +49,25 @@ public class MovementSystem : NetworkBehaviour
         player1Position = new Vector2Int(2, 1);
         player2Position = new Vector2Int(2, 2);
 
-        Debug.Log("SERVER: Calling RpcInitializePlayerPieces after delay");
-        RpcInitializePlayerPieces(player1Position, player2Position);
+       
+    }
+    
+    void OnPlayer1PositionChanged(Vector2Int oldPos, Vector2Int newPos)
+    {
+        Debug.Log($"CLIENT: Player1 position changed from {oldPos} to {newPos}");
+        if (visualSystem != null)
+        {
+            visualSystem.UpdatePlayerPiecePositions(1, newPos);
+        }
+    }
+
+    void OnPlayer2PositionChanged(Vector2Int oldPos, Vector2Int newPos)
+    {
+        Debug.Log($"CLIENT: Player2 position changed from {oldPos} to {newPos}");
+        if (visualSystem != null)
+        {
+            visualSystem.UpdatePlayerPiecePositions(2, newPos);
+        }
     }
 
     public void AttemptMove(int playerId, int numpadKey)
@@ -202,6 +221,7 @@ public class MovementSystem : NetworkBehaviour
         //  Debug.Log($"The grid number should be the one registered now {gridNumber}");
 
         // Visual feedback
+        
         RpcMoveExecuted(playerID, newPos, gridNumber, moveType,nextPlayer,nextRequiredMove);
 
         Debug.Log("okay this works!");
@@ -238,13 +258,9 @@ public class MovementSystem : NetworkBehaviour
     void RpcMoveExecuted(int playerID, Vector2Int newPos, int gridNumber, MoveType moveType, int nextPlayer, MoveType nextRequiredMove)
     {
         Debug.Log($"Player {playerID} moved to {newPos} and collected number: {gridNumber}({moveType} move");
-        //the place piece moves where the grid number is:
-        visualSystem.UpdatePlayerPiecePositions(playerID, newPos);
-        Debug.Log($"Player {playerID} NEW position: {newPos} (X={newPos.x}, Y={newPos.y})");
-        Debug.Log($" Grid number at this position: {gridNumber}");
+       
 
         //here i'm just updating the next move based on the current player's turn
-
 
         if (nextRequiredMove != MoveType.None)
         {

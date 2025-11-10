@@ -78,6 +78,8 @@ public class UISystem : MonoBehaviour
         {
             Debug.LogError("gridNumberTxts array is not assigned in inspector!");
         }
+
+        
         //Key insight: using 'findfirstobjectbytype' in her overwrites what was asisgned in the inspector if it was declared as a public variable.
         // roundSystem = FindObjectOfType<RoundManagementSystem>();
         //  gridSystem = FindObjectOfType<GridSystem>();
@@ -94,6 +96,19 @@ public class UISystem : MonoBehaviour
         //   InitiateRound();
         //    //console output for my own peace of mind:
         //   Debug.Log("Initialization successful");
+    }
+
+    public void DebugGridNumberTxtsPositions()
+    {
+        Debug.Log("=== gridNumberTxts Array Order ===");
+        for (int i = 0; i < gridNumberTxts.Length; i++)
+        {
+            if (gridNumberTxts[i] != null)
+            {
+                Debug.Log($"Index {i}: {gridNumberTxts[i].name} - Text: '{gridNumberTxts[i].text}' - Position: {gridNumberTxts[i].transform.position}");
+            }
+        }
+        Debug.Log("=== End of Array ===");
     }
 
     private IEnumerator WaitForSystems()
@@ -172,37 +187,32 @@ public class UISystem : MonoBehaviour
             return;
         }
         
-        Debug.Log($"Player piece found: {playerPiece.name}");
+          Debug.Log($"Player piece found: {playerPiece.name}");
 
-        //here i'm calculating the grid cell based on the 4 x 4 grid i have layout:
-        //  int cellIndex = (gridPosition.y * 4) + gridPosition.x; (assumes y = 0 is at the bottom and not at the top)
-        // FIX: Invert Y-axis because Y=0 is TOP in your grid
-        int invertedY = 3 - gridPosition.y; // Since grid is 4x4, Y ranges 0-3
-        int cellIndex = (invertedY * 4) + gridPosition.x;
+          //here i'm calculating the grid cell based on the 4 x 4 grid i have layout:
+          //  int cellIndex = (gridPosition.y * 4) + gridPosition.x; (assumes y = 0 is at the bottom and not at the top)
+          int cellIndex = (gridPosition.x * 4) + gridPosition.y;
 
-        if (cellIndex < 0 || cellIndex >= gridNumberTxts.Length)
-        {
-            Debug.LogError($"Invalid grid postion!{gridPosition}");
+          Debug.Log($"Calculation: GridPos {gridPosition} → CellIndex {cellIndex}");
+
+          if (cellIndex < 0 || cellIndex >= gridNumberTxts.Length)
+          {
+          Debug.LogError($"Invalid grid position! {gridPosition} -> cellIndex: {cellIndex}");
+          return;
+          }
+
+         Text targetCell = gridNumberTxts[cellIndex];
+         if(targetCell == null)
+          {
+           Debug.LogError($"Grid cell {cellIndex} not found");
             return;
-        }
+          }
 
-        //the text comp at that grid position:
-        Text targetCell = gridNumberTxts[cellIndex];
+          playerPiece.transform.position = targetCell.transform.position;
+          playerPiece.SetActive(true);
 
-        if(targetCell == null)
-        {
-            Debug.LogError($"Grid cell {cellIndex} not found");
-            return;
-        }
-
-        playerPiece.transform.position = targetCell.transform.position;// placing the piece at the centre of the grid cell:
-        
-        playerPiece.SetActive(true);
-
-
-        Debug.Log($"Player {playerId} piece moved to: {playerPiece.transform.position}");
-        Debug.Log($"GridPos: {gridPosition} → InvertedY: {invertedY} → CellIndex: {cellIndex} → Number: {targetCell.text}");
-
+          Debug.Log($"Player {playerId} piece moved to: {playerPiece.transform.position}");
+          Debug.Log($"GridPos: {gridPosition} → CellIndex: {cellIndex} → Number: {targetCell.text}");
     }
 
     public void HideOpponentPiece(int localPlayerID)

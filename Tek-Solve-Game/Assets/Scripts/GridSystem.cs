@@ -37,6 +37,7 @@ public class GridSystem : NetworkBehaviour
     void Start()
     {
         visualSystem = FindObjectOfType<UISystem>();
+
         Debug.Log("UI system found by the grid system script!");
 
 
@@ -53,7 +54,7 @@ public class GridSystem : NetworkBehaviour
     {
         if(visualSystem != null)
         {
-            visualSystem.targetNumberTxt.text ="Target Number:" +  newValue.ToString();
+            visualSystem.targetNumberTxt.text ="Target Number: " +  newValue.ToString();
         }
         
     }

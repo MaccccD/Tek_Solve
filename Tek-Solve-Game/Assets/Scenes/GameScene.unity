@@ -6087,8 +6087,6 @@ MonoBehaviour:
   syncInterval: 0
   player1Position: {x: 1, y: 1}
   player2Position: {x: 1, y: 1}
-  player1Piece: {fileID: 1977991158}
-  player2Piece: {fileID: 577134274}
   player1LastMove: 0
   player2LastMove: 0
 --- !u!114 &754311083
@@ -11148,7 +11146,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1647683112
 RectTransform:
   m_ObjectHideFlags: 0

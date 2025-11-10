@@ -223,6 +223,8 @@ public class MovementSystem : NetworkBehaviour
     [ClientRpc]
     void RpcInitializePlayerPieces(Vector2Int p1Start, Vector2Int p2Start)
     {
+        Debug.Log($"RpcInitializePlayerPieces CALLED with P1: {p1Start}, P2: {p2Start}");
+
         visualSystem.UpdatePlayerPiecePositions(1, p1Start);
         visualSystem.UpdatePlayerPiecePositions(2, p2Start);
         Debug.Log("Player piece for RPC set");

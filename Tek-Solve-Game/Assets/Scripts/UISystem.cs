@@ -174,6 +174,7 @@ public class UISystem : MonoBehaviour
         if (cellIndex < 0 || cellIndex >= gridNumberTxts.Length)
         {
             Debug.LogError($"Invalid grid postion!{gridPosition}");
+            return;
         }
 
         //the text comp at that grid position:

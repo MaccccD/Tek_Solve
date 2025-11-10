@@ -7,9 +7,7 @@ public class MovementSystem : NetworkBehaviour
     //player starting positions
     [SyncVar] public Vector2Int player1Position = new Vector2Int(2,1); 
     [SyncVar] public Vector2Int player2Position = new Vector2Int(2,2);
-    // player pieces 
-    public GameObject player1Piece;
-    public GameObject player2Piece;
+ 
     //player starting moves:
     [SyncVar] public MoveType player1LastMove = MoveType.None; // player can make an starting move they want
     [SyncVar] public MoveType player2LastMove = MoveType.None; // same as above
@@ -39,9 +37,6 @@ public class MovementSystem : NetworkBehaviour
         //setting the player piece postions:
         if (isServer)
         {
-            player1Piece.SetActive(true);
-            player2Piece.SetActive(true);
-
             player1Position = new Vector2Int(2, 1);
             player2Position = new Vector2Int(2, 2);
 
@@ -89,14 +84,13 @@ public class MovementSystem : NetworkBehaviour
             return;
             
         }
-
+        Debug.Log($"Key {numpadKey} → Dir {direction} → From {currentPos} to {newPos}");
+       
         //then you make the move(where it will show now):
         ExecuteMove(playerID, newPos, moveType);
         Debug.Log("Yayy, the numpad key pressed on grid is the one being returned");
 
-        Debug.Log($"Numpad {numpadKey} pressed");
-        Debug.Log($"Direction: {direction}");
-        Debug.Log($"Current pos: {currentPos} → New pos: {newPos}");
+        
 
     }
     public Vector2Int GetPlayerPosition(int playerID) // getting the current position of a player:
@@ -128,16 +122,17 @@ public class MovementSystem : NetworkBehaviour
 
     Vector2Int NumpadKeyDirection(int key)
     {
-        return key switch // in here i'm using Vector2 Int to map out  the numpad keys.
+        // For grid where Y=0 is TOP and increases DOWNWARD
+        return key switch
         {
-           7 => new Vector2Int(-1, -1),  // Diagonal-Up-Left (grid: left + up)
-           8 => new Vector2Int(0, -1),   // Up (grid: up)
-           9 => new Vector2Int(1, -1),   // Diagonal-Up-Right (grid: right + up)
-           4 => new Vector2Int(-1, 0),   // Left (grid: left)
-           6 => new Vector2Int(1, 0),    // Right (grid: right)
-           1 => new Vector2Int(-1, 1),   // Diagonal-Down-Left (grid: left + down)
-           2 => new Vector2Int(0, 1),    // Down (grid: down)
-           3 => new Vector2Int(1, 1),    // Diagonal-Down-Right (grid: right + down)
+            7 => new Vector2Int(-1, 1),   // Up-Left (X-1, Y+1 = left and DOWN)
+            8 => new Vector2Int(0, 1),    // Up (Y+1 = DOWN)  
+            9 => new Vector2Int(1, 1),    // Up-Right (X+1, Y+1 = right and DOWN)
+            4 => new Vector2Int(-1, 0),   // Left
+            6 => new Vector2Int(1, 0),    // Right
+            1 => new Vector2Int(-1, -1),  // Down-Left (X-1, Y-1 = left and UP)
+            2 => new Vector2Int(0, -1),   // Down (Y-1 = UP)
+            3 => new Vector2Int(1, -1),   // Down-Right (X+1, Y-1 = right and UP)
             _ => Vector2Int.zero
         };
     }
@@ -228,11 +223,9 @@ public class MovementSystem : NetworkBehaviour
     [ClientRpc]
     void RpcInitializePlayerPieces(Vector2Int p1Start, Vector2Int p2Start)
     {
-        player1Piece.SetActive(true);
-        player2Piece.SetActive(true);
-
         visualSystem.UpdatePlayerPiecePositions(1, p1Start);
         visualSystem.UpdatePlayerPiecePositions(2, p2Start);
+        Debug.Log("Player piece for RPC set");
     }
 
     [ClientRpc]

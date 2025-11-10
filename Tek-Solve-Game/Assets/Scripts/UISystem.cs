@@ -166,9 +166,12 @@ public class UISystem : MonoBehaviour
         }
 
         //here i'm calculating the grid cell based on the 4 x 4 grid i have layout:
-        int cellIndex = (gridPosition.y * 4) + gridPosition.x;
+        //  int cellIndex = (gridPosition.y * 4) + gridPosition.x; (assumes y = 0 is at the bottom and not at the top)
+        // FIX: Invert Y-axis because Y=0 is TOP in your grid
+        int invertedY = 3 - gridPosition.y; // Since grid is 4x4, Y ranges 0-3
+        int cellIndex = (invertedY * 4) + gridPosition.x;
 
-        if(cellIndex < 0 || cellIndex >= gridNumberTxts.Length)
+        if (cellIndex < 0 || cellIndex >= gridNumberTxts.Length)
         {
             Debug.LogError($"Invalid grid postion!{gridPosition}");
         }
@@ -188,7 +191,7 @@ public class UISystem : MonoBehaviour
 
 
 
-        Debug.Log($"Player {playerId} piece moved to grid position {gridPosition} (cell index {cellIndex}");
+        Debug.Log($"GridPos: {gridPosition} → InvertedY: {invertedY} → CellIndex: {cellIndex} → Number: {targetCell.text}");
 
     }
 

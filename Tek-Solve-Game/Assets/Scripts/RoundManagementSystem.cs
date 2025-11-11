@@ -49,15 +49,13 @@ public class RoundManagementSystem : NetworkBehaviour
         }
 
         RpcAnnounceRoundWinner(playerID, player1Wins, player2Wins);
-        //start the next round
-        StartNextRound();
-
+        
         
 
-        //checking if someone won the round:
+        //checking if someone won the match:
         if(player1Wins > maxRounds / 2 || player2Wins > maxRounds / 2)
         {
-            EndMatch();
+            Invoke(nameof(EndMatch), 3f);
             Debug.Log("Yayy, match is over, we have a winner!");
         }
         else
@@ -70,19 +68,22 @@ public class RoundManagementSystem : NetworkBehaviour
     [Server]
     public void StartNextRound()
     {
-        currentRound++; // the numbe of rpunds will increment accordingly each time a new round starts
+        currentRound++; // the number of rpunds will increment accordingly each time a new round starts
         //the grid change:
         bool changeGrid = currentRound > 2 && Random.Range(0f, 1f) < 0.4f; // change the grid if the rounds reset , generating a new grid of numbers within the 4x4 grod size
         //reset all systems :
         gridSystem.ResetRound(changeGrid);
         codeSystem.ResetCodes();
-        player1Wins = 0;
-        player2Wins = 0;
+        
+        //reset plauer positions and moves:
         movementSystem.player1Position = new Vector2Int(2, 1);//so make the start at the centre for both players. (need to test out);
         movementSystem.player2Position = new Vector2Int(2, 0);
         movementSystem.player1LastMove = MovementSystem.MoveType.None;// set the movement back to none bc they would need to make the first move, not have a predefined one already.
         movementSystem.player2LastMove = MovementSystem.MoveType.None;
+        //reset turn :
         turnSystem.ResetTurn();
+
+        //client start a new round:
         RpcStartNewRound(currentRound, changeGrid);
     }
 
@@ -98,36 +99,47 @@ public class RoundManagementSystem : NetworkBehaviour
    [ClientRpc]
     void RpcAnnounceRoundWinner(int playerID, int p1Wins, int p2Wins)
     {
+        //handle player wins :
+        player1Wins = p1Wins;
+        player2Wins = p2Wins;
+
+        //show round win:
         visualSystem.roundWinPanel.gameObject.SetActive(true);
         visualSystem.roundWinText.gameObject.SetActive(true);
         visualSystem.StarsIncrementing();
         visualSystem.DeactivateRoundWin();
-        StartNextRound();
+        
+
         Debug.Log($"Player : {playerID} wins this round!! Score : P1= {p1Wins}, P2={p2Wins}");
     }
 
     [ClientRpc]
     void RpcStartNewRound(int roundNum, bool gridChanged)
     {
-        //ui feedback already taken cared off
-        bool changeGrid = currentRound > 2 && Random.Range(0f, 1f) < 0.4f; // change the grid if the rounds reset , generating a new grid of numbers within the 4x4 grod size
-        //reset all systems :
-        gridSystem.ResetRound(changeGrid);
+        //clear the UI text:
+        visualSystem.ClearPlayerTexts();
+        //reset codes on client:
         codeSystem.ResetCodes();
-        Debug.Log($"A new round {roundNum}, has started. Grid has chenged :{gridChanged}");
-        player1Wins = 0;
-        player2Wins = 0;
-        movementSystem.player1Position = new Vector2Int(2, 1);//so make the start at the centre for both players. (need to test out);
-        movementSystem.player2Position = new Vector2Int(2, 0);
-        movementSystem.player1LastMove = MovementSystem.MoveType.None;// set the movement back to none bc they would need to make the first move, not have a predefined one already.
-        movementSystem.player2LastMove = MovementSystem.MoveType.None;
-        turnSystem.ResetTurn();
+        //update round num:
+        currentRound = roundNum;
+        Debug.Log($"A new round {roundNum}, has started. Grid has changed :{gridChanged}");
+
+        //applu blue effect:
+        if(turnSystem != null)
+        {
+            turnSystem.ApplyBlurEffect();
+        }
+        Debug.Log("a new round started and the client is up to date!");
 
     }
     
     [ClientRpc]
     void RpcAnnounceMatchWinner(int playerID, int p1Wins, int p2Wins)
     {
+        //update the wins
+        player1Wins = p1Wins;
+        player2Wins = p2Wins;
+        //show match win Ui
         visualSystem.matchWinPanel.gameObject.SetActive(true);
         visualSystem.matchWinText.gameObject.SetActive(true);
         visualSystem.DeactivateMatchWin();

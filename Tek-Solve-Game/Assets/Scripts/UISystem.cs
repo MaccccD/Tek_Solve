@@ -291,6 +291,14 @@ public class UISystem : MonoBehaviour
         }
     }
 
+    public void ClearPlayerTexts()
+    {
+        P1CurrentSum.text = "";
+        p1NeedTxt.text = "";
+        P2CurrentSum.text = "";
+        p2NeedTxt.text = "";
+    }
+
     public void DeactivateTurnSystemPanel()
     {
         StartCoroutine(TurnSystemPanelDelay(3f));

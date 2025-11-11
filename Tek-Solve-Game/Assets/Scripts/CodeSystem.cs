@@ -146,6 +146,10 @@ public class CodeSystem : NetworkBehaviour
     {
         visualSytem.incorrectCodePanel.gameObject.SetActive(true);
         visualSytem.gameScreenPanel.gameObject.SetActive(false);
+        visualSytem.P1CurrentSum.text = "Current Sum: " + ToString();
+        visualSytem.P2CurrentSum.text = "Current Sum: " + ToString();
+        visualSytem.p1NeedTxt.text = "Needs:" + ToString();
+        visualSytem.p2NeedTxt.text = "Needs: " + ToString();
         //Time.timeScale = 0f; // paause the game!
         Debug.Log($"Player: {playerID} code has been REJECTED!. Got {attemptedSum}, and the correct sum is : {targetSum}");
         // trigger visual feedback such as a screen shake or error message
@@ -154,6 +158,8 @@ public class CodeSystem : NetworkBehaviour
     [ClientRpc]
     void RpcUpdatePlayerProgress(int playerID, int progress, int currentSum)
     {
+        progress = gridSystem.targetNumber - currentSum; // the diff you need 
+
         if(playerID == 1)
         {
             visualSytem.P1CurrentSum.text = "Current Sum: " + currentSum.ToString();

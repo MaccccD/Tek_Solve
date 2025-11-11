@@ -50,26 +50,26 @@ public class UISystem : MonoBehaviour
      public RectTransform gridPanell;
 
     [Header("Warning Msgs")]
-    public Text outofBoundsTxt;
+     public Text outofBoundsTxt;
 
     [Header("Blur Mechanic Stuff")]
-    public GameObject player1BlurPanel;    // Blurs Player 2's view of P1 info
-    public GameObject player2BlurPanel;    // Blurs Player 1's view of P2 info
-    public GameObject player1CodePanel;    // Reference to Player 1's code display
-    public GameObject player2CodePanel;    // Reference to Player 2's code display
+     public GameObject player1BlurPanel;    // Blurs Player 2's view of P1 info
+     public GameObject player2BlurPanel;    // Blurs Player 1's view of P2 info
+     public GameObject player1CodePanel;    // Reference to Player 1's code display
+     public GameObject player2CodePanel;    // Reference to Player 2's code display
    
 
 
     [Header("Game Audios")]
-     private AudioSource incorrectCodeSound;
-     private AudioSource correctCodeSound;
-     private AudioSource backgroundMusic;
+     public AudioSource incorrectCodeSound;
+     public AudioSource correctCodeSound;
+     public AudioSource backgroundMusic;
 
 
     [Header("Script References")]
      private RoundManagementSystem roundSystem;
      private GridSystem gridSystem;
-    private CodeSystem codeSystem;
+     private CodeSystem codeSystem;
      private MovementSystem movementSystem;
      private TurnSystem turnSystem;
 
@@ -94,6 +94,8 @@ public class UISystem : MonoBehaviour
         {
             Debug.LogError("CLIENT: Player piece references are missing in inspector!");
         }
+       
+        
 
         //Key insight: using 'findfirstobjectbytype' in her overwrites what was asisgned in the inspector if it was declared as a public variable.
         // roundSystem = FindObjectOfType<RoundManagementSystem>();

@@ -7,7 +7,7 @@ public class PlayerInput : NetworkBehaviour
     private MovementSystem movementSystem; //refrence to the movement logic
     private CodeSystem codeSystem;
     private TurnSystem turnSystem;
-
+    private UISystem visualSystem;
     [SyncVar] public int myPlayerID = 0;
 
 
@@ -28,10 +28,13 @@ public class PlayerInput : NetworkBehaviour
         movementSystem = FindObjectOfType<MovementSystem>();
         turnSystem = FindObjectOfType<TurnSystem>();
         codeSystem = FindObjectOfType<CodeSystem>();
+        visualSystem = FindObjectOfType<UISystem>();
 
         if(isLocalPlayer && isServer)
         {
             myPlayerID = 1; // so the player that joins as host / server , automically becomes player 1 
+            visualSystem.backgroundMusic = GetComponent<AudioSource>();
+            visualSystem.backgroundMusic.Play();
             //console output:
             Debug.Log("Player 1 assigned !");
         }

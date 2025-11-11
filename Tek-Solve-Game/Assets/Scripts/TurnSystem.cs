@@ -43,7 +43,7 @@ public class TurnSystem : NetworkBehaviour
 
         if (isClient)
         {
-            Invoke(nameof(ApplyBlurEffect), 1f); // allow the client to also expeir e the blur effect
+            Invoke(nameof(ApplyBlurEffect), 1f); // allow the client to also experience the blur effect
         }
     }
 

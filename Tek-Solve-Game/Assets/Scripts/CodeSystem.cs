@@ -74,9 +74,9 @@ public class CodeSystem : NetworkBehaviour
         if(sum == target)
         {
             Console.WriteLine("Yayy, someone cracked the code!");
-            RpcCodeAccepted(playerID, code.ToList()); 
-            
-
+            RpcCodeAccepted(playerID, code.ToList());
+            visualSytem.correctCodeSound.Play();
+            visualSytem.DeactivateAccepetedSound();
             // player who got it wins the round and the board state changes for the next round.
         }
 
@@ -92,6 +92,8 @@ public class CodeSystem : NetworkBehaviour
                 player2Progress = 3;
 
                 RpcCodeRejected(playerID, sum, target);
+                visualSytem.incorrectCodeSound.Play();
+                visualSytem.DeactivateRejectedCodeSound();
             }
 
 
@@ -138,6 +140,8 @@ public class CodeSystem : NetworkBehaviour
     void RpcCodeAccepted(int playerID, List<int> winningCode)
     {
         roundsSystem.PlayerWonRound(playerID);
+        visualSytem.correctCodeSound.Play();
+        visualSytem.DeactivateAccepetedSound();
         Debug.Log($"Player : {playerID} WON the round with code : {string.Join("+", winningCode)}  =  {winningCode.Sum()}");
     }
 
@@ -150,7 +154,7 @@ public class CodeSystem : NetworkBehaviour
         visualSytem.P2CurrentSum.text = "Current Sum: ";
         visualSytem.p1NeedTxt.text = "Needs: ";
         visualSytem.p2NeedTxt.text = "Needs: ";
-        //Time.timeScale = 0f; // paause the game!
+        //Time.timeScale = 0f; //pause the game!
         Debug.Log($"Player: {playerID} code has been REJECTED!. Got {attemptedSum}, and the correct sum is : {targetSum}");
         // trigger visual feedback such as a screen shake or error message
     }

@@ -68,7 +68,7 @@ public class RoundManagementSystem : NetworkBehaviour
     [Server]
     public void StartNextRound()
     {
-        currentRound++; // the numbe rof rpunds will increment accordingly each time a new round starts
+        currentRound++; // the numbe of rpunds will increment accordingly each time a new round starts
         //the grid change:
         bool changeGrid = currentRound > 2 && Random.Range(0f, 1f) < 0.4f; // change the grid if the rounds reset , generating a new grid of numbers within the 4x4 grod size
         //reset all systems :
@@ -76,8 +76,8 @@ public class RoundManagementSystem : NetworkBehaviour
         codeSystem.ResetCodes();
         player1Wins = 0;
         player2Wins = 0;
-        movementSystem.player1Position = new Vector2Int(1, 1);//so make the start at the centre for both players. (need to test out);
-        movementSystem.player2Position = new Vector2Int(1, 1);
+        movementSystem.player1Position = new Vector2Int(2, 1);//so make the start at the centre for both players. (need to test out);
+        movementSystem.player2Position = new Vector2Int(2, 0);
         movementSystem.player1LastMove = MovementSystem.MoveType.None;// set the movement back to none bc they would need to make the first move, not have a predefined one already.
         movementSystem.player2LastMove = MovementSystem.MoveType.None;
         turnSystem.ResetTurn();
@@ -106,8 +106,20 @@ public class RoundManagementSystem : NetworkBehaviour
     [ClientRpc]
     void RpcStartNewRound(int roundNum, bool gridChanged)
     {
-       //ui feedback already taken cared off
+        //ui feedback already taken cared off
+        bool changeGrid = currentRound > 2 && Random.Range(0f, 1f) < 0.4f; // change the grid if the rounds reset , generating a new grid of numbers within the 4x4 grod size
+        //reset all systems :
+        gridSystem.ResetRound(changeGrid);
+        codeSystem.ResetCodes();
         Debug.Log($"A new round {roundNum}, has started. Grid has chenged :{gridChanged}");
+        player1Wins = 0;
+        player2Wins = 0;
+        movementSystem.player1Position = new Vector2Int(2, 1);//so make the start at the centre for both players. (need to test out);
+        movementSystem.player2Position = new Vector2Int(2, 0);
+        movementSystem.player1LastMove = MovementSystem.MoveType.None;// set the movement back to none bc they would need to make the first move, not have a predefined one already.
+        movementSystem.player2LastMove = MovementSystem.MoveType.None;
+        turnSystem.ResetTurn();
+
     }
     
     [ClientRpc]

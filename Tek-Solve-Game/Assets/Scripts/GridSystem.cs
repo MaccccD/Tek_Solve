@@ -62,12 +62,13 @@ public class GridSystem : NetworkBehaviour
     [Server]
     public void GenerateNewGrid() // so creating the grid with the numbers generated randomly between 1 - 9
     {
+        Debug.Log(" GENERATING NEW GRID:");
         for (int x = 0; x < 4; x++)
         {
             for (int y = 0; y < 4; y++)
             {
                 gridNumbers[x, y] = Random.Range(1, 10); // numbers from 1 - 9.
-               // visualSystem.ShowGridNumbers();
+                Debug.Log($"Set gridNumbers[{x}, {y}] = {gridNumbers[x, y]}");
 
             }
         }
@@ -75,6 +76,8 @@ public class GridSystem : NetworkBehaviour
         SerializeGrid(); // to sync across the network.
 
         GenerateTargetNumber();
+
+        DebugGridComparison();
 
         UpdateGridUI();// so update the numbers for the host first
 
@@ -147,12 +150,51 @@ public class GridSystem : NetworkBehaviour
     // this basically captures the numbers the player presses on the numpad :
     public int GetNumberAt(Vector2Int position)
     {
-        // so if the number the player pressed is within the bounds of the grid size:
+        Debug.Log($"GetNumberAt - Position: {position}");
+
         if (position.x >= 0 && position.x < 4 && position.y >= 0 && position.y < 4)
         {
-            return gridNumbers[position.x, position.y]; // so return the number at that grid position that the player clicked on
+            int retrievedNumber = gridNumbers[position.y, position.x];
+
+            // ADD THESE DEBUG LINES:
+            Debug.Log($"Grid Access: gridNumbers[{position.x}, {position.y}] = {retrievedNumber}");
+
+            return retrievedNumber;
         }
-        return 0;// if the player clicks the wrong key thats not part of the numpad
+
+        Debug.LogError($" GetNumberAt - Invalid position: {position}");
+        return 0;
+    }
+    public void DebugGridComparison()
+    {
+        Debug.Log("=== GRID COMPARISON: Data vs Visual ===");
+
+        for (int y = 0; y < 4; y++)
+        {
+            string dataRow = "";
+            string visualRow = "";
+
+            for (int x = 0; x < 4; x++)
+            {
+                // Data from gridNumbers
+                dataRow += gridNumbers[x, y] + " ";
+
+                // Visual from gridNumberTxts (using your column-major calculation)
+                int cellIndex = (x * 4) + y;
+                if (cellIndex < visualSystem.gridNumberTxts.Length && visualSystem.gridNumberTxts[cellIndex] != null)
+                {
+                    visualRow += visualSystem.gridNumberTxts[cellIndex].text + " ";
+                }
+                else
+                {
+                    visualRow += "?";
+                }
+            }
+
+            Debug.Log($"Row {y} - Data:  {dataRow}");
+            Debug.Log($"Row {y} - Visual: {visualRow}");
+        }
+        Debug.Log("=== END COMPARISON ===");
     }
 
     public int[,] GetGrid()

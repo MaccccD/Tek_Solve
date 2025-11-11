@@ -211,6 +211,11 @@ public class MovementSystem : NetworkBehaviour
 
         //getting the number at this grid pos:
         int gridNumber = gridSystem.GetNumberAt(newPos);
+        // ADD DEBUGGING HERE:
+        Debug.Log($" ExecuteMove - Player: {playerID}");
+        Debug.Log($"New Position: {newPos}");
+        Debug.Log($"Grid Number Retrieved: {gridNumber}");
+       // Debug.Log($"Player Position Updated: {playerID == 1 ? player1Position : player2Position}");
 
         // Calculate NEXT player before switching
         int nextPlayer = playerID == 1 ? 2 : 1;
@@ -218,10 +223,11 @@ public class MovementSystem : NetworkBehaviour
         
         //add to code:
         codeSystem.AddToCode(playerID, gridNumber);
+        // Also debug what CodeSystem receives:
+        Debug.Log($"Sent to CodeSystem - Player: {playerID}, Number: {gridNumber}");
         //  Debug.Log($"The grid number should be the one registered now {gridNumber}");
 
         // Visual feedback
-        
         RpcMoveExecuted(playerID, newPos, gridNumber, moveType,nextPlayer,nextRequiredMove);
 
         Debug.Log("okay this works!");

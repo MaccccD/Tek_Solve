@@ -78,8 +78,15 @@ public class UISystem : MonoBehaviour
         {
             Debug.LogError("gridNumberTxts array is not assigned in inspector!");
         }
+        Debug.Log($"CLIENT: UISystem Start - isClient: {true}");
+        Debug.Log($"CLIENT: gridNumberTxts length: {gridNumberTxts?.Length}");
+        Debug.Log($"CLIENT: Player1 piece: {player1Piece != null}, Player2 piece: {player2Piece != null}");
 
-        
+        if (player1Piece == null || player2Piece == null)
+        {
+            Debug.LogError("CLIENT: Player piece references are missing in inspector!");
+        }
+
         //Key insight: using 'findfirstobjectbytype' in her overwrites what was asisgned in the inspector if it was declared as a public variable.
         // roundSystem = FindObjectOfType<RoundManagementSystem>();
         //  gridSystem = FindObjectOfType<GridSystem>();
@@ -178,41 +185,44 @@ public class UISystem : MonoBehaviour
 
     public void UpdatePlayerPiecePositions(int playerId, Vector2Int gridPosition)
     {
-        
+        Debug.Log($"=== CLIENT: UpdatePlayerPiecePositions - Player: {playerId}, GridPos: {gridPosition} ===");
+
         GameObject playerPiece = playerId == 1 ? player1Piece : player2Piece;
 
-        if(playerPiece == null)
+        if (playerPiece == null)
         {
-            Debug.LogError("Player pieces have not been assigned in the inspector!");
+            Debug.LogError("CLIENT: Player pieces have not been assigned in the inspector!");
             return;
         }
-        
-          Debug.Log($"Player piece found: {playerPiece.name}");
 
-          //here i'm calculating the grid cell based on the 4 x 4 grid i have layout:
-          //  int cellIndex = (gridPosition.y * 4) + gridPosition.x; (assumes y = 0 is at the bottom and not at the top)
-          int cellIndex = (gridPosition.x * 4) + gridPosition.y;
+        Debug.Log($"CLIENT: Player piece found: {playerPiece.name}, Active: {playerPiece.activeInHierarchy}");
 
-          Debug.Log($"Calculation: GridPos {gridPosition} → CellIndex {cellIndex}");
+        // Column-major calculation
+        int cellIndex = (gridPosition.x * 4) + gridPosition.y;
+        Debug.Log($"CLIENT: Calculation - GridPos {gridPosition} → CellIndex {cellIndex}");
 
-          if (cellIndex < 0 || cellIndex >= gridNumberTxts.Length)
-          {
-          Debug.LogError($"Invalid grid position! {gridPosition} -> cellIndex: {cellIndex}");
-          return;
-          }
-
-         Text targetCell = gridNumberTxts[cellIndex];
-         if(targetCell == null)
-          {
-           Debug.LogError($"Grid cell {cellIndex} not found");
+        if (cellIndex < 0 || cellIndex >= gridNumberTxts.Length)
+        {
+            Debug.LogError($"CLIENT: Invalid grid position! {gridPosition} -> cellIndex: {cellIndex}, Array length: {gridNumberTxts.Length}");
             return;
-          }
+        }
 
-          playerPiece.transform.position = targetCell.transform.position;
-          playerPiece.SetActive(true);
+        Text targetCell = gridNumberTxts[cellIndex];
+        if (targetCell == null)
+        {
+            Debug.LogError($"CLIENT: Grid cell {cellIndex} not found");
+            return;
+        }
 
-          Debug.Log($"Player {playerId} piece moved to: {playerPiece.transform.position}");
-          Debug.Log($"GridPos: {gridPosition} → CellIndex: {cellIndex} → Number: {targetCell.text}");
+        Debug.Log($"CLIENT: Target cell found: {targetCell.name}, Text: '{targetCell.text}', Position: {targetCell.transform.position}");
+        Debug.Log($"CLIENT: Player piece current position: {playerPiece.transform.position}");
+
+        // Update the position
+        playerPiece.transform.position = targetCell.transform.position;
+        playerPiece.SetActive(true);
+
+        Debug.Log($"CLIENT: Player piece NEW position: {playerPiece.transform.position}");
+        Debug.Log($"=== CLIENT: Update COMPLETE ===");
     }
 
     public void HideOpponentPiece(int localPlayerID)

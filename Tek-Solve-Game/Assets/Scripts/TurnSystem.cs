@@ -126,16 +126,17 @@ public class TurnSystem : NetworkBehaviour
 
     public void SetBlurState(bool blurOpponentCode, bool blurOpponentPiece)
     {
-        //enable or disbale player blur panel overlays:
+        //enable or disable player blur panel overlays:
         if (visualSystem.player1BlurPanel != null)
         {
-            visualSystem.player1BlurPanel.SetActive(blurOpponentCode); //so enable the blur or make it show.
+            visualSystem.player1BlurPanel.SetActive(!blurOpponentCode); //so enable the blur or make it show.
+            visualSystem.player2Piece.SetActive(!blurOpponentPiece);//don't see player 2 piece
         }
         if (visualSystem.player2BlurPanel != null)
         {
             visualSystem.player2BlurPanel.SetActive(blurOpponentCode);
+            visualSystem.player1Piece.SetActive(blurOpponentPiece);//don't see player 1 piee
         }
-
 
         //blur opponent player piece
         if (visualSystem.player1Piece != null)
@@ -144,7 +145,7 @@ public class TurnSystem : NetworkBehaviour
         }
         if(visualSystem.player2Piece != null)
         {
-            SetPieceVisibility(visualSystem.player2Piece, !blurOpponentPiece);
+            SetPieceVisibility(visualSystem.player2Piece, blurOpponentPiece);
         }
 
       
@@ -175,7 +176,7 @@ public class TurnSystem : NetworkBehaviour
             if(renderer != null)
             {
                 Color color = renderer.color; // setting the colour of the piece to being transpararent:
-                color.a = visible ? 1f : 0.3f; // so decrese the alpha value  by lowering the opacity:
+                color.a = visible ? 1f : 0.3f; // so decraese the alpha value  by lowering the opacity:
                 renderer.color = color;
             }
         }

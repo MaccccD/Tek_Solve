@@ -234,6 +234,7 @@ public class MovementSystem : NetworkBehaviour
 
         //the switch player turn :
         turnSystem.SwitchTurn();
+        turnSystem.ApplyBlurEffect();//apply blur effect based on whose turn it is.
 
         
       

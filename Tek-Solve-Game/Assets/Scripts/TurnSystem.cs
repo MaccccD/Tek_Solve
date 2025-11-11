@@ -66,7 +66,8 @@ public class TurnSystem : NetworkBehaviour
         // Debug.Log("the turn has changed!!!");  // for my own peace of mind
     }
 
-    private void ApplyBlurEffect()
+    [Server]
+    public void ApplyBlurEffect()
     {
         if(visualSystem == null) return ;
 

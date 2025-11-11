@@ -43,16 +43,15 @@ public class TurnSystem : NetworkBehaviour
 
         if (isClient)
         {
-            Invoke(nameof(ApplyBlurEffect), 0.5f); // allow the client to also expeir e the blur effect
+            Invoke(nameof(ApplyBlurEffect), 1f); // allow the client to also expeir e the blur effect
         }
     }
 
    [Server]
    public  void SwitchTurn()
     {
-
         currentPlayerTurn = currentPlayerTurn == 1 ? 2 : 1; // if player turn is 1 , switch to player 2 after 1 is done and so on .
-
+        
         Debug.Log($"Applying blur - Current Turn: {currentPlayerTurn}, Local Player: {isLocalPlayer}");
 
         //Key Takeaway: Never read Sync Vars immediately after changing them in RPCs. Rather pass the values itslef as a paramater
@@ -64,38 +63,52 @@ public class TurnSystem : NetworkBehaviour
 
         // implement blur mechanic here
         // Debug.Log("the turn has changed!!!");  // for my own peace of mind
+   }
+
+   
+   public void ApplyBlurEffect()
+    {
+        if(visualSystem == null) 
+    {
+        Debug.LogWarning("VisualSystem is null in ApplyBlurEffect");
+        return;
     }
 
-    [Server]
-    public void ApplyBlurEffect()
+    int localPlayerID = GetLocalPlayerId();
+    Debug.Log($"ApplyBlurEffect - Current Turn: {currentPlayerTurn}, Local Player: {localPlayerID}");
+
+    if (localPlayerID == 0)
     {
-        if(visualSystem == null) return ;
+        Debug.LogWarning("Local player ID not found yet");
+        return;
+    }
 
-        int localPlayerID = GetLocalPlayerId();
-
-        if(currentPlayerTurn == 1)
+    if(currentPlayerTurn == 1)
+    {
+        if (localPlayerID == 1)
         {
-            //on player 1's turn, hide the player 2's panel and player piece.
-            if (localPlayerID == 1)
-            {
-                SetBlurState(true, false); //on player 1, blur player 2 info
-            }
-            else if(localPlayerID == 2)
-            {
-                SetBlurState(false, true); //on player 2, blur player 1 info 
-            }
+            // Player 1's turn - Player 1 sees: own info clear, opponent info blurred
+            SetBlurState(blurPlayer2: true, blurPlayer1: false);
         }
-        else if(currentPlayerTurn == 2)
+        else if(localPlayerID == 2)
         {
-            if(localPlayerID == 1)
-            {
-                SetBlurState(false, true);// on player 2 turn, blur player 1 info
-            }
-            else if(localPlayerID == 2)
-            {
-                SetBlurState(true, false); // on player 2 , blur player 2 info
-            }
+            // Player 1's turn - Player 2 sees: own info clear, opponent info blurred  
+            SetBlurState(blurPlayer2: false, blurPlayer1: true);
         }
+    }
+    else if(currentPlayerTurn == 2)
+    {
+        if(localPlayerID == 1)
+        {
+            // Player 2's turn - Player 1 sees: own info clear, opponent info blurred
+            SetBlurState(blurPlayer2: true, blurPlayer1: false);
+        }
+        else if(localPlayerID == 2)
+        {
+            // Player 2's turn - Player 2 sees: own info clear, opponent info blurred
+            SetBlurState(blurPlayer2: false, blurPlayer1: true);
+        }
+    }
 
 
     }
@@ -124,61 +137,65 @@ public class TurnSystem : NetworkBehaviour
         return 0;
     }
 
-    public void SetBlurState(bool blurOpponentCode, bool blurOpponentPiece)
+    public void SetBlurState(bool blurPlayer1, bool blurPlayer2)
     {
-        //enable or disable player blur panel overlays:
+        Debug.Log($"SetBlurState - Blur P1: {blurPlayer1}, Blur P2: {blurPlayer2}");
+
+        // Handle Player 1 blur panels and pieces
         if (visualSystem.player1BlurPanel != null)
         {
-            visualSystem.player1BlurPanel.SetActive(!blurOpponentCode); //so enable the blur or make it show.
-            visualSystem.player2Piece.SetActive(!blurOpponentPiece);//don't see player 2 piece
-        }
-        if (visualSystem.player2BlurPanel != null)
-        {
-            visualSystem.player2BlurPanel.SetActive(blurOpponentCode);
-            visualSystem.player1Piece.SetActive(blurOpponentPiece);//don't see player 1 piee
+            visualSystem.player1BlurPanel.SetActive(blurPlayer1);
+            Debug.Log($"Player 1 Blur Panel: {blurPlayer1}");
         }
 
-        //blur opponent player piece
-        if (visualSystem.player1Piece != null)
-        {
-            SetPieceVisibility(visualSystem.player1Piece, !blurOpponentPiece);
-        }
-        if(visualSystem.player2Piece != null)
-        {
-            SetPieceVisibility(visualSystem.player2Piece, blurOpponentPiece);
-        }
-
-      
-        //blur opponent panel code :
         if (visualSystem.player1CodePanel != null)
         {
-            visualSystem.player1CodePanel.SetActive(!blurOpponentCode);
+            visualSystem.player1CodePanel.SetActive(!blurPlayer1);
         }
+
+        if (visualSystem.player1Piece != null)
+        {
+            SetPieceVisibility(visualSystem.player1Piece, !blurPlayer1);
+        }
+
+        // Handle Player 2 blur panels and pieces
+        if (visualSystem.player2BlurPanel != null)
+        {
+            visualSystem.player2BlurPanel.SetActive(blurPlayer2);
+            Debug.Log($"Player 2 Blur Panel: {blurPlayer2}");
+        }
+
         if (visualSystem.player2CodePanel != null)
         {
-            visualSystem.player2CodePanel.SetActive(!blurOpponentCode);
+            visualSystem.player2CodePanel.SetActive(!blurPlayer2);
+        }
+
+        if (visualSystem.player2Piece != null)
+        {
+            SetPieceVisibility(visualSystem.player2Piece, !blurPlayer2);
         }
     }
 
 
     private void SetPieceVisibility(GameObject piece, bool visible)
     {
-        if(piece == null)
+        if (piece == null)
         {
             Debug.LogWarning("The player piece is missing here!");
             return;
         }
 
-        if(piece != null)
+        SpriteRenderer renderer = piece.GetComponent<SpriteRenderer>();
+        if (renderer != null)
         {
-            SpriteRenderer renderer = piece.GetComponent<SpriteRenderer>();
-
-            if(renderer != null)
-            {
-                Color color = renderer.color; // setting the colour of the piece to being transpararent:
-                color.a = visible ? 1f : 0.3f; // so decraese the alpha value  by lowering the opacity:
-                renderer.color = color;
-            }
+            Color color = renderer.color;
+            color.a = visible ? 1f : 0.3f;
+            renderer.color = color;
+            Debug.Log($"Piece {piece.name} alpha: {color.a}");
+        }
+        else
+        {
+            Debug.LogWarning($"No SpriteRenderer found on {piece.name}");
         }
     }
 

@@ -49,6 +49,8 @@ public class RoundManagementSystem : NetworkBehaviour
         }
 
         RpcAnnounceRoundWinner(playerID, player1Wins, player2Wins);
+        //start the next round
+        StartNextRound();
 
         
 
@@ -100,6 +102,7 @@ public class RoundManagementSystem : NetworkBehaviour
         visualSystem.roundWinText.gameObject.SetActive(true);
         visualSystem.StarsIncrementing();
         visualSystem.DeactivateRoundWin();
+        StartNextRound();
         Debug.Log($"Player : {playerID} wins this round!! Score : P1= {p1Wins}, P2={p2Wins}");
     }
 

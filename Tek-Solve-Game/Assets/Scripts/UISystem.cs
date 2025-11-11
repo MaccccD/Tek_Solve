@@ -10,6 +10,7 @@ public class UISystem : MonoBehaviour
      public Text targetNumberTxt;
      public Text lastMoveTxt;
      public Text roundsNumberTxt;
+     public GameObject turnSystemPanel;
      public Text turnSystemTxt;
      public GameObject incorrectCodePanel;
      public GameObject gameScreenPanel;
@@ -159,7 +160,10 @@ public class UISystem : MonoBehaviour
        // roundSystem.StartNextRound();//references to the grid and all the movement positions.(server only )
         roundsNumberTxt.text = "Round Number: " +  roundSystem.currentRound.ToString();// show the number of rounds.
         targetNumberTxt.text = "Target Number: " + gridSystem.targetNumber.ToString();// show the target number.
+        turnSystemPanel.gameObject.SetActive(true);
+        DeactivateTurnSystemPanel();
         turnSystemTxt.text = $"Player  {turnSystem.currentPlayerTurn}'s Turn";
+
 
     }
 
@@ -278,6 +282,19 @@ public class UISystem : MonoBehaviour
         {
             displays[i].text = "?";  // so rest to the "?" placeholder when the round resets
         }
+    }
+
+    public void DeactivateTurnSystemPanel()
+    {
+        StartCoroutine(TurnSystemPanelDelay(3f));
+        return;
+    }
+
+    private IEnumerator TurnSystemPanelDelay(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        turnSystemPanel.gameObject.SetActive(false);
+
     }
 
 

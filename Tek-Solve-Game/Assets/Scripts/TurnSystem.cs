@@ -124,20 +124,21 @@ public class TurnSystem : NetworkBehaviour
         return 0;
     }
 
-    private void SetBlurState(bool blurOpponentCode, bool blurOpponentPiece)
+    public void SetBlurState(bool blurOpponentCode, bool blurOpponentPiece)
     {
-        //blur opponent panel code :
-        if (visualSystem.player1CodePanel != null)
+        //enable or disbale player blur panel overlays:
+        if (visualSystem.player1BlurPanel != null)
         {
-            visualSystem.player1CodePanel.SetActive(!blurOpponentCode);
+            visualSystem.player1BlurPanel.SetActive(blurOpponentCode); //so enable the blur or make it show.
         }
-        if (visualSystem.player2CodePanel != null)
+        if (visualSystem.player2BlurPanel != null)
         {
-            visualSystem.player2CodePanel.SetActive(!blurOpponentCode);
+            visualSystem.player2BlurPanel.SetActive(blurOpponentCode);
         }
 
+
         //blur opponent player piece
-        if(visualSystem.player1Piece != null)
+        if (visualSystem.player1Piece != null)
         {
             SetPieceVisibility(visualSystem.player1Piece, !blurOpponentPiece);
         }
@@ -146,14 +147,15 @@ public class TurnSystem : NetworkBehaviour
             SetPieceVisibility(visualSystem.player2Piece, !blurOpponentPiece);
         }
 
-        //enable or disbale player blur panel overlays:
-        if(visualSystem.player1BlurPanel != null)
+      
+        //blur opponent panel code :
+        if (visualSystem.player1CodePanel != null)
         {
-            visualSystem.player1BlurPanel.SetActive(blurOpponentCode); //so enable the blur or make it show.
+            visualSystem.player1CodePanel.SetActive(!blurOpponentCode);
         }
-        if(visualSystem.player2BlurPanel != null)
+        if (visualSystem.player2CodePanel != null)
         {
-            visualSystem.player2BlurPanel.SetActive(blurOpponentCode);
+            visualSystem.player2CodePanel.SetActive(!blurOpponentCode);
         }
     }
 

@@ -7,7 +7,10 @@ public class PlayerInput : NetworkBehaviour
     private MovementSystem movementSystem; //refrence to the movement logic
     private CodeSystem codeSystem;
     private TurnSystem turnSystem;
-    [SerializeField][SyncVar] private int myPlayerID;
+
+    [SyncVar] public int myPlayerID = 0;
+
+
     
 
 

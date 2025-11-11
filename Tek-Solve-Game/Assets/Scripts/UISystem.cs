@@ -51,6 +51,13 @@ public class UISystem : MonoBehaviour
     [Header("Warning Msgs")]
     public Text outofBoundsTxt;
 
+    [Header("Blur Mechanic Stuff")]
+    public GameObject player1BlurPanel;    // Blurs Player 2's view of P1 info
+    public GameObject player2BlurPanel;    // Blurs Player 1's view of P2 info
+    public GameObject player1CodePanel;    // Reference to Player 1's code display
+    public GameObject player2CodePanel;    // Reference to Player 2's code display
+   
+
 
     [Header("Game Audios")]
      private AudioSource incorrectCodeSound;

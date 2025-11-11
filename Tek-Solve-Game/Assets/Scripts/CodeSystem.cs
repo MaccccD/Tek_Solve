@@ -146,10 +146,10 @@ public class CodeSystem : NetworkBehaviour
     {
         visualSytem.incorrectCodePanel.gameObject.SetActive(true);
         visualSytem.gameScreenPanel.gameObject.SetActive(false);
-        visualSytem.P1CurrentSum.text = "Current Sum: " + ToString();
-        visualSytem.P2CurrentSum.text = "Current Sum: " + ToString();
-        visualSytem.p1NeedTxt.text = "Needs:" + ToString();
-        visualSytem.p2NeedTxt.text = "Needs: " + ToString();
+        visualSytem.P1CurrentSum.text = "Current Sum: ";
+        visualSytem.P2CurrentSum.text = "Current Sum: ";
+        visualSytem.p1NeedTxt.text = "Needs: ";
+        visualSytem.p2NeedTxt.text = "Needs: ";
         //Time.timeScale = 0f; // paause the game!
         Debug.Log($"Player: {playerID} code has been REJECTED!. Got {attemptedSum}, and the correct sum is : {targetSum}");
         // trigger visual feedback such as a screen shake or error message

@@ -48,7 +48,7 @@ public class TurnSystem : NetworkBehaviour
        // visualSystem.turnSystemTxt.text = $"Player {currentPlayerTurn}'s Turn";
 
         
-        // implement blur mechanic
+        // implement blur mechanic here
        // Debug.Log("the turn has changed!!!");  // for my own peace of mind
     }
 

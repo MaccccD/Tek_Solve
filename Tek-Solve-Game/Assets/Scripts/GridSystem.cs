@@ -88,7 +88,7 @@ public class GridSystem : NetworkBehaviour
     [Server]
     void GenerateTargetNumber()
     {
-        targetNumber = Random.Range(15, 36);// the target number wil be randomly generated for each round but is between this range for the firt 5 rounds of the game.
+        targetNumber = Random.Range(15,25);// the target number wil be randomly generated for each round but is between this range for the firt 5 rounds of the game.
 
         if(Random.Range(0f,1f) < 0.3f)
         {

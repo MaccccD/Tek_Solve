@@ -27,7 +27,9 @@ public class TurnSystem : NetworkBehaviour
     void OnTurnChanged(int oldTurn, int newTurn)
     {
         //when turn changes :
-        visualSystem.turnSystemTxt.text = $"Player{currentPlayerTurn}'s Turn";
+        visualSystem.turnSystemPanel.gameObject.SetActive(true);
+        visualSystem.DeactivateTurnSystemPanel();
+        visualSystem.turnSystemTxt.text = $"Player {currentPlayerTurn}'s Turn.";
         Debug.Log($"turn changed from {oldTurn} to {newTurn}");
         ApplyBlurEffect();
     }

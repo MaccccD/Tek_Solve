@@ -92,8 +92,8 @@ public class CodeSystem : NetworkBehaviour
                 player2Progress = 3;
 
                 RpcCodeRejected(playerID, sum, target);
-                visualSytem.incorrectCodeSound.Play();
-                visualSytem.DeactivateRejectedCodeSound();
+                //visualSytem.incorrectCodeSound.Play();
+               // visualSytem.DeactivateRejectedCodeSound();
             }
 
 

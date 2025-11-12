@@ -61,9 +61,11 @@ public class UISystem : MonoBehaviour
 
 
     [Header("Game Audios")]
-     public AudioSource incorrectCodeSound;
+     private AudioSource incorrectCodeSound;
      public AudioSource correctCodeSound;
      public AudioSource backgroundMusic;
+    public AudioSource adjacentMoveSound;
+    public AudioSource diagonalMoveSound;
 
 
     [Header("Script References")]
@@ -312,6 +314,27 @@ public class UISystem : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
         turnSystemPanel.gameObject.SetActive(false);
 
+    }
+    public void  DeactivateAdjacentSound()
+    {
+        StartCoroutine(AdjacentSoundDelay(2f));
+    }
+
+    private IEnumerator AdjacentSoundDelay(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        adjacentMoveSound.Pause();
+    }
+
+    public void DeactivateDiagonalSound()
+    {
+        StartCoroutine(DiagonalSoundDelay(2f));
+    }
+
+    private IEnumerator DiagonalSoundDelay(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        diagonalMoveSound.Pause();
     }
 
 

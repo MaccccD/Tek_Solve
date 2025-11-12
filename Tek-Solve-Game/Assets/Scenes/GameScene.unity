@@ -980,7 +980,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: INCORRECT 4-DIGIT CODE!
+  m_Text: INCORRECT 4-DIGIT CODE:(
 --- !u!222 &166038413
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1721,7 +1721,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &288229424
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16383,7 +16383,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 37.997, y: 0}
+  m_AnchoredPosition: {x: 37.99701, y: 0}
   m_SizeDelta: {x: -75.994, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1825976642

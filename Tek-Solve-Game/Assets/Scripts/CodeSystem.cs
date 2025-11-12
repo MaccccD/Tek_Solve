@@ -103,8 +103,6 @@ public class CodeSystem : NetworkBehaviour
         else
         {
             RpcCodeRejected(playerID, sum, target);
-            visualSytem.incorrectCodeSound.Play();
-            visualSytem.DeactivateRejectedCodeSound();
             //update the digits display:
             RpcUpdateDigitDisplay(playerID, code.ToArray()); //update the digits being typed in on each player.
         }
@@ -170,6 +168,8 @@ public class CodeSystem : NetworkBehaviour
     {
         visualSytem.incorrectCodePanel.gameObject.SetActive(true);
         visualSytem.gameScreenPanel.gameObject.SetActive(false);
+        visualSytem.incorrectCodeSound.Play();
+        visualSytem.DeactivateRejectedCodeSound();
         visualSytem.P1CurrentSum.text = "Current Sum: ";
         visualSytem.P2CurrentSum.text = "Current Sum: ";
         visualSytem.p1NeedTxt.text = "Remaining: ";

@@ -2168,8 +2168,8 @@ MonoBehaviour:
   player2CodePanel: {fileID: 1215386391}
   correctCodeSound: {fileID: 1850976629}
   backgroundMusic: {fileID: 720874913}
-  adjacentMoveSound: {fileID: 0}
-  diagonalMoveSound: {fileID: 0}
+  adjacentMoveSound: {fileID: 487983380}
+  diagonalMoveSound: {fileID: 475680099}
 --- !u!4 &335267659
 Transform:
   m_ObjectHideFlags: 0
@@ -3624,7 +3624,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: 0f36399a475f1254a9255d18fa0fce43, type: 3}
   m_Resource: {fileID: 8300000, guid: 0f36399a475f1254a9255d18fa0fce43, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.103
+  m_Volume: 0
   m_Pitch: 0.87
   Loop: 0
   Mute: 0
@@ -3832,7 +3832,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: dbf26fe6a70187a4a97728a17d4744a2, type: 3}
   m_Resource: {fileID: 8300000, guid: dbf26fe6a70187a4a97728a17d4744a2, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.103
+  m_Volume: 0
   m_Pitch: 0.87
   Loop: 0
   Mute: 0
@@ -11994,7 +11994,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1387329262
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15076,7 +15076,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2db383f6c1f1d6b459290e46f3781e61, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 490c346899a5c6a4bb809f1084a538f8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

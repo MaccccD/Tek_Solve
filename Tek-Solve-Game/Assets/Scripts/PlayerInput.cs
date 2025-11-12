@@ -72,51 +72,35 @@ public class PlayerInput : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.Keypad7))
         {
             movementSystem.AttemptMove(myPlayerID, 7); //so diagonal up-left;
-            visualSystem.diagonalMoveSound.Play();
-            visualSystem.DeactivateDiagonalSound();
                                                        //Debug.Log("yayy , move number 7 working !");
         }
         else if (Input.GetKeyDown(KeyCode.Keypad8))
         {
             movementSystem.AttemptMove(myPlayerID, 8);
-            visualSystem.adjacentMoveSound.Play();
-            visualSystem.DeactivateAdjacentSound();
         }
         else if (Input.GetKeyDown(KeyCode.Keypad9))
         {
             movementSystem.AttemptMove(myPlayerID, 9);
-            visualSystem.diagonalMoveSound.Play();
-            visualSystem.DeactivateDiagonalSound();
         }
         else if (Input.GetKeyDown(KeyCode.Keypad4))
         {
             movementSystem.AttemptMove(myPlayerID, 4);
-            visualSystem.adjacentMoveSound.Play();
-            visualSystem.DeactivateAdjacentSound();
         }
         else if (Input.GetKeyDown(KeyCode.Keypad6))
         {
             movementSystem.AttemptMove(myPlayerID, 6);
-            visualSystem.adjacentMoveSound.Play();
-            visualSystem.DeactivateAdjacentSound();
         }
         else if (Input.GetKeyDown(KeyCode.Keypad1))
         {
             movementSystem.AttemptMove(myPlayerID, 1);
-            visualSystem.diagonalMoveSound.Play();
-            visualSystem.DeactivateDiagonalSound();
         }
         else if (Input.GetKeyDown(KeyCode.Keypad2))
         {
             movementSystem.AttemptMove(myPlayerID, 2);
-            visualSystem.adjacentMoveSound.Play();
-            visualSystem.DeactivateAdjacentSound();
         }
         else if (Input.GetKeyDown(KeyCode.Keypad3))
         {
             movementSystem.AttemptMove(myPlayerID, 3);
-            visualSystem.diagonalMoveSound.Play();
-            visualSystem.DeactivateDiagonalSound();
         }
 
 

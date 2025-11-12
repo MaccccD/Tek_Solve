@@ -149,13 +149,13 @@ public class MovementSystem : NetworkBehaviour
         return key switch
         {
             7 => new Vector2Int(-1, 1),   // Up-Left (X-1, Y+1 = left and DOWN)
-            8 => new Vector2Int(0, 1),    // Up (Y+1 = DOWN)  
-            9 => new Vector2Int(1, 1),    // Up-Right (X+1, Y+1 = right and DOWN)
+            8 => new Vector2Int(0, -1),    // Up (Y+1 = DOWN)  
+            9 => new Vector2Int(1, -1),    // Up-Right (X+1, Y+1 = right and DOWN)
             4 => new Vector2Int(-1, 0),   // Left
             6 => new Vector2Int(1, 0),    // Right
             1 => new Vector2Int(-1, -1),  // Down-Left (X-1, Y-1 = left and UP)
-            2 => new Vector2Int(0, -1),   // Down (Y-1 = UP)
-            3 => new Vector2Int(1, -1),   // Down-Right (X+1, Y-1 = right and UP)
+            2 => new Vector2Int(0, 1),   // Down (Y-1 = UP)
+            3 => new Vector2Int(1, 1),   // Down-Right (X+1, Y-1 = right and UP)
             _ => Vector2Int.zero
         };
     }

@@ -396,8 +396,8 @@ public class UISystem : MonoBehaviour
     }
     public void Restart()
     {
-        roundSystem.CmdStartNextRound();
-        Debug.Log("The round restarted on both host and client bc you're seeing this!!1");
+       roundSystem.Restart(); ;
+       Debug.Log("The round restarted on both host and client bc you're seeing this!!1");
     }
 
 }

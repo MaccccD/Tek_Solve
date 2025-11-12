@@ -64,9 +64,18 @@ public class RoundManagementSystem : NetworkBehaviour
             Invoke(nameof(CmdStartNextRound), 8f); // setting a delay so that it deson't immedtealey got the nest round when everything is resetted w a new grid!
         }
     }
+    public void Restart()
+    {
+        CmdStartNextRound();
+    }
 
     [Command(requiresAuthority =false)]
     public void CmdStartNextRound()
+    {
+        StartNextRoundLogic();
+    }
+    [Server]
+    public void StartNextRoundLogic()
     {
         currentRound++; // the number of rpunds will increment accordingly each time a new round starts
         //the grid change:
@@ -155,6 +164,8 @@ public class RoundManagementSystem : NetworkBehaviour
 
         Debug.Log($"Congratulations to {playerID}.!!! The scores are P1: {p1Wins} and P2: {p2Wins}");
     }
+
+   
 
 
 }

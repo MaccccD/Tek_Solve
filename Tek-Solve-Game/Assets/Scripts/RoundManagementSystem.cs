@@ -65,7 +65,7 @@ public class RoundManagementSystem : NetworkBehaviour
         }
     }
 
-    [Server]
+    [Command(requiresAuthority =false)]
     public void StartNextRound()
     {
         currentRound++; // the number of rpunds will increment accordingly each time a new round starts

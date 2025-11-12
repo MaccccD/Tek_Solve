@@ -54,9 +54,21 @@ public class CodeSystem : NetworkBehaviour
         {
             player2Progress = code.Count;
         }
+
+        // Calculate current sum
+        int currentSum = CalculateCurrentSum(code);
         //right after :
         RpcUpdateDigitDisplay(playerID, code.ToArray()); //update the digits being typed in on each player's turn;
-        RpcUpdatePlayerProgress(playerID, code.Count, CalculateCurrentSum(code));
+        RpcUpdatePlayerProgress(playerID, code.Count, currentSum);
+
+        int targetNumber = gridSystem.targetNumber;
+
+        if(currentSum >= targetNumber && code.Count < 4)
+        {
+            Debug.Log($"Player {playerID} reached target {gridSystem.targetNumber} with only {code.Count} digits!");
+            RpcShowExceedingPanel(playerID, currentSum, code.Count);
+            return; // Don't check for win yet
+        }
 
         // checking if the 4 digit code is complete:
         if (code.Count == 4)
@@ -64,12 +76,15 @@ public class CodeSystem : NetworkBehaviour
             CheckCodeSubmission(playerID, code);
             Debug.Log("The 4 digit code is being checked!");
         }
+        
     }
 
     [Server]
     void CheckCodeSubmission(int playerID, SyncList<int> code)
     {
         int sum = CalculateCurrentSum(code);
+
+      
         int target = gridSystem.targetNumber;
         if(sum == target)
         {
@@ -79,26 +94,19 @@ public class CodeSystem : NetworkBehaviour
             visualSytem.DeactivateAccepetedSound();
             // player who got it wins the round and the board state changes for the next round.
         }
-
+        else if (sum > gridSystem.targetNumber)
+        {
+            // Player exceeded target with 4 digits
+            Debug.Log($"Player {playerID} exceeded target with {sum}!");
+            RpcShowExceedingPanel(playerID, sum, 4);
+        }
         else
         {
-            code.RemoveAt(3);// it's 3 bc a list starts from index 0 not 1 so then the 4th digit becomes index 3;
-            if(playerID == 1)
-            {
-                player1Progress = 3; // remove 4th digit if code doesn't equal to target
-            }
-            else
-            {
-                player2Progress = 3;
-
-                RpcCodeRejected(playerID, sum, target);
-                //visualSytem.incorrectCodeSound.Play();
-               // visualSytem.DeactivateRejectedCodeSound();
-            }
-
-
+            RpcCodeRejected(playerID, sum, target);
+            visualSytem.incorrectCodeSound.Play();
+            visualSytem.DeactivateRejectedCodeSound();
+            //update the digits display:
             RpcUpdateDigitDisplay(playerID, code.ToArray()); //update the digits being typed in on each player.
-
         }
     }
 
@@ -146,14 +154,26 @@ public class CodeSystem : NetworkBehaviour
     }
 
     [ClientRpc]
+    void RpcShowExceedingPanel(int playerID, int currentSum, int digitCount)
+    {
+        if(visualSytem.exceedingTargetPanel != null)
+        {
+            visualSytem.exceedingTargetPanel.gameObject.SetActive(true);
+
+        }
+        visualSytem.DisableExceedingTargetPanel();
+
+    }
+
+    [ClientRpc]
     void RpcCodeRejected(int playerID, int attemptedSum, int targetSum)
     {
         visualSytem.incorrectCodePanel.gameObject.SetActive(true);
         visualSytem.gameScreenPanel.gameObject.SetActive(false);
         visualSytem.P1CurrentSum.text = "Current Sum: ";
         visualSytem.P2CurrentSum.text = "Current Sum: ";
-        visualSytem.p1NeedTxt.text = "Needs: ";
-        visualSytem.p2NeedTxt.text = "Needs: ";
+        visualSytem.p1NeedTxt.text = "Remaining: ";
+        visualSytem.p2NeedTxt.text = "Remaining: ";
         //Time.timeScale = 0f; //pause the game!
         Debug.Log($"Player: {playerID} code has been REJECTED!. Got {attemptedSum}, and the correct sum is : {targetSum}");
         // trigger visual feedback such as a screen shake or error message
@@ -164,16 +184,17 @@ public class CodeSystem : NetworkBehaviour
     {
         progress = gridSystem.targetNumber - currentSum; // the diff you need 
 
+
         if(playerID == 1)
         {
             visualSytem.P1CurrentSum.text = "Current Sum: " + currentSum.ToString();
-            visualSytem.p1NeedTxt.text = "Needs: " + progress.ToString();
+            visualSytem.p1NeedTxt.text = "Remaining: " + progress.ToString();
            
         }
         else if(playerID == 2)
         {
             visualSytem.P2CurrentSum.text ="Current Sum: " + currentSum.ToString();
-            visualSytem.p2NeedTxt.text = "Needs: " + progress.ToString();
+            visualSytem.p2NeedTxt.text = "Remaining: " + progress.ToString();
 
         }
         Debug.Log($"Player {playerID}, Progress : {progress}, Current Sum of numbers inputted: {currentSum}");

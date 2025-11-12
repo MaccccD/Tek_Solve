@@ -136,15 +136,10 @@ public class MovementSystem : NetworkBehaviour
         }
         else if (lastMove == MoveType.Adjacent)
         {
-            visualSystem.diagonalMoveSound.Play();
-            visualSystem.DeactivateDiagonalSound();
             return MoveType.Diagonal; // make the move the opposite.
-            
         }
         else
         {
-            visualSystem.adjacentMoveSound.Play();
-            visualSystem.DeactivateAdjacentSound();
             return MoveType.Adjacent; // make the move adjacent if i made a diagonal move initially  
         }
     }

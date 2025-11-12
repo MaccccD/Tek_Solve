@@ -57,15 +57,16 @@ public class UISystem : MonoBehaviour
      public GameObject player2BlurPanel;    // Blurs Player 1's view of P2 info
      public GameObject player1CodePanel;    // Reference to Player 1's code display
      public GameObject player2CodePanel;    // Reference to Player 2's code display
-   
+
+    [Header("ExceedingTargetNumber")]
+    public GameObject exceedingTargetPanel;
 
 
     [Header("Game Audios")]
-     private AudioSource incorrectCodeSound;
+     public AudioSource incorrectCodeSound;
      public AudioSource correctCodeSound;
      public AudioSource backgroundMusic;
-    public AudioSource adjacentMoveSound;
-    public AudioSource diagonalMoveSound;
+    
 
 
     [Header("Script References")]
@@ -315,35 +316,22 @@ public class UISystem : MonoBehaviour
         turnSystemPanel.gameObject.SetActive(false);
 
     }
-    public void  DeactivateAdjacentSound()
-    {
-        StartCoroutine(AdjacentSoundDelay(2f));
-    }
-
-    private IEnumerator AdjacentSoundDelay(float waitTime)
-    {
-        yield return new WaitForSeconds(waitTime);
-        adjacentMoveSound.Pause();
-    }
-
-    public void DeactivateDiagonalSound()
-    {
-        StartCoroutine(DiagonalSoundDelay(2f));
-    }
-
-    private IEnumerator DiagonalSoundDelay(float waitTime)
-    {
-        yield return new WaitForSeconds(waitTime);
-        diagonalMoveSound.Pause();
-    }
-
-
     public void  DeactivateRoundWin()
     {
         StartCoroutine(RoundWinDelay(5f));
         return;
     }
 
+    public void  DisableExceedingTargetPanel()
+    {
+        StartCoroutine(ExceedingTargetDelay(4f));
+        return;
+    }
+    private IEnumerator ExceedingTargetDelay(float waitTime)
+    {
+        yield return new WaitForSeconds(3f);
+        exceedingTargetPanel.gameObject.SetActive(false);
+    }
 
     private IEnumerator RoundWinDelay(float waitTime)
     {
@@ -408,7 +396,8 @@ public class UISystem : MonoBehaviour
     }
     public void Restart()
     {
-        codeSystem.ResetCodes();
+        roundSystem.StartNextRound();
+        Debug.Log("The round restarted on both host and client bc you're seeing this!!1");
     }
 
 }

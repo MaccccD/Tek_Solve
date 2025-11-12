@@ -132,13 +132,19 @@ public class MovementSystem : NetworkBehaviour
         if(lastMove == MoveType.None)
         {
             return MoveType.None;
+            
         }
         else if (lastMove == MoveType.Adjacent)
         {
+            visualSystem.diagonalMoveSound.Play();
+            visualSystem.DeactivateDiagonalSound();
             return MoveType.Diagonal; // make the move the opposite.
+            
         }
         else
         {
+            visualSystem.adjacentMoveSound.Play();
+            visualSystem.DeactivateAdjacentSound();
             return MoveType.Adjacent; // make the move adjacent if i made a diagonal move initially  
         }
     }

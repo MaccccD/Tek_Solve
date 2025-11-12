@@ -110,16 +110,29 @@ public class RoundManagementSystem : NetworkBehaviour
    [ClientRpc]
     void RpcAnnounceRoundWinner(int playerID, int p1Wins, int p2Wins)
     {
+        Restart();
         //handle player wins :
         player1Wins = p1Wins;
         player2Wins = p2Wins;
 
         //show round win:
-        visualSystem.roundWinPanel.gameObject.SetActive(true);
-        visualSystem.roundWinText.gameObject.SetActive(true);
-        visualSystem.StarsIncrementing();
-        visualSystem.DeactivateRoundWin();
+        int roundWin = player1Wins > player2Wins ? 1 : 2;
+        if (roundWin == 1)
+        {
+            visualSystem.roundWinPanel.gameObject.SetActive(true);
+            visualSystem.roundWinText.gameObject.SetActive(true);
+            visualSystem.StarsIncrementing();
+            visualSystem.DeactivateRoundWin();
+        }
+        else if(roundWin == 2)
+        {
+            visualSystem.roundWinPanel.gameObject.SetActive(true);
+            visualSystem.roundWinText.gameObject.SetActive(true);
+            visualSystem.StarsIncrementing();
+            visualSystem.DeactivateRoundWin();
+        }
         
+     
 
         Debug.Log($"Player : {playerID} wins this round!! Score : P1= {p1Wins}, P2={p2Wins}");
     }

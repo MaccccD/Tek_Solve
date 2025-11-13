@@ -103,6 +103,7 @@ public class CodeSystem : NetworkBehaviour
         else
         {
             RpcCodeRejected(playerID, sum, target);
+            roundsSystem.Restart();
             //update the digits display:
             RpcUpdateDigitDisplay(playerID, code.ToArray()); //update the digits being typed in on each player.
         }
@@ -142,12 +143,12 @@ public class CodeSystem : NetworkBehaviour
     // all the client feedback from interactions within the server:
 
     [ClientRpc]
-
     void RpcCodeAccepted(int playerID, List<int> winningCode)
     {
         roundsSystem.PlayerWonRound(playerID);
         visualSytem.correctCodeSound.Play();
         visualSytem.DeactivateAccepetedSound();
+        roundsSystem.Restart();
         Debug.Log($"Player : {playerID} WON the round with code : {string.Join("+", winningCode)}  =  {winningCode.Sum()}");
     }
 

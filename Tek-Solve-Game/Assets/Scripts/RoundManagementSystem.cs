@@ -49,7 +49,7 @@ public class RoundManagementSystem : NetworkBehaviour
         }
 
         RpcAnnounceRoundWinner(playerID, player1Wins, player2Wins);
-        Restart();
+        
 
         //checking if someone won the match:
         if(player1Wins > maxRounds / 2 || player2Wins > maxRounds / 2)
@@ -118,6 +118,7 @@ public class RoundManagementSystem : NetworkBehaviour
         int roundWin = player1Wins > player2Wins ? 1 : 2;
         if (roundWin == 1)
         {
+            visualSystem.DeactivateDelayTime();
             visualSystem.roundWinPanel.gameObject.SetActive(true);
             visualSystem.roundWinText.gameObject.SetActive(true);
             visualSystem.StarsIncrementing();
@@ -125,6 +126,7 @@ public class RoundManagementSystem : NetworkBehaviour
         }
         if(roundWin == 2)
         {
+            visualSystem.DeactivateDelayTime();
             visualSystem.roundWinPanel.gameObject.SetActive(true);
             visualSystem.roundWinText.gameObject.SetActive(true);
             visualSystem.StarsIncrementing();

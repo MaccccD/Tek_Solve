@@ -375,6 +375,16 @@ public class UISystem : MonoBehaviour
     }
 
 
+    public void DeactivateDelayTime()
+    {
+        StartCoroutine(DelayTime(4f));
+    }
+
+    private IEnumerator DelayTime(float waitTime)
+    {
+        yield return new WaitForSeconds(4f);
+    }
+
     private IEnumerator AcceptedSoundDelay( float delayTime)
     {
         yield return new WaitForSeconds(delayTime);

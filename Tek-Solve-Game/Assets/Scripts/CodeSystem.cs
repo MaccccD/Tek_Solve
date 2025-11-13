@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using Mirror;
 using System;
 using System.Linq;
@@ -93,6 +93,9 @@ public class CodeSystem : NetworkBehaviour
             RpcCodeAccepted(playerID, code.ToList());
             visualSytem.correctCodeSound.Play();
             visualSytem.DeactivateAccepetedSound();
+
+            // SERVER handles the round transition
+            roundsSystem.PlayerWonRound(playerID); // ← THIS IS THE KEY LINE!
             // player who got it wins the round and the board state changes for the next round.
         }
         else if (sum > gridSystem.targetNumber)

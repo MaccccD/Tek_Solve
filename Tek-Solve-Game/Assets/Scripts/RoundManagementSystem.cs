@@ -47,6 +47,7 @@ public class RoundManagementSystem : NetworkBehaviour
         {
             player2Wins++;
         }
+        Debug.Log($"SERVER: Scores updated - P1: {player1Wins}, P2: {player2Wins}");
 
         RpcAnnounceRoundWinner(playerID, player1Wins, player2Wins);
         
@@ -59,6 +60,7 @@ public class RoundManagementSystem : NetworkBehaviour
         }
         else
         {
+            Debug.Log("SERVER: Starting next round in 3 seconds");
             //begin the next round after the winner is announced:
             Invoke(nameof(StartNextRoundLogic), 3f); // setting a delay so that it deson't immedtealey got the nest round when everything is resetted w a new grid!
         }

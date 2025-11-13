@@ -169,6 +169,7 @@ public class CodeSystem : NetworkBehaviour
         visualSytem.DisableExceedingTargetPanel();
 
     }
+    private int pendingClearPlayerID = 0;
 
     [ClientRpc]
     void RpcCodeRejected(int playerID, int attemptedSum, int targetSum)
@@ -177,6 +178,9 @@ public class CodeSystem : NetworkBehaviour
         visualSytem.gameScreenPanel.gameObject.SetActive(false);
         visualSytem.incorrectCodeSound.Play();
         visualSytem.DeactivateRejectedCodeSound();
+        
+        pendingClearPlayerID = playerID;
+        //clear ui
         visualSytem.P1CurrentSum.text = "Current Sum: ";
         visualSytem.P2CurrentSum.text = "Current Sum: ";
         visualSytem.p1NeedTxt.text = "Remaining: ";
@@ -191,10 +195,54 @@ public class CodeSystem : NetworkBehaviour
     private IEnumerator AutoContinueRound()
     {
         yield return new WaitForSeconds(2f);
+
         visualSytem.incorrectCodePanel.gameObject.SetActive(false);
         visualSytem.gameScreenPanel.gameObject.SetActive(true);
-        // Game continues - same round, player can try again
+        
+        // ✅ Call Command to clear code on server
+        CmdClearPlayerCode(pendingClearPlayerID);
     }
+    [Command(requiresAuthority = false)]
+    void CmdClearPlayerCode(int playerID)
+    {
+        if (playerID == 1)
+        {
+            player1Code.Clear();
+            player1Progress = 0;
+        }
+        else
+        {
+            player2Code.Clear();
+            player2Progress = 0;
+        }
+
+        // Update UI on all clients
+        RpcClearPlayerCodeUI(playerID);
+
+        Debug.Log($"SERVER: Player {playerID} code cleared after rejection");
+    }
+
+    [ClientRpc]
+    void RpcClearPlayerCodeUI(int playerID)
+    {
+        // Clear visual displays
+        visualSytem.ClearDisplays(playerID);
+
+        // Reset progress text
+        if (playerID == 1)
+        {
+            visualSytem.P1CurrentSum.text = "Current Sum: ";
+            visualSytem.p1NeedTxt.text = "Remaining: ";
+        }
+        else
+        {
+            visualSytem.P2CurrentSum.text = "Current Sum: ";
+            visualSytem.p2NeedTxt.text = "Remaining: ";
+        }
+
+        Debug.Log($"CLIENT: Player {playerID} reset and ready for new attempt");
+    }
+
 
     [ClientRpc]
     void RpcUpdatePlayerProgress(int playerID, int progress, int currentSum)

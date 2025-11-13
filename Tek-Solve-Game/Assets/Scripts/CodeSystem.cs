@@ -93,10 +93,8 @@ public class CodeSystem : NetworkBehaviour
             RpcCodeAccepted(playerID, code.ToList());
             visualSytem.correctCodeSound.Play();
             visualSytem.DeactivateAccepetedSound();
-
-            // SERVER handles the round transition
-            roundsSystem.PlayerWonRound(playerID); // ← THIS IS THE KEY LINE!
-            // player who got it wins the round and the board state changes for the next round.
+            RpcPlayerWonRound(playerID);
+             
         }
         else if (sum > gridSystem.targetNumber)
         {
@@ -113,7 +111,14 @@ public class CodeSystem : NetworkBehaviour
         }
     }
 
+    [ClientRpc]
+    void RpcPlayerWonRound(int playerID)
+    {
+        Debug.Log($"CLIENT: RpcPlayerWonRound received for Player {playerID}");
 
+        // This runs on ALL clients, including the server's client instance
+        roundsSystem.PlayerWonRound(playerID);
+    }
     int CalculateCurrentSum(SyncList<int>code)
     {
         return code.Sum(); // so each time a player adds a new digits, it calculates the current sum of the numbers inputted via the keypad.

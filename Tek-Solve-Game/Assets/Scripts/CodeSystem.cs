@@ -179,6 +179,7 @@ public class CodeSystem : NetworkBehaviour
         visualSytem.P2CurrentSum.text = "Current Sum: ";
         visualSytem.p1NeedTxt.text = "Remaining: ";
         visualSytem.p2NeedTxt.text = "Remaining: ";
+        roundsSystem.ChangeGrid();
         roundsSystem.Restart(); 
         //Time.timeScale = 0f; //pause the game!
         Debug.Log($"Player: {playerID} code has been REJECTED!. Got {attemptedSum}, and the correct sum is : {targetSum}");

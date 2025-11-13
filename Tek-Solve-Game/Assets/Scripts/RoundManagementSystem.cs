@@ -139,6 +139,16 @@ public class RoundManagementSystem : NetworkBehaviour
     }
 
     [ClientRpc]
+    public void ChangeGrid()
+    {
+        currentRound++; // the number of rpunds will increment accordingly each time a new round starts
+        //the grid change:
+        bool changeGrid = currentRound > 2 && Random.Range(0f, 1f) < 0.4f; // change the grid if the rounds reset , generating a new grid of numbers within the 4x4 grod size
+        //reset all systems :
+        gridSystem.ResetRound(changeGrid);
+    }
+
+    [ClientRpc]
     void RpcStartNewRound(int roundNum, bool gridChanged)
     {
         //clear the UI text:

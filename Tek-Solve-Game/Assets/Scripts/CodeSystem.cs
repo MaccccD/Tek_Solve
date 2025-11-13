@@ -3,6 +3,7 @@ using Mirror;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections;
 
 public class CodeSystem : NetworkBehaviour
 {
@@ -149,10 +150,8 @@ public class CodeSystem : NetworkBehaviour
     [ClientRpc]
     void RpcCodeAccepted(int playerID, List<int> winningCode)
     {
-        roundsSystem.PlayerWonRound(playerID);
         visualSytem.correctCodeSound.Play();
         visualSytem.DeactivateAccepetedSound();
-        roundsSystem.Restart();
         Debug.Log($"Player : {playerID} WON the round with code : {string.Join("+", winningCode)}  =  {winningCode.Sum()}");
     }
 
@@ -179,11 +178,19 @@ public class CodeSystem : NetworkBehaviour
         visualSytem.P2CurrentSum.text = "Current Sum: ";
         visualSytem.p1NeedTxt.text = "Remaining: ";
         visualSytem.p2NeedTxt.text = "Remaining: ";
-        roundsSystem.ChangeGrid();
-        roundsSystem.Restart(); 
+
+        // Auto-continue after 2 seconds
+        StartCoroutine(AutoContinueRound());
         //Time.timeScale = 0f; //pause the game!
         Debug.Log($"Player: {playerID} code has been REJECTED!. Got {attemptedSum}, and the correct sum is : {targetSum}");
         // trigger visual feedback such as a screen shake or error message
+    }
+    private IEnumerator AutoContinueRound()
+    {
+        yield return new WaitForSeconds(2f);
+        visualSytem.incorrectCodePanel.gameObject.SetActive(false);
+        visualSytem.gameScreenPanel.gameObject.SetActive(true);
+        // Game continues - same round, player can try again
     }
 
     [ClientRpc]

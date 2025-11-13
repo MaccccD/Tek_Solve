@@ -41,7 +41,7 @@ public class RoundManagementSystem : NetworkBehaviour
     {
         if(playerID == 1) // if a player wins a round after-cracking the code :
         {
-            player1Wins++;
+            player1Wins++;//update score
         }
         else
         {
@@ -60,19 +60,10 @@ public class RoundManagementSystem : NetworkBehaviour
         else
         {
             //begin the next round after the winner is announced:
-            Invoke(nameof(CmdStartNextRound), 8f); // setting a delay so that it deson't immedtealey got the nest round when everything is resetted w a new grid!
+            Invoke(nameof(StartNextRoundLogic), 3f); // setting a delay so that it deson't immedtealey got the nest round when everything is resetted w a new grid!
         }
     }
-    public void Restart()
-    {
-        CmdStartNextRound();
-    }
 
-    [Command(requiresAuthority =false)]
-    public void CmdStartNextRound()
-    {
-        StartNextRoundLogic();
-    }
     [Server]
     public void StartNextRoundLogic()
     {
@@ -91,10 +82,27 @@ public class RoundManagementSystem : NetworkBehaviour
         //reset turn :
         turnSystem.ResetTurn();
 
-        //client start a new round:
+        // Sync everything to clients
+        RpcSyncPlayerPositions(new Vector2Int(2, 1), new Vector2Int(2, 0));
         RpcStartNewRound(currentRound, changeGrid);
 
-        Debug.Log($"SERVER: Started round {currentRound}");
+        Debug.Log($"SERVER: Started round {currentRound}, grid changed: {changeGrid}");
+
+
+    }
+
+    [ClientRpc]
+    void RpcSyncPlayerPositions(Vector2Int p1Pos, Vector2Int p2Pos)
+    {
+        // Client updates positions
+        movementSystem.player1Position = p1Pos;
+        movementSystem.player2Position = p2Pos;
+        movementSystem.player1LastMove = MovementSystem.MoveType.None;
+        movementSystem.player2LastMove = MovementSystem.MoveType.None;
+
+        // Update visual positions
+        visualSystem.UpdatePlayerPiecePositions(1, p1Pos);
+        visualSystem.UpdatePlayerPiecePositions(2, p2Pos);
     }
 
 
@@ -114,38 +122,16 @@ public class RoundManagementSystem : NetworkBehaviour
         player1Wins = p1Wins;
         player2Wins = p2Wins;
 
-        //show round win:
-        int roundWin = player1Wins > player2Wins ? 1 : 2;
-        if (roundWin == 1)
-        {
-            visualSystem.DeactivateDelayTime();
-            visualSystem.roundWinPanel.gameObject.SetActive(true);
-            visualSystem.roundWinText.gameObject.SetActive(true);
-            visualSystem.StarsIncrementing();
-            visualSystem.DeactivateRoundWin();
-        }
-        if(roundWin == 2)
-        {
-            visualSystem.DeactivateDelayTime();
-            visualSystem.roundWinPanel.gameObject.SetActive(true);
-            visualSystem.roundWinText.gameObject.SetActive(true);
-            visualSystem.StarsIncrementing();
-            visualSystem.DeactivateRoundWin();
-        }
-        
-     
+        visualSystem.roundWinPanel.gameObject.SetActive(true);
+        visualSystem.roundWinText.gameObject.SetActive(true);
+        visualSystem.StarsIncrementing();
+        visualSystem.DeactivateRoundWin();
+
+        Debug.Log($"CLIENT: Player {playerID} wins round! Score: P1={p1Wins}, P2={p2Wins}");
+
+
 
         Debug.Log($"Player : {playerID} wins this round!! Score : P1= {p1Wins}, P2={p2Wins}");
-    }
-
-    [ClientRpc]
-    public void ChangeGrid()
-    {
-        currentRound++; // the number of rpunds will increment accordingly each time a new round starts
-        //the grid change:
-        bool changeGrid = currentRound > 2 && Random.Range(0f, 1f) < 0.4f; // change the grid if the rounds reset , generating a new grid of numbers within the 4x4 grod size
-        //reset all systems :
-        gridSystem.ResetRound(changeGrid);
     }
 
     [ClientRpc]
@@ -153,6 +139,7 @@ public class RoundManagementSystem : NetworkBehaviour
     {
         //clear the UI text:
         visualSystem.ClearPlayerTexts();
+        
         //reset codes on client:
         codeSystem.ResetCodes();
         //update round num:

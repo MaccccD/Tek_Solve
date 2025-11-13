@@ -169,7 +169,7 @@ public class CodeSystem : NetworkBehaviour
         visualSytem.DisableExceedingTargetPanel();
 
     }
-    private int pendingClearPlayerID = 0;
+    
 
     [ClientRpc]
     void RpcCodeRejected(int playerID, int attemptedSum, int targetSum)
@@ -179,7 +179,7 @@ public class CodeSystem : NetworkBehaviour
         visualSytem.incorrectCodeSound.Play();
         visualSytem.DeactivateRejectedCodeSound();
         
-        pendingClearPlayerID = playerID;
+       
         //clear ui
         visualSytem.P1CurrentSum.text = "Current Sum: ";
         visualSytem.P2CurrentSum.text = "Current Sum: ";
@@ -187,20 +187,20 @@ public class CodeSystem : NetworkBehaviour
         visualSytem.p2NeedTxt.text = "Remaining: ";
 
         // Auto-continue after 2 seconds
-        StartCoroutine(AutoContinueRound());
+        StartCoroutine(AutoContinueRound(playerID));
         //Time.timeScale = 0f; //pause the game!
         Debug.Log($"Player: {playerID} code has been REJECTED!. Got {attemptedSum}, and the correct sum is : {targetSum}");
         // trigger visual feedback such as a screen shake or error message
     }
-    private IEnumerator AutoContinueRound()
+    private System.Collections.IEnumerator AutoContinueRound(int playerID)
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
 
         visualSytem.incorrectCodePanel.gameObject.SetActive(false);
         visualSytem.gameScreenPanel.gameObject.SetActive(true);
         
         // ✅ Call Command to clear code on server
-        CmdClearPlayerCode(pendingClearPlayerID);
+        CmdClearPlayerCode(playerID);
     }
     [Command(requiresAuthority = false)]
     void CmdClearPlayerCode(int playerID)

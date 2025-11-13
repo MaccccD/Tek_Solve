@@ -103,7 +103,7 @@ public class CodeSystem : NetworkBehaviour
         else
         {
             RpcCodeRejected(playerID, sum, target);
-            roundsSystem.Restart();
+           
             //update the digits display:
             RpcUpdateDigitDisplay(playerID, code.ToArray()); //update the digits being typed in on each player.
         }
@@ -131,12 +131,16 @@ public class CodeSystem : NetworkBehaviour
     {
         player1Code.Clear();
         player2Code.Clear();
-        player1Progress = 0;
-        player2Progress = 0;
+      //  player1Progress = 0;
+       // player2Progress = 0;
+        visualSytem.P1CurrentSum.text = "Current Sum: ";
+        visualSytem.P2CurrentSum.text = "Current Sum: ";
+        visualSytem.p1NeedTxt.text = "Remaining: ";
+        visualSytem.p2NeedTxt.text = "Remaining: ";
         RpcClearDigitsDisplay(1);
         RpcClearDigitsDisplay(2);
         RpcResetUI();
-        visualSytem.InitiateRound();
+     //   visualSytem.InitiateRound();
         Debug.Log("Codes resetted");
     }
 
@@ -222,11 +226,12 @@ public class CodeSystem : NetworkBehaviour
         //clearing UI displays
         player1Code.Clear();
         player2Code.Clear();
-        player1Progress = 0;
-        player2Progress = 0;
-        RpcClearDigitsDisplay(1); 
+        visualSytem.P1CurrentSum.text = "Current Sum: ";
+        visualSytem.P2CurrentSum.text = "Current Sum: ";
+        visualSytem.p1NeedTxt.text = "Remaining: ";
+        visualSytem.p2NeedTxt.text = "Remaining: ";
+        RpcClearDigitsDisplay(1);
         RpcClearDigitsDisplay(2);
-        visualSytem.InitiateRound();
         Debug.Log("all UI has been cleared !");
     }
 }

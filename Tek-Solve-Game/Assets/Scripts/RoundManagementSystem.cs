@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using Mirror;
 
 public class RoundManagementSystem : NetworkBehaviour
@@ -84,13 +84,41 @@ public class RoundManagementSystem : NetworkBehaviour
         //reset turn :
         turnSystem.ResetTurn();
 
-        // Sync everything to clients
-        RpcSyncPlayerPositions(new Vector2Int(2, 1), new Vector2Int(2, 0));
-        RpcStartNewRound(currentRound, changeGrid);
+        // ✅ SYNC EVERYTHING TO CLIENTS
+        RpcSyncEntireRoundState(currentRound, changeGrid, new Vector2Int(2, 1), new Vector2Int(2, 0));
 
         Debug.Log($"SERVER: Started round {currentRound}, grid changed: {changeGrid}");
+    }
 
+    [ClientRpc]
+    void RpcSyncEntireRoundState(int roundNum, bool gridChanged, Vector2Int p1Pos, Vector2Int p2Pos)
+    {
+        Debug.Log($"CLIENT: RpcSyncEntireRoundState - Round {roundNum}");
 
+        // Sync round number
+        currentRound = roundNum;
+
+        // Sync player positions
+        movementSystem.player1Position = p1Pos;
+        movementSystem.player2Position = p2Pos;
+        movementSystem.player1LastMove = MovementSystem.MoveType.None;
+        movementSystem.player2LastMove = MovementSystem.MoveType.None;
+
+        // Update visual positions
+        visualSystem.UpdatePlayerPiecePositions(1, p1Pos);
+        visualSystem.UpdatePlayerPiecePositions(2, p2Pos);
+
+        // Clear UI
+        visualSystem.ClearPlayerTexts();
+        codeSystem.ResetCodes();
+
+        // Apply blur
+        if (turnSystem != null)
+        {
+            turnSystem.ApplyBlurEffect();
+        }
+
+        Debug.Log($"CLIENT: Round {roundNum} fully synced!");
     }
 
     [ClientRpc]

@@ -140,14 +140,6 @@ public class CodeSystem : NetworkBehaviour
     {
         player1Code.Clear();
         player2Code.Clear();
-      //  player1Progress = 0;
-       // player2Progress = 0;
-        visualSytem.P1CurrentSum.text = "Current Sum: ";
-        visualSytem.P2CurrentSum.text = "Current Sum: ";
-        visualSytem.p1NeedTxt.text = "Remaining: ";
-        visualSytem.p2NeedTxt.text = "Remaining: ";
-        RpcClearDigitsDisplay(1);
-        RpcClearDigitsDisplay(2);
         RpcResetUI();
      //   visualSytem.InitiateRound();
         Debug.Log("Codes resetted");
@@ -289,8 +281,6 @@ public class CodeSystem : NetworkBehaviour
     void RpcResetUI()
     {
         //clearing UI displays
-        player1Code.Clear();
-        player2Code.Clear();
         visualSytem.P1CurrentSum.text = "Current Sum: ";
         visualSytem.P2CurrentSum.text = "Current Sum: ";
         visualSytem.p1NeedTxt.text = "Remaining: ";

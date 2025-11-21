@@ -76,7 +76,7 @@ public class RoundManagementSystem : NetworkBehaviour
         gridSystem.ResetRound(changeGrid);
         codeSystem.ResetCodes();
         
-        //reset plauer positions and moves:
+        //reset player positions and moves:
         movementSystem.player1Position = new Vector2Int(2, 1);//so make the start at the centre for both players. (need to test out);
         movementSystem.player2Position = new Vector2Int(2, 0);
         movementSystem.player1LastMove = MovementSystem.MoveType.None;// set the movement back to none bc they would need to make the first move, not have a predefined one already.
@@ -84,7 +84,7 @@ public class RoundManagementSystem : NetworkBehaviour
         //reset turn :
         turnSystem.ResetTurn();
 
-        // ✅ SYNC EVERYTHING TO CLIENTS
+        //SYNC EVERYTHING TO CLIENTS. This ensures that the clint gets that wich the server gets as well (or the host ) when they're supposed to
         RpcSyncEntireRoundState(currentRound, changeGrid, new Vector2Int(2, 1), new Vector2Int(2, 0));
 
         Debug.Log($"SERVER: Started round {currentRound}, grid changed: {changeGrid}");
@@ -93,7 +93,7 @@ public class RoundManagementSystem : NetworkBehaviour
     [ClientRpc]
     void RpcSyncEntireRoundState(int roundNum, bool gridChanged, Vector2Int p1Pos, Vector2Int p2Pos)
     {
-        Debug.Log($"CLIENT: RpcSyncEntireRoundState - Round {roundNum}");
+        Debug.Log($"Client: RpcSyncEntireRoundState - Round {roundNum}");
 
         // Sync round number
         currentRound = roundNum;
@@ -152,6 +152,7 @@ public class RoundManagementSystem : NetworkBehaviour
         player1Wins = p1Wins;
         player2Wins = p2Wins;
 
+        //update the ui for the client:
         visualSystem.roundWinPanel.gameObject.SetActive(true);
         visualSystem.roundWinText.gameObject.SetActive(true);
         visualSystem.StarsIncrementing();
